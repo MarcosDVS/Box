@@ -68,7 +68,7 @@
     <div class="row mt-4">
         <div class="col-md-6">
             <div class="card" title="La suma total de las ventas al contado durante el día en curso.">
-                <div class="card-body">
+                <div class="card-body" @onclick='()=>{urlHelper.NavigateTo("/factura/paga");}' style="cursor: pointer;">
                     <h5 class="card-title">
                         <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
                         <strong>Ventas al Contado</strong>
@@ -79,7 +79,7 @@
         </div>
         <div class="col-md-6">
             <div class="card" title="La suma total de las ventas a crédito durante el día en curso.">
-                <div class="card-body">
+                <div class="card-body" @onclick='()=>{urlHelper.NavigateTo("/factura/cobrar");}' style="cursor: pointer;">
                     <h5 class="card-title">
                         <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
                         <strong>Ventas a Credito</strong>
@@ -98,7 +98,7 @@
                         <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
                         <strong>Dinero en caja</strong>
                     </h5>
-                    <p class="card-text">Monto: $@DineroEnCaja.ToString("N2")</p>
+                    <p class="card-text fw-bold">Monto: $@DineroEnCaja.ToString("N2")</p>
                 </div>
             </div>
         </div>

@@ -60,3 +60,4 @@ C:\Users\Marcos De Vargas\Documents\PROJECTS\Blazor App\Box\obj\Debug\net8.0\ref
 C:\Users\Marcos De Vargas\Documents\PROJECTS\Blazor App\Box\obj\Debug\net8.0\Box.pdb
 C:\Users\Marcos De Vargas\Documents\PROJECTS\Blazor App\Box\obj\Debug\net8.0\Box.genruntimeconfig.cache
 C:\Users\Marcos De Vargas\Documents\PROJECTS\Blazor App\Box\obj\Debug\net8.0\ref\Box.dll
+C:\Users\Marcos De Vargas\Documents\PROJECTS\Blazor App\Box\obj\Debug\net8.0\Box.sourcelink.json

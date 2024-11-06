@@ -32,7 +32,7 @@
                 <div class="card-body">
                     <h5 class="card-title">
                         <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong>Ingresos del Mes</strong>
+                        <strong class="text-uppercase">Ingresos del Mes</strong>
                     </h5>
                     <p class="card-text">Monto: $@IngresoMensual.ToString("N2")</p>
                 </div>
@@ -43,7 +43,7 @@
                 <div class="card-body">
                     <h5 class="card-title">
                         <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong>Ingresos del Año</strong>
+                        <strong class="text-uppercase">Ingresos del Año</strong>
                     </h5>
                     <p class="card-text">Monto: $@IngresoAnual.ToString("N2")</p>
                 </div>
@@ -58,7 +58,7 @@
                 <div class="card-body" @onclick='()=>{urlHelper.NavigateTo("/factura/paga");}' style="cursor: pointer;">
                     <h5 class="card-title">
                         <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong>Ventas al Contado</strong>
+                        <strong class="text-uppercase">Ventas al Contado</strong>
                     </h5>
                     <p class="card-text">Cantidad: $@VentaContado.ToString("N2")</p>
                 </div>
@@ -69,7 +69,7 @@
                 <div class="card-body" @onclick='()=>{urlHelper.NavigateTo("/factura/cobrar");}' style="cursor: pointer;">
                     <h5 class="card-title">
                         <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong>Ventas a Credito</strong>
+                        <strong class="text-uppercase">Ventas a Crédito</strong>
                     </h5>
                     <p class="card-text">Cantidad: $@VentaCredito.ToString("N2")</p>
                 </div>
@@ -83,7 +83,7 @@
                 <div class="card-body" @onclick="Cuadre" style="cursor: pointer;">
                     <h5 class="card-title" >
                         <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong>Dinero en caja</strong>
+                        <strong class="text-uppercase">Dinero en caja</strong>
                     </h5>
                     <p class="card-text fw-bold">Monto: $@DineroEnCaja.ToString("N2")</p>
                 </div>
@@ -94,7 +94,7 @@
                 <div class="card-body">
                     <h5 class="card-title">
                         <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong>Ingreso Total</strong>
+                        <strong class="text-uppercase">Ingreso Total</strong>
                     </h5>
                     <p class="card-text">Monto: $@IngresoTotal.ToString("N2")</p>
                 </div>

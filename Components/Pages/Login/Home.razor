@@ -20,7 +20,7 @@
                         <div class="mb-3">
                             <i class="bi bi-person-check-fill text-primary" style="font-size: 64px;"></i>
                         </div>
-                        <h2 class="mb-3 fw-bold">¡Bienvenido/a!</h2>
+                        <h2 class="mb-3 fw-bold text-uppercase">¡Bienvenido/a!</h2>
                         <p class="lead mb-4">
                             <i class="bi bi-person-badge me-2"></i>
                             @context.User.FindFirstValue(ClaimTypes.GivenName)
@@ -58,7 +58,7 @@
                         @if (!string.IsNullOrEmpty(mensajeError))
                         {
                             <div class="alert alert-warning mt-3" role="alert">
-                                <p class="text-dark text-center fw-bold">@mensajeError</p>
+                                <p class="text-dark text-center fw-bold text-uppercase">@mensajeError</p>
                             </div>
                         }
                     </div>
@@ -84,7 +84,7 @@
     {
         if (string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.Password))
         {
-            mensajeError = "Complete los campos patrón 😒";
+            mensajeError = "😒 Complete los campos patrón";
         }
         else
         {
@@ -93,7 +93,7 @@
                 var userAccount = userAccountService.GetByUserName(model.UserName);
                 if(userAccount == null || userAccount.Password != model.Password)
                 {
-                    mensajeError = "Credenciales incorrectas ❌";
+                    mensajeError = "❌Credenciales incorrectas";
                     return;
                 }
 

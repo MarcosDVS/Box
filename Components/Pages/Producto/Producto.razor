@@ -1,0 +1,450 @@
+@page "/producto"
+@inject IJSRuntime JSRuntime;
+@attribute [Authorize]
+
+<style>
+    /* Estilo para resaltar las filas al pasar el cursor */
+    .table-hover tbody tr:hover {
+        background-color: #f5f5f5; /* Cambia el color al pasar el cursor */
+    }
+
+    /* Estilo para el contenedor de la tabla */
+    .table-container {
+        margin-top: 20px;
+    }
+
+    /* Estilo para el cuerpo de la tarjeta */
+    .card-body {
+        padding: 20px;
+    }
+
+    /* Estilo para centrar el texto en las celdas de la tabla */
+    .table th, .table td {
+        text-align: center;
+    }
+
+</style>
+
+<h1 class="d-none d-print-block text-center">Listado de Productos</h1>
+
+<div class="modal" style="display: @(showCard ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title"><b>@TituloForm</b></h5>
+                <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close" @onclick="CloseCard">
+                    <span aria-hidden="true"><i class="bi bi-x-circle-fill"></i></span>
+                </button>
+            </div>
+
+            <EditForm Model="productoRequest" OnValidSubmit="Send">
+                <div class="modal-body">
+                    @if (Message != null)
+                    {
+                        <div class="alert-warning text-center">
+                            <label class="text-dark"><strong>@Message</strong></label>
+                        </div>
+                    }
+                    <div class="form-group input-group mb-3 mt-1">
+                        <span class="input-group-text bg-white text-black">
+                            <span aria-hidden="true"><i class="bi bi-code-slash"></i></span>
+                        </span>
+                        @if(Role == "Admin")
+                        {
+                            <input type="text" class="form-control" placeholder="Codigo" id="nombreCompleto" 
+                                @bind-value="productoRequest.Codigo" required />
+                        }
+                        else{
+                            <input type="text" class="form-control" placeholder="Codigo" id="nombreCompleto" 
+                                @bind-value="productoRequest.Codigo" required readonly/>
+                        }
+                    </div>
+                    @if(productoRequest.Id > 0)
+                    {
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text bg-white text-black">
+                                        <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
+                                    </label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="@Stock"/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text bg-white text-black"><strong>Stock</strong></label>
+                                    @if(Role == "Admin")
+                                    {
+                                        <input type="number" class="form-control" placeholder="Stock" id="correo" 
+                                            @bind-value="productoRequest.Stock" required min="0.01" step="0.01"
+                                            title="Agrega la cantidad de productos"/>
+                                    }
+                                    else{
+                                        <input type="number" class="form-control" placeholder="Stock" id="correo" 
+                                            @bind-value="productoRequest.Stock" required min="0.01" step="0.01"
+                                            title="Agrega la cantidad de productos" readonly/>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else{
+                        <div class="form-group input-group mb-3">
+                            <span class="input-group-text bg-white text-black">
+                                <strong>Stock</strong>
+                            </span>
+                            <input type="number" class="form-control" placeholder="Stock" id="correo" 
+                                @bind-value="productoRequest.Stock" required min="0.01" step="0.01"
+                                title="Agrega la cantidad de productos"/>
+                        </div>
+                    }
+                    <div class="form-group input-group mb-3">
+                        <span class="input-group-text bg-white text-black">
+                            <span aria-hidden="true"><i class="bi bi-file-earmark-text-fill"></i></span>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Descripción" id="correo" 
+                            @bind-value="productoRequest.Nombre" required/>
+                    </div>
+                    <div class="form-group input-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white text-black">
+                                <span aria-hidden="true"><i class="bi bi-tag-fill"></i></span>
+                            </span>
+                            <select class="form-select" placeholder="Categoria" required @bind="productoRequest.CategoriaID">
+                                @if (Categorias.Any())
+                                {
+                                    <option disabled selected>Selecciona una categoría</option>
+                                    @foreach (var item in Categorias)
+                                    {
+                                        <option value="@item.Id">
+                                            @item.Nombre
+                                        </option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option disabled selected>No hay categorías disponibles</option>
+                                }
+                            </select>
+                            <button class="btn btn-outline-success" @onclick="GoCategory">
+                                <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    @* <div class="form-group input-group mb-3">
+                        <span class="input-group-text bg-white text-black">
+                            <span class="oi oi-dollar"><strong>Compra</strong></span>
+                        </span>
+                        <input class="form-control" placeholder="Precio/Compra" id="costo" 
+                        @bind-value="productoRequest.PrecioCompra" required min="0.01" step="0.01"
+                        @oninput="ActualizarPrecioVenta" title="Precio de compra"/>
+                    </div> *@
+                    <div class="form-group input-group mb-3">
+                        <span class="input-group-text bg-white text-black">
+                            <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
+                        </span>
+                        @if(productoRequest.Id > 0)
+                        {
+                            @if(Role == "Admin")
+                            {
+                                <input class="form-control" placeholder="Precio/Venta" id="precio" 
+                                @bind-value="productoRequest.Precio" required min="0.01" step="0.01"
+                                title="Precio de venta"/>
+                            }
+                            else{
+                                <input class="form-control" placeholder="Precio/Venta" id="precio" 
+                                @bind-value="productoRequest.Precio" required min="0.01" step="0.01"
+                                title="Precio de venta" readonly/>
+                            }
+                        }
+                        else{
+                            <input class="form-control" placeholder="Precio/Venta" id="precio" 
+                                @bind-value="productoRequest.Precio" required min="0.01" step="0.01"
+                                title="Precio de venta"/>
+                        }
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-dark text-white">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" @onclick="CloseCard">Cerrar</button>
+                    </div>
+                </div>
+            </EditForm>
+
+        </div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="card col-12">
+        <div class="card-body">
+            <!-- Button trigger modal -->
+            <button class="btn btn-outline-success d-print-none" @onclick="ShowCard">
+                <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
+            </button>
+            <button class="btn btn-outline-primary d-print-none" 
+                @onclick="async ()=>{await PrintPageAsync();}">
+                <span aria-hidden="true"><i class="bi bi-printer-fill"></i></span>
+            </button>
+
+            <div class="row">
+                <div class="col-8"></div>
+                <div class="col-4">
+                    <div class="input-group d-print-none">
+                        <input type="text" class="form-control border-0 border-bottom" 
+                        placeholder="Buscar por nombre" @bind="Filtro">
+                        <button class="btn btn-outline input-group-text border-0 bg-white" 
+                            type="button" id="button-addon2" @onclick="()=>CargarDatos()">
+                            <span aria-hidden="true"><i class="bi bi-search"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-12 mt-2">
+                <table class="table table-striped">
+                    <thead class="bg-black text-white">
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Stock</th>
+                            <th>Nombre</th>
+                            <th>Categoria</th>
+                            @* <th>Precio/Compra</th> *@
+                            <th>Precio/Venta</th>
+                            <th class="d-print-none">...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var productoRow in Productos)
+                        {
+                            <tr>
+                                <td>@productoRow.Codigo</td>
+                                <td>@productoRow.Stock</td>
+                                <td>@productoRow.Nombre</td>
+                                <td>@productoRow.NombreCategoriatexto</td>
+                                @* <td>@productoRow.PrecioCompra.ToString("N2")</td> *@
+                                <td>$@productoRow.Precio.ToString("N2")</td>
+                                <td class="d-print-none">
+                                    <button @onclick="()=>Seleccionar(productoRow.Id)"
+                                        class="btn btn-outline-primary">
+                                        <span aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+                                    </button>
+                                    @if(Role == "Admin")
+                                    {
+                                        <button @onclick="()=>Eliminar(productoRow)"
+                                            class="btn btn-outline-danger ms-1">
+                                            <span aria-hidden="true"><i class="bi bi-trash-fill"></i></span>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-outline-danger d-print-none ms-1" >
+                                            <span aria-hidden="true"><i class="bi bi-lock-fill"></i></span>
+                                        </button> 
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+@code {
+    public string TituloForm => productoRequest.Id == 0 ? 
+    "Agregar producto" : "Modificar producto";
+    
+    public string Filtro { get; set; } = "";
+    public bool ShowForm { get; set; } = false;
+    public List<ProductoResponse> Productos { get; set; } = new();
+    public List<CategoriaResponse> Categorias { get; set; } = new();
+    public List<ProveedorResponse> Proveedores { get; set; } = new();
+    public ProductoRequest productoRequest { get; set; } = new();
+    public bool showCard { get; set; } = false;
+    public string Message { get; set; } = null;
+    public string Nombre { get; set; } = string.Empty;
+    public string NombreEmp { get; set; } = string.Empty;
+    public int Stock { get; set; } = 0;
+    public string Role { get; set; } = "";
+
+    // Código para generar un código de 4 dígitos único
+    private string GenerarCodigoUnico()
+    {
+        string nuevoCodigo;
+        var random = new Random();
+        do
+        {
+            // Genera un código de 4 dígitos aleatorio
+            nuevoCodigo = random.Next(1000, 10000).ToString();
+        }
+        // Verifica que el código no esté en la lista de productos ya registrados
+        while (Productos.Any(p => p.Codigo == nuevoCodigo));
+        return nuevoCodigo;
+    }
+
+    void GoCategory()
+    {
+        urlHelper.NavigateTo("category");
+    }
+    
+    // Modifica la función ShowCard para que asigne un código único
+    void ShowCard()
+    {
+        productoRequest = new ProductoRequest
+        {
+            Codigo = GenerarCodigoUnico()
+        };
+        showCard = true;
+    }
+
+    void CloseCard()
+    {
+        productoRequest  = new ProductoRequest();
+        showCard = false;
+        Message = null;
+        Stock = 0;
+    }
+
+    async Task CargarDatos()
+    {
+        var resultado =
+        await productoServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Productos = resultado.Data!.OrderByDescending(p => p.Id).ToList();
+        }
+    }
+    async Task CargarProveedores()
+    {
+        var resultado =
+        await proveedorServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Proveedores = resultado.Data!;
+        }
+    }
+    async Task CargarCategorias()
+    {
+        var resultado =
+        await categoriaServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Categorias = resultado.Data!;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Obtener el estado de autenticación
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+
+        // Verifica si el usuario está autenticado
+        if (user.Identity.IsAuthenticated)
+        {
+            // Extrae los valores de los reclamos y asigna las propiedades
+            Role = user.FindFirst(ClaimTypes.Role)?.Value ?? "";
+        }
+        await CargarDatos();
+        await CargarProveedores();
+        await CargarCategorias();
+    }
+
+    void Cancelar()
+    {
+        productoRequest  = new ProductoRequest();
+        showCard = false;
+        Stock = 0;
+    }
+    
+    public async Task Send()
+    {
+        try
+        {
+            if (productoRequest.Id == 0)
+            {
+                var existingUser = Productos.FirstOrDefault(u => u.Codigo.Equals(productoRequest.Codigo, StringComparison.OrdinalIgnoreCase));
+                if (existingUser != null)
+                {
+                    Message = "El código " + productoRequest.Codigo + " ya pertenece a un articulo 🤨";
+                    return;
+                }
+                var r = await productoServices.Crear(productoRequest);
+                if (r.Success)
+                {
+                    Cancelar();
+                    await CargarDatos();
+                    StateHasChanged();
+                }
+                else
+                {
+                    Message = r.Message;
+                }
+            }
+            else
+            {
+                // Debo solicitar modificar el producto.
+                if (Stock > 0)
+                {
+                    productoRequest.Stock += Stock;
+                }
+                var r = await productoServices.Modificar(productoRequest);
+                if (r.Success)
+                {
+                    Cancelar();
+                    await CargarDatos();
+                    StateHasChanged();
+                }
+                else
+                {
+                    Message = r.Message;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Registra la excepción interna para obtener más detalles.
+            var innerException = ex.InnerException?.Message ?? ex.Message;
+            Message = "Ocurrió un error al guardar los cambios: " + innerException;
+        }
+    }
+
+    public void Seleccionar(int Id)
+    {
+        showCard = true;
+        productoRequest = Productos
+        .Where(c => c.Id == Id)
+        .Select(c => c.ToRequest())
+        .FirstOrDefault() ?? new ProductoRequest();
+    }
+    public async Task Eliminar(ProductoResponse item)
+    {
+        var resultado = await productoServices.Eliminar(item.ToRequest());
+        if (resultado.Success)
+        {
+            await CargarDatos();
+            StateHasChanged();
+        }
+    }
+    
+    private async Task PrintPageAsync()
+    {
+        // Llama a la función JavaScript para imprimir la página
+        await JSRuntime.InvokeVoidAsync("printPage");
+    }
+    @* void ActualizarPrecioVenta(ChangeEventArgs args)
+    {
+        if (decimal.TryParse(args.Value.ToString(), out decimal precioCompra))
+        {
+            // Calcula el precio de venta sumando un 30% al precio de compra
+            productoRequest.Precio = precioCompra * 1.3m; // Aumento del 30%
+        }
+    } *@
+
+}

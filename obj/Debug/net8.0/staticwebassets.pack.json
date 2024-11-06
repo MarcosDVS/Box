@@ -1,0 +1,49 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Box.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Box.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\HorseMan.png",
+      "PackagePath": "staticwebassets\\HorseMan.png"
+    },
+    {
+      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\me.jpg",
+      "PackagePath": "staticwebassets\\me.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Box.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Box.props",
+      "PackagePath": "build\\Box.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Box.props",
+      "PackagePath": "buildMultiTargeting\\Box.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Box.props",
+      "PackagePath": "buildTransitive\\Box.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

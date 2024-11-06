@@ -1,0 +1,131 @@
+@page "/"
+@using Authentication;
+@inject IUserAccountService userAccountService
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager
+<style>
+    body{
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+</style>
+<br/>
+<br/>
+<br/>
+<div class="container">
+    <div class="row justify-content-center">
+        <AuthorizeView>
+            <Authorized>
+                <div class="card p-4" style="width: 25rem; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-person-check-fill text-primary" style="font-size: 64px;"></i>
+                        </div>
+                        <h2 class="mb-3 fw-bold">¡Bienvenido/a!</h2>
+                        <p class="lead mb-4">
+                            <i class="bi bi-person-badge me-2"></i>
+                            @context.User.FindFirstValue(ClaimTypes.GivenName)
+                        </p>
+                        <button type="button" class="btn btn-primary btn-lg w-100">
+                            <i class="bi bi-house-door-fill me-2"></i>
+                            Ir al Inicio
+                        </button>
+                    </div>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="card p-4" style="width: 25rem; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-person-circle text-primary" style="font-size: 64px;"></i>
+                        </div>
+                        <h2 class="mb-3 text-center">Iniciar Sesión</h2>
+                        <form>
+                            <div class="form-group mb-3">
+                                <input type="email" class="form-control" @bind="model.UserName" placeholder="User Name">
+                            </div>
+                            <div class="form-group mb-3">
+                                <input type="password" class="form-control" @bind="model.Password" placeholder="Password">
+                            </div>
+                            @*<div class="d-flex justify-content-center mb-3">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-primary" @onclick="Authenticate">Sing in</button>
+                                </div>
+                            </div>*@
+                        </form>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary" @onclick="Authenticate">Sign In</button>
+                        </div>
+                        @if (!string.IsNullOrEmpty(mensajeError))
+                        {
+                            <div class="alert alert-warning mt-3" role="alert">
+                                <p class="text-dark text-center fw-bold">@mensajeError</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+
+</div>
+
+@code 
+{
+    private string mensajeError = "";
+    private LoginModel model = new LoginModel();
+
+    private class LoginModel
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+
+    private async Task Authenticate()
+    {
+        if (string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.Password))
+        {
+            mensajeError = "Complete los campos patrón 😒";
+        }
+        else
+        {
+            try 
+            {
+                var userAccount = userAccountService.GetByUserName(model.UserName);
+                if(userAccount == null || userAccount.Password != model.Password)
+                {
+                    mensajeError = "Credenciales incorrectas ❌";
+                    return;
+                }
+
+                var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+                await customAuthStateProvider.UpdateAuthenticationState(new UserSession
+                {
+                    UserId = userAccount.Id,
+                    UserName = userAccount.Email,
+                    Name = userAccount.Nombre + " " + userAccount.Apellidos,
+                    Role = userAccount.Role
+                });
+                mensajeError = string.Empty;
+                NavigationManager.NavigateTo("/inicio", true);
+            }
+            catch (Exception ex)
+            {
+                mensajeError = "Error al iniciar sesión: " + ex.Message;
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Llamada a CrearUsuarioAdmin antes de intentar autenticar
+        await usuarioServices.CrearUsuarioAdmin();
+        // Resto de tu código OnInitializedAsync
+
+        await clienteServices.CrearCliente();
+    }
+
+    private void NavigateToHome()
+    {
+        NavigationManager.NavigateTo("/inicio");
+    }
+}

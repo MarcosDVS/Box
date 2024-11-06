@@ -1,0 +1,326 @@
+@page "/user"
+@attribute [Authorize]
+
+<style>
+    /* Estilo para resaltar las filas al pasar el cursor */
+    .table-hover tbody tr:hover {
+        background-color: #f5f5f5; /* Cambia el color al pasar el cursor */
+    }
+
+    /* Estilo para el contenedor de la tabla */
+    .table-container {
+        margin-top: 20px;
+    }
+
+    /* Estilo para el cuerpo de la tarjeta */
+    .card-body {
+        padding: 20px;
+    }
+
+    /* Estilo para centrar el texto en las celdas de la tabla */
+    .table th, .table td {
+        text-align: center;
+    }
+
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <h1 class="d-none d-print-block text-center">Listado de usuarios</h1>
+    </div>
+</div>
+
+<div class="modal" style="display: @(showCard ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title"><b>@TituloForm</b></h5>
+                <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close" @onclick="CloseCard">
+                    <span aria-hidden="true"><i class="bi bi-x-circle-fill"></i></span>
+                </button>
+            </div>
+
+            <EditForm Model="request" OnValidSubmit="Send">
+                <div class="modal-body">
+                    @if (Message != null)
+                    {
+                        <div class="alert-warning text-center">
+                            <label class="text-dark"><strong>@Message</strong></label>
+                        </div>
+                    }
+                    <div class="form-group">
+                        <label for="nombre" class="fw-bold">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" 
+                        @bind-value="request.Nombre" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidos" class="fw-bold">Apellidos</label>
+                        <input type="text" class="form-control" id="apellidos" 
+                        @bind-value="request.Apellidos" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="fw-bold">Email</label>
+                        <input  class="form-control" id="email" 
+                        @bind-value="request.Email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="fw-bold">Password</label>
+                        <input type="text" class="form-control" id="password" 
+                        @bind-value="request.Password" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="role" class="fw-bold">Role</label>
+                        @if(Role == "Admin")
+                        {
+                            <select class="form-select" required @bind="@request.Role">
+                                <option disabled selected>Seleccione un role</option>
+                                <option value="Admin">Admin</option>
+                                <option value="User">User</option>
+                            </select>
+                        }
+                        else{
+                            <select class="form-select" required @bind="@request.Role">
+                                <option disabled selected>Seleccione un role</option>
+                                <option value="User">User</option>
+                            </select>
+                        }
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-dark text-white">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" @onclick="CloseCard">Cerrar</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-container">
+    <div class="card col-12">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-11">
+                    @if(Role == "Admin")
+                    {
+                        <!-- Button trigger modal -->
+                        <button class="btn btn-outline-success" @onclick="ShowCard">
+                            <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
+                        </button>
+                    }
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-outline-danger" @onclick='()=>{urlHelper.NavigateTo("/inicio");}'>
+                        <span aria-hidden="true"><i class="bi bi-arrow-left-circle-fill"></i></span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row mt-2">
+                <div class="col-8"></div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control border-0 border-bottom" 
+                        placeholder="Buscar por nombre" @bind="Filtro">
+                        <button class="btn btn-outline input-group-text border-0 bg-white" 
+                            type="button" id="button-addon2" @onclick="()=>CargarContactos()">
+                            <span class="oi oi-magnifying-glass text-black"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-12 mt-2">
+                <table class="table table-striped">
+                    <thead class="bg-black text-white">
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Usuarios)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Nombre</td>
+                                <td>@item.Apellidos</td>
+                                <td>@item.Email</td>
+                                <td>@item.Role</td>
+                                <td>
+                                    <button @onclick="()=>Seleccionar(item.Id)"
+                                        class="btn btn-outline-primary">
+                                        <span aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+                                    </button>
+                                    @if(Role == "Admin")
+                                    {
+                                        <button @onclick="()=>Eliminar(item)"
+                                            class="btn btn-outline-danger ms-1">
+                                            <span aria-hidden="true"><i class="bi bi-trash-fill"></i></span>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                       <button class="btn btn-outline-danger ms-1">
+                                            <span aria-hidden="true"><i class="bi bi-lock-fill"></i></span>
+                                        </button> 
+                                    }
+                                </td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+@code {
+    public string TituloForm => request.Id == 0 ? 
+    "Agregar usuario" : "Modificar usuario";
+    
+    public string Filtro { get; set; } = "";
+    public bool ShowForm { get; set; } = false;
+    public List<UsuarioResponse> Usuarios { get; set; } = new();
+    public UsuarioRequest request { get; set; } = new();
+    public bool showCard { get; set; } = false;
+    public string? Message { get; set; } = null;
+    public string Role { get; set; } = "";
+    public string UserId = "";
+
+    void ShowCard()
+    {
+        showCard = true;
+    }
+
+    void CloseCard()
+    {
+        request  = new UsuarioRequest();
+        showCard = false;
+        Message = null;
+    }
+
+    async Task CargarContactos()
+    {
+        var resultado =
+        await usuarioServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            int UserIdInt;
+            if (int.TryParse(UserId, out UserIdInt))
+            {
+                // Si la conversión es exitosa, continúa con el filtro
+                if (Role != "Admin")
+                {
+                    // Filtra por la propiedad Matricula si el rol es "Student"
+                    Usuarios = resultado.Data!
+                        .Where(u => u.Id == UserIdInt)
+                        .ToList();
+                }
+                else
+                {
+                    Usuarios = resultado.Data!;
+                }
+            }
+            else
+            {
+                // Maneja el caso donde la conversión falla, si es necesario
+                // Por ejemplo, puedes lanzar una excepción o mostrar un mensaje de error
+                throw new Exception("UserId no es un número válido.");
+            }
+
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Obtener el estado de autenticación
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+
+        // Verifica si el usuario está autenticado
+        if (user.Identity.IsAuthenticated)
+        {
+            // Extrae los valores de los reclamos y asigna las propiedades
+            Role = user.FindFirst(ClaimTypes.Role)?.Value ?? "";
+            UserId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+        }
+        await CargarContactos();
+    }
+
+    void Cancelar()
+    {
+        request  = new UsuarioRequest();
+        showCard = false;
+    }
+    public async Task Send()
+    {
+        if (request.Password.Length < 4 || request.Password.Length > 8)
+        {
+            Message = "😒 La contraseña debe tener entre 4 y 8 caracteres. 🔑";
+            return;
+        }
+        if (request.Email.Length < 4)
+        {
+            Message = "😒 El Email debe tener 3 o más caracteres. 📧";
+            return;
+        }
+        if(request.Id == 0)
+        {
+            var existingUser = Usuarios.FirstOrDefault(u => u.Email.ToLower().Equals(request.Email.ToLower(), StringComparison.OrdinalIgnoreCase));
+            if (existingUser != null)
+            {
+                Message = "Este correo ya existe 🤨";
+                return;
+            }
+            //Debo registrar el contacto..
+            var r = await usuarioServices.Crear(request);
+            if (r.Success)
+            {
+                Cancelar();
+                await CargarContactos();
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            //Debo solicitar modificar el contacto...
+            var r = await usuarioServices.Modificar(request);
+            if (r.Success)
+            {
+                Cancelar();
+                await CargarContactos();
+                StateHasChanged();
+            }
+        }
+        Message = null;
+    }
+
+    public void Seleccionar(int Id)
+    {
+        showCard = true;
+        request = Usuarios
+        .Where(c => c.Id == Id)
+        .Select(c => c.ToRequest())
+        .FirstOrDefault() ?? new UsuarioRequest();
+    }
+    public async Task Eliminar(UsuarioResponse item)
+    {
+        var resultado = await usuarioServices.Eliminar(item.ToRequest());
+        if (resultado.Success)
+        {
+            await CargarContactos();
+            StateHasChanged();
+        }
+    }
+
+}

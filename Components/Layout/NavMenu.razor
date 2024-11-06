@@ -1,0 +1,103 @@
+﻿@using Authentication;
+@inject AuthenticationStateProvider authStateProvider;
+@inject NavigationManager NavigationManager;
+
+<div class="d-flex flex-column" style="min-height: 100vh;">
+    <div class="top-row ps-3 navbar navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="">
+                <i class="bi bi-box-seam-fill"></i> BOX
+            </a>
+            <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenedor principal del menú -->
+    <div class="d-flex flex-column flex-grow-1" style="overflow-y: auto;">
+        <nav class="nav flex-column">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link text-white" href="inicio" Match="NavLinkMatch.All">
+                    <span aria-hidden="true"><i class="bi bi-house-door-fill"></i></span> Home
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link text-white" href="cliente">
+                    <span aria-hidden="true"><i class="bi bi-people-fill"></i></span> Clientes
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link text-white" href="producto">
+                    <span aria-hidden="true"><i class="bi bi-basket-fill"></i></span> Productos
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link text-white" href="proveedor">
+                    <span aria-hidden="true"><i class="bi bi-briefcase-fill"></i></span> Proveedores
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <div class="dropdown">
+                    <NavLink class="nav-link text-white" @onclick="ToggleDropdown" style="cursor: pointer;">
+                        <span aria-hidden="true"><i class="@DropdownIconClass"></i></span>
+                        <strong>Factura</strong>
+                    </NavLink>
+                    @if (showDropdown)
+                    {
+                        <div class="dropdown-content">
+                            <div class="nav-item px-3">
+                                <NavLink class="nav-link text-white" href="factura/vender">
+                                    <span aria-hidden="true"><i class="bi bi-file-earmark-text-fill"></i></span> Vender
+                                </NavLink>
+                            </div>
+                            <div class="nav-item px-3">
+                                <NavLink class="nav-link text-white" href="factura/paga">
+                                    <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span> Facturas/Contado
+                                </NavLink>
+                            </div>
+                            <div class="nav-item px-3">
+                                <NavLink class="nav-link text-white" href="factura/cobrar">
+                                    <span aria-hidden="true"><i class="bi bi-credit-card-fill"></i></span> Facturas/Crédito
+                                </NavLink>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </nav>
+
+        <!-- Botón de Log Out siempre en la parte inferior -->
+        <div class="mt-auto nav-item px-3">
+            <NavLink class="nav-link text-white fw-bold" @onclick="Logout" style="cursor: pointer;">
+                <span aria-hidden="true"><i class="bi bi-box-arrow-right"></i></span> Log Out
+            </NavLink>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    private bool collapseNavMenu = true;
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string DropdownIconClass => showDropdown ? "bi bi-caret-up-fill" : "bi bi-caret-down-fill";
+    private bool showDropdown = false;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    private void ToggleDropdown()
+    {
+        showDropdown = !showDropdown;
+    }
+
+    private async Task Logout()
+    {
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(null);
+        NavigationManager.NavigateTo("/", true);
+    }
+}

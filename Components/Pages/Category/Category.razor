@@ -1,0 +1,213 @@
+@page "/category"
+@attribute [Authorize]
+
+<style>
+    /* Estilo para el contenedor de la tabla */
+    .table-container {
+        margin-top: 20px;
+    }
+
+    /* Estilo para el cuerpo de la tarjeta */
+    .card-body {
+        padding: 20px;
+    }
+
+    /* Estilo para centrar el texto en las celdas de la tabla */
+    .table th, .table td {
+        text-align: center;
+    }
+
+</style>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <h1 class="d-none d-print-block text-center">Listado de categorías</h1>
+    </div>
+</div>
+
+<div class="modal" style="display: @(showCard ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title"><b>@TituloForm</b></h5>
+                <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close" @onclick="CloseCard">
+                    <span aria-hidden="true"><i class="bi bi-x-circle-fill"></i></span>
+                </button>
+            </div>
+
+            <EditForm Model="categoriaRequest" OnValidSubmit="Send">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombreCompleto">Nombre completo</label>
+                        <input type="text" class="form-control" id="nombreCompleto" @bind-value="categoriaRequest.Nombre" required />
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-dark text-white">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" @onclick="CloseCard">Cerrar</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="card col-12">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-11">
+                    <!-- Button trigger modal -->
+                    <button class="btn btn-outline-success" @onclick="ShowCard">
+                        <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
+                    </button>
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-outline-danger" @onclick="Producto">
+                        <span aria-hidden="true"><i class="bi bi-arrow-left-circle-fill"></i></span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row mt-2">
+                <div class="col-8"></div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control border-0 border-bottom" 
+                        placeholder="Buscar por nombre" @bind="Filtro">
+                        <button class="btn btn-outline input-group-text border-0 bg-white" 
+                            type="button" id="button-addon2" @onclick="()=>CargarContactos()">
+                            <span class="oi oi-magnifying-glass text-black"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-12 mt-2">
+                <table class="table table-striped">
+                    <thead class="bg-black text-white">
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Categorias)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Nombre</td>
+                                <td>
+                                    <button @onclick="()=>Seleccionar(item.Id)"
+                                        class="btn btn-outline-primary">
+                                        <span aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+                                    </button>
+                                    <button @onclick="()=>Eliminar(item)"
+                                        class="btn btn-outline-danger">
+                                        <span aria-hidden="true"><i class="bi bi-trash-fill"></i></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public string TituloForm => categoriaRequest.Id == 0 ? 
+    "Agregar categoría" : "Modificar categoría";
+    
+    public string Filtro { get; set; } = "";
+    public bool ShowForm { get; set; } = false;
+    public List<CategoriaResponse> Categorias { get; set; } = new();
+    public CategoriaRequest categoriaRequest { get; set; } = new();
+    public bool showCard { get; set; } = false;
+
+    void Producto()
+    {
+        urlHelper.NavigateTo("producto");
+    }
+    void ShowCard()
+    {
+        showCard = true;
+    }
+
+    void CloseCard()
+    {
+        categoriaRequest  = new CategoriaRequest();
+        showCard = false;
+    }
+
+    async Task CargarContactos()
+    {
+        var resultado =
+        await categoriaServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Categorias = resultado.Data!;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarContactos();
+    }
+
+    void Cancelar()
+    {
+        categoriaRequest  = new CategoriaRequest();
+        showCard = false;
+    }
+    public async Task Send()
+    {
+        if(categoriaRequest.Id == 0)
+        {
+            //Debo registrar el contacto..
+            var r = await categoriaServices.Crear(categoriaRequest);
+            if (r.Success)
+            {
+                Cancelar();
+                await CargarContactos();
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            //Debo solicitar modificar el contacto...
+            var r = await categoriaServices.Modificar(categoriaRequest);
+            if (r.Success)
+            {
+                Cancelar();
+                await CargarContactos();
+                StateHasChanged();
+            }
+        }
+    }
+
+    public void Seleccionar(int Id)
+    {
+        showCard = true;
+        categoriaRequest = Categorias
+        .Where(c => c.Id == Id)
+        .Select(c => c.ToRequest())
+        .FirstOrDefault() ?? new CategoriaRequest();
+    }
+    public async Task Eliminar(CategoriaResponse item)
+    {
+        var resultado = await categoriaServices.Eliminar(item.ToRequest());
+        if (resultado.Success)
+        {
+            await CargarContactos();
+            StateHasChanged();
+        }
+    }
+
+}

@@ -1,0 +1,248 @@
+﻿@page "/inicio"
+@using Data.Response;
+@inject IFacturaServices facturaServices;
+@inject IPagoServices pagoServices;
+@attribute [Authorize]
+
+<PageTitle>Inicio</PageTitle>
+
+<style>
+    /* Estilos CSS */
+    .img-container {
+        max-width: 100px; /* Ajusta el ancho máximo según tus necesidades */
+        display: inline-block; /* Alinea las imágenes en línea */
+    }
+
+    .img-container img {
+        width: 100%; /* Hace que la imagen ocupe el 100% del contenedor */
+        height: auto; /* Mantiene la proporción de aspecto */
+    }
+
+    .oi {
+        font-size: 1.2em;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .titulo {
+        background-image: linear-gradient(180deg, #0d0e0f 0%, #040505 70%); /* Fondo oscuro */
+        color: #ffffff; /* Texto blanco */
+        padding: 10px; /* Añadir espacio alrededor del texto */
+    }
+</style>
+
+<h3 class="mt-4 titulo">
+    <span aria-hidden="true"><i class="bi bi-speedometer2"></i></span>
+    <strong>CASA IRYS Dashboard</strong> 
+</h3>
+
+<div class="container mt-4">
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card" title="La suma total de los ingresos recibidos durante el mes en curso.">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
+                        <strong>Ingresos del Mes</strong>
+                    </h5>
+                    <p class="card-text">Monto: $@IngresoMensual.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card" title="La suma total de los ingresos recibidos durante el año en curso.">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
+                        <strong>Ingresos del Año</strong>
+                    </h5>
+                    <p class="card-text">Monto: $@IngresoAnual.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card" title="La suma total de las ventas al contado durante el día en curso.">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
+                        <strong>Ventas al Contado</strong>
+                    </h5>
+                    <p class="card-text">Cantidad: $@VentaContado.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card" title="La suma total de las ventas a crédito durante el día en curso.">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
+                        <strong>Ventas a Credito</strong>
+                    </h5>
+                    <p class="card-text">Cantidad: $@VentaCredito.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card" title="La suma total de las ventas al contado y los pagos de las ventas a crédito durante el día en curso.">
+                <div class="card-body" @onclick="Cuadre" style="cursor: pointer;">
+                    <h5 class="card-title" >
+                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
+                        <strong>Dinero en caja</strong>
+                    </h5>
+                    <p class="card-text">Monto: $@DineroEnCaja.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card" title="La suma total de las ventas al contado y crédito durante el día en curso.">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
+                        <strong>Ingreso Total</strong>
+                    </h5>
+                    <p class="card-text">Monto: $@IngresoTotal.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+
+@code
+{
+    public List<FacturaResponse> Facturas { get; set; } = new();
+    public List<PagoResponse> Pagos { get; set; } = new();
+    public List<CuadrarCajaResponse> Cajas { get; set; } = new();
+    public string Filtro { get; set; } = "";
+    public decimal DineroEnCaja = 0;
+    public decimal VentaContado = 0;
+    public decimal VentaCredito = 0;
+    public decimal IngresoTotal = 0;
+    public decimal IngresoAnual = 0;
+    public decimal IngresoMensual = 0;
+    void Cuadre()
+    {
+        urlHelper.NavigateTo("/cuadre");
+    }
+    void MonthlySell()
+    {
+        DateTime today = DateTime.Today;
+        int currentYear = today.Year;
+        int currentMonth = today.Month;
+
+        var Contado = Facturas
+            .Where(c => (c.TypePayment == "1" && c.SaldoPendiente <= 0) && c.Fecha.Year == currentYear && c.Fecha.Month == currentMonth)
+            .Sum(c => c.SubTotal - c.TotalDesc);
+
+        var Pago = Pagos
+            .Where(c => c.Fecha.Year == currentMonth)
+            .Sum(c => c.MontoPagado);
+
+        IngresoMensual = Contado + Convert.ToDecimal(Pago);
+    }
+
+    void OneYearIncome()
+    {
+        DateTime today = DateTime.Today;
+        int currentYear = today.Year;
+        int currentMonth = today.Month;
+
+        var Contado = Facturas
+            .Where(c => (c.TypePayment == "1" && c.SaldoPendiente <= 0) && c.Fecha.Year == currentYear)
+            .Sum(c => c.SubTotal - c.TotalDesc);
+
+        var Pago = Pagos
+            .Where(c => c.Fecha.Year == currentYear)
+            .Sum(c => c.MontoPagado);
+
+        IngresoAnual = Contado + Convert.ToDecimal(Pago);;
+    }
+
+
+    DateTime ultimoCuadreFecha;
+    void CashInBox()
+    {
+        // Filtrar las facturas y pagos posteriores al último cuadre de caja
+        var facturasPosteriores = Facturas.Where(f => f.Fecha > ultimoCuadreFecha);
+        var pagosPosteriores = Pagos.Where(p => p.Fecha > ultimoCuadreFecha);
+
+        // Calcular el monto en caja sumando las facturas y los pagos posteriores al último cuadre
+        var Contado = facturasPosteriores
+            .Where(c => c.TypePayment == "1" && c.SaldoPendiente <= 0)
+            .Sum(c => c.SubTotal - c.TotalDesc);
+
+        var Credito = facturasPosteriores
+            .Where(c => c.TypePayment == "2" && c.SaldoPendiente > 0)
+            .Sum(c => c.SubTotal - c.TotalDesc);
+
+        var Pago = (decimal)pagosPosteriores
+            .Sum(c => c.MontoPagado);
+
+        DineroEnCaja = Contado + Pago;
+        VentaContado = Contado;
+        VentaCredito = Credito;
+        IngresoTotal = Contado + Credito;
+    }
+
+    async Task Consultar()
+    {
+        var resultado = await facturaServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Facturas = resultado.Data?.OrderByDescending(f => f.Fecha).ToList() ?? new List<FacturaResponse>();
+        }
+        StateHasChanged();
+    }
+    async Task CargarPagos()
+    {
+        var resultado =
+        await pagoServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Pagos = resultado.Data!;
+        }
+    }
+    async Task CargarCajas()
+    {
+        var resultado =
+        await cuadrarCajaServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Cajas = resultado.Data!;
+        }
+
+        // Verificar si hay algún cuadre de caja en la lista
+        if (Cajas.Any())
+        {
+            // Ordenar la lista de Cajas por fecha en orden descendente
+            Cajas = Cajas.OrderByDescending(c => c.Fecha).ToList();
+            
+            // Tomar la fecha del primer elemento de la lista (el más reciente)
+            ultimoCuadreFecha = Cajas.First().Fecha;
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await Consultar();
+        await CargarPagos();
+        await CargarCajas();
+        CashInBox();
+        OneYearIncome();
+        MonthlySell();
+        
+        await proveedorServices.CrearSuplidor();
+        await categoriaServices.CrearCategoria();
+    }
+
+}

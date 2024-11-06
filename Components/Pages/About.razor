@@ -1,0 +1,122 @@
+@page "/about"
+
+<style>
+    .about-container {
+        background-color: #1a1a1a;
+        color: #ffffff;
+        padding: 20px;
+    }
+
+    h1 {
+        background-image: linear-gradient(180deg, #2c2c2c 0%, #1a1a1a 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #333;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+        color: #00ff9d;
+        border-bottom: 2px solid #00ff9d;
+        padding-bottom: 10px;
+        margin: 30px 0 20px;
+    }
+
+    .profile-card {
+        background: #2c2c2c;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease;
+    }
+
+    .profile-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
+    }
+
+    .profile-image {
+        border: 3px solid #00ff9d;
+    }
+
+    ul {
+        background: #2c2c2c;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #333;
+    }
+
+    li {
+        margin-bottom: 10px;
+        color: #ffffff;
+    }
+
+    p {
+        color: #cccccc;
+        font-size: 18px;
+        line-height: 1.6;
+        text-indent: 20px;
+        text-align: justify;
+    }
+
+    a {
+        color: #00ff9d;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    a:hover {
+        color: #00cc7d;
+        text-decoration: underline;
+    }
+</style>
+
+<div class="about-container">
+    <PageTitle>About</PageTitle>
+
+    <h1><i class="fas fa-horse-head fa-2x me-2 fa-bounce" style="filter: drop-shadow(2px 0 0 black) drop-shadow(-2px 0 0 black) drop-shadow(0 2px 0 black) drop-shadow(0 -2px 0 black);"></i>
+        <strong>Versión del Software: 4.0</strong>
+    </h1>
+    <h2><strong>Desarrollador:</strong></h2>
+    <div class="row">
+        <div class="col text-center">
+            <img src="me.jpg" alt="" class="rounded-circle img-fluid img-thumbnail" style="width: 180px;">
+            <p class="text-center"><b>Marcos De Vargas Serrano</b></p>
+        </div>
+        <div class="col text-center">
+            <img src="HorseMan.png" alt="" class="rounded-circle img-fluid img-thumbnail" style="width: 180px;">
+            <p class="text-center"><b>Horse Man</b></p>
+        </div>
+        <div class="col text-center">
+        </div>
+    </div>
+
+    <h2><strong>Descripción del Software:</strong></h2>
+
+    <p>
+        Este programa mejora apticamente el funcionamiento de centro comerciales. Los aspectos destacados 
+        incluyen:
+    </p>
+    <ul>
+        <li>Registro de Provedores</li>
+        <li>Control de Clientes</li>
+        <li>Gestión de Gastos <small><b>(Proxima actualización)</b></small></li>
+        <li>Facturación de Ventas</li>
+    </ul>
+    <h2><strong>Información de Contacto:</strong></h2>
+    <ul>
+        <li><strong>Número de Contacto:</strong> +1 (829) 870-7794</li>
+        <li><strong>Correo Electrónico:</strong> elbroncotech@hotmail.com</li>
+        <li><strong>Sitio Web:</strong> <a href="https://marcosdvs.github.io/Developer/" target="_blank">HorseMan_Developer.com</a></li>
+    </ul>
+    <h2><strong>Créditos y Agradecimientos:</strong></h2>
+    <p>
+        En primer lugar, me gustaría agradecer al Lic. Félix Benzan y a la Lic. Jennifer Karina Disla Vasquez por 
+        impartir sus conocimientos, ya que fueron de mucha ayuda. También a los demás colegas 
+        que se ofrecieron a ayudar y, por último, pero no menos importante, le agradesco a ChatGPT, el 
+        cual ayudó a solucionar muchos errores en el código, ya que sin la ayuda de todos los mencionados, 
+        este proyecto no hubiese existido. 
+    </p>
+</div>

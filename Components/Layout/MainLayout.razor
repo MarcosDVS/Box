@@ -1,0 +1,41 @@
+﻿@using System.Security.Claims
+@inherits LayoutComponentBase
+
+<PageTitle>📦 BOX</PageTitle>
+
+<div class="page">
+    <AuthorizeView>
+        <Authorized>
+            <div class="sidebar d-print-none">
+                <NavMenu />
+            </div>
+        </Authorized>
+    </AuthorizeView>
+
+    <main>
+        <AuthorizeView>
+                <Authorized>
+                    <div class="top-row px-4 d-print-none" style="background-color: #040505;">
+                        <a class="nav-link active text-white" href="user">
+                            <span aria-hidden="true"><i class="bi bi-person-circle"></i></span>
+                            <strong>@context.User.FindFirstValue(ClaimTypes.GivenName)</strong>
+                        </a>
+                        <a href="about" class="d-print-none text-white">
+                            <span aria-hidden="true"><i class="bi bi-info-circle-fill"></i></span>
+                            About
+                        </a>
+                    </div>
+                </Authorized>
+            </AuthorizeView>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

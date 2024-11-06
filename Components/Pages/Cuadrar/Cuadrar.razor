@@ -1,0 +1,547 @@
+@page "/cuadre"
+@attribute [Authorize]
+
+<style>
+    /* Estilo para el contenedor de la tabla */
+    .table-container {
+        margin-top: 20px;
+    }
+
+    /* Estilo para el cuerpo de la tarjeta */
+    .card-body {
+        padding: 20px;
+    }
+
+    /* Estilo para centrar el texto en las celdas de la tabla */
+    .table th, .table td {
+        text-align: center;
+    }
+</style>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <h1 class="d-none d-print-block text-center">Listado de cuadres</h1>
+    </div>
+</div>
+
+<div class="modal" style="display: @(showCard ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title d-print-none"><b>@TituloForm</b></h5>
+                <h5 class="modal-title text-dark d-none d-print-block"><b>Detalles del Cuadre</b></h5>
+                <button type="button" class="close btn btn-danger d-print-none" data-dismiss="modal" aria-label="Close" 
+                @onclick="Clear">
+                    <span aria-hidden="true"><i class="bi bi-x-circle-fill"></i></span>
+                </button>
+            </div>
+
+            <EditForm Model="request" OnValidSubmit="Send">
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nombreCompleto"><strong>Nombre del Cajero</strong></label>
+                            @if(request.Id > 0)
+                            {
+                                <select class="form-select" placeholder="Categoria" required @bind="request.CajeroId" readonly>
+                                   <option disabled selected>Selecciona un cajero</option>
+                                    @foreach (var item in Cajeros)
+                                    {
+                                        <option value="@item.Id">
+                                            @item.Nombre @item.Apellidos
+                                        </option>
+                                    }
+                                </select>
+                            }
+                            else{
+                                <span class="form-control">
+                                    @Cashier
+                                </span>
+                            }
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label><strong>Dinero en caja</strong></label>
+                                    @if(request.Id > 0)
+                                    {
+                                        <span class="form-control">
+                                        <strong>$@request.Monto.ToString("N2")</strong>
+                                    </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="form-control">
+                                            <strong>$@DineroEnCaja.ToString("N2")</strong>
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col">
+                                @if(request.Id > 0)
+                                {
+                                    <div class="form-group">
+                                        <label for="nombreCompleto"><strong>Monto Cuadrado</strong></label>
+                                        <span class="form-control @(GetTotalClass(request.Total)) text-dark">
+                                            <strong>$@request.Total.ToString("N2")</strong>
+                                        </span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-group">
+                                        <label for="nombreCompleto"><strong>Monto Cuadrado</strong></label>
+                                        <span class="form-control @(GetTotalClass2(request.Total, DineroEnCaja)) text-dark">
+                                            <strong>$@request.Total.ToString("N2")</strong>
+                                        </span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text">$1</label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="request.One"/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text">$5</label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="request.Five"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text">$10</label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="request.Ten"/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text">$25</label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="request.TwentyFive"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text">$50</label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="request.Fifty"/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text">$100</label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="request.OneHundred"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text">$200</label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="request.TwoHundred"/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text">$500</label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="request.FiveHundred"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text">$1,000</label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="request.OneThousand"/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <label class="input-group-text">$2,000</label>
+                                    <input type="number" class="form-control"  
+                                        @bind-value="request.TwoThousand"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="input-group-text">
+                                    <label class="input-group"><strong>Resultado:</strong></label>
+                                    @if(request.Id > 0)
+                                    {
+                                        <span class="form-control @(GetTotalClass(request.Total)) text-dark">
+                                            <strong>@($"${(request.Total - request.Monto):N2}")</strong>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="form-control @(GetTotalClass2(request.Total, DineroEnCaja)) text-dark">
+                                            <strong>@($"${(request.Total - request.Monto):N2}")</strong>
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer bg-dark text-white d-print-none">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="button" class="btn btn-secondary" @onclick="Clear">Cerrar</button>
+                        </div>
+                    </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="card col-12">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-11">
+                    <!-- Button trigger modal -->
+                    <button class="btn btn-outline-success d-print-none" @onclick="ShowCard">
+                        <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
+                    </button>
+                    <button class="btn btn-outline-primary d-print-none" 
+                        @onclick="async ()=>{await PrintPageAsync();}">
+                        <span aria-hidden="true"><i class="bi bi-printer-fill"></i></span>
+                    </button>
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-outline-danger d-print-none" @onclick="Back">
+                        <span aria-hidden="true"><i class="bi bi-arrow-left-circle-fill"></i></span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row mt-2">
+                <div class="col-8"></div>
+                <div class="col-4">
+                    <div class="input-group d-print-none">
+                        <input type="text" class="form-control border-0 border-bottom" 
+                        placeholder="Buscar por nombre" @bind="Filtro">
+                        <button class="btn btn-outline input-group-text border-0 bg-white" 
+                            type="button" id="button-addon2" @onclick="()=>CargarCajas()">
+                            <span aria-hidden="true"><i class="bi bi-search"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-12 mt-2">
+                <table class="table table-striped">
+                    <thead class="bg-black text-white">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Cajero</th>
+                            <th>Venta/Crédito</th>
+                            <th>Venta/Contado</th>
+                            <th>Abonado</th>
+                            <th>Monto</th>
+                            <th>Cuadrado</th>
+                            <th>Resultado</th>
+                            <th class="d-print-none">...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Cajas)
+                        {
+                            <tr>
+                                <td>@item.Fecha.ToString("dd MMMM yyyy hh:mm tt")</td>
+                                <td>@item.Cashier.Nombre @item.Cashier.Apellidos</td>
+                                <td>$@item.VentaCredito.ToString("N2")</td>
+                                <td>$@item.VentaContado.ToString("N2")</td>
+                                <td>$@item.Abonado.ToString("N2")</td>
+                                <td>$@item.Monto.ToString("N2")</td>
+                                <td>$@item.MontoCuadrado.ToString("N2")</td>
+                                @if(item.MontoCuadrado - item.Monto < 0)
+                                {
+                                    <td class="bg-danger text-dark">
+                                        <strong>@($"${(item.MontoCuadrado - item.Monto):N2}")</strong>
+                                    </td>
+                                }
+                                else if(item.MontoCuadrado - item.Monto > 0)
+                                {
+                                    <td class="bg-warning text-dark">
+                                        <strong>@($"${(item.MontoCuadrado - item.Monto):N2}")</strong>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="bg-success text-dark">
+                                        <strong>@($"${(item.MontoCuadrado - item.Monto):N2}")</strong>
+                                    </td>
+                                }
+                                @if(Role == "Admin")
+                                {
+                                    <td class="d-print-none">
+                                        <button @onclick="async ()=>{await Seleccionar(item.Id);}"
+                                            class="btn btn-outline-primary">
+                                            <span aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+                                        </button>
+                                        <button @onclick="()=>Eliminar(item)"
+                                            class="btn btn-outline-danger">
+                                            <span aria-hidden="true"><i class="bi bi-trash-fill"></i></span>
+                                        </button>
+                                    </td>
+                                }
+                                else{
+                                    <td class="d-print-none">
+                                        <button class="btn btn-outline-primary">
+                                            <span aria-hidden="true"><i class="bi bi-lock-fill"></i></span>
+                                        </button>
+                                        <button class="btn btn-outline-danger">
+                                            <span aria-hidden="true"><i class="bi bi-lock-fill"></i></span>
+                                        </button>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public string TituloForm => request.Id == 0 ? 
+    "Cuadrar Caja" : "Modificar cuadre";
+    
+    public List<FacturaResponse> Facturas { get; set; } = new();
+    public List<UsuarioResponse> Cajeros { get; set; } = new();
+    public List<PagoResponse> Pagos { get; set; } = new();
+    public List<CuadrarCajaResponse> Cajas { get; set; } = new();
+    public CuadrarCajaRequest request { get; set; } = new();
+    public string Filtro { get; set; } = "";
+    public string Cashier { get; set; } = "";
+    public string UserId = "";
+    public string Role { get; set; } = "";
+    public bool ShowForm { get; set; } = false;
+    public bool showCard { get; set; } = false;
+    public decimal DineroEnCaja = 0;
+
+    private string GetTotalClass(decimal total)
+    {
+        if (total < request.Monto)
+        {
+            return "bg-danger";
+        }
+        else if (total > request.Monto)
+        {
+            return "bg-warning";
+        }
+        else
+        {
+            return "bg-success";
+        }
+    }
+    private string GetTotalClass2(decimal total, decimal dineroEnCaja)
+    {
+        if (total < dineroEnCaja)
+        {
+            return "bg-danger";
+        }
+        else if (total > dineroEnCaja)
+        {
+            return "bg-warning";
+        }
+        else
+        {
+            return "bg-success";
+        }
+    }
+    void ShowCard()
+    {
+        showCard = true;
+        request.Monto = DineroEnCaja;
+    }
+    void Back()
+    {
+        urlHelper.NavigateTo("inicio");
+    }
+    DateTime ultimoCuadreFecha;
+    void CashInBox()
+    {
+        // Filtrar las facturas y pagos posteriores al último cuadre de caja
+        var facturasPosteriores = Facturas.Where(f => f.Fecha > ultimoCuadreFecha);
+        var pagosPosteriores = Pagos.Where(p => p.Fecha > ultimoCuadreFecha);
+
+        var Credito = facturasPosteriores
+            .Where(c => c.TypePayment == "2" && c.SaldoPendiente > 0)
+            .Sum(c => c.SubTotal - c.TotalDesc);
+
+        // Calcular el monto en caja sumando las facturas y los pagos posteriores al último cuadre
+        var Contado = facturasPosteriores
+            .Where(c => c.TypePayment == "1" && c.SaldoPendiente <= 0)
+            .Sum(c => c.SubTotal - c.TotalDesc);
+
+        var Pago = (decimal)pagosPosteriores
+            .Sum(c => c.MontoPagado);
+
+        
+        DineroEnCaja = Contado + Pago;
+        request.VentaCredito = Credito;
+        request.VentaContado = Contado;
+        request.Abonado = Pago;
+        request.Monto = DineroEnCaja;
+    }
+
+    async Task ConsultarCashier()
+    {
+        var resultado = await usuarioServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Cajeros = resultado.Data!;
+        }
+        StateHasChanged();
+    }
+    async Task Consultar()
+    {
+        var resultado = await facturaServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Facturas = resultado.Data?.OrderByDescending(f => f.Fecha).ToList() ?? new List<FacturaResponse>();
+        }
+        StateHasChanged();
+    }
+    async Task CargarPagos()
+    {
+        var resultado =
+        await pagoServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Pagos = resultado.Data!;
+        }
+    }
+    async Task CargarCajas()
+    {
+        var resultado =
+        await cuadrarCajaServices.Consultar(Filtro);
+        if (resultado.Success)
+        {
+            Cajas = resultado.Data!;
+        }
+
+        // Verificar si hay algún cuadre de caja en la lista
+        if (Cajas.Any())
+        {
+            // Ordenar la lista de Cajas por fecha en orden descendente
+            Cajas = Cajas.OrderByDescending(c => c.Fecha).ToList();
+            
+            // Tomar la fecha del primer elemento de la lista (el más reciente)
+            ultimoCuadreFecha = Cajas.First().Fecha;
+        }
+        else
+        {
+          ultimoCuadreFecha = DateTime.Today;  
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        // Obtener el estado de autenticación
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+
+        // Verifica si el usuario está autenticado
+        if (user.Identity.IsAuthenticated)
+        {
+            // Extrae los valores de los reclamos y asigna las propiedades
+            Role = user.FindFirst(ClaimTypes.Role)?.Value ?? "";
+            Cashier = user.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
+            UserId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+        }
+        await Consultar();
+        await ConsultarCashier();
+        await CargarPagos();
+        await CargarCajas();
+        CashInBox();
+        
+
+    }
+
+    void Clear()
+    {
+        request  = new CuadrarCajaRequest();
+        showCard = false;
+    }
+    
+    public async Task Send()
+    {
+        request.Fecha = DateTime.Now;
+        request.MontoCuadrado = request.Total;
+        @* request.Cajero = Cashier; *@
+        request.CajeroId = Convert.ToInt32(UserId);
+        
+        if(request.Id == 0)
+        {
+            //Debo registrar el contacto..
+            var r = await cuadrarCajaServices.Crear(request);
+            if (r.Success)
+            {
+                Clear();
+                await CargarCajas();
+                CashInBox();
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            //Debo solicitar modificar el contacto...
+            var r = await cuadrarCajaServices.Modificar(request);
+            if (r.Success)
+            {
+                Clear();
+                await CargarCajas();
+                CashInBox();
+                StateHasChanged();
+            }
+        }
+    }
+    
+    async Task Seleccionar(int Id)
+    {
+        request = Cajas
+        .Where(c => c.Id == Id)
+        .Select(c => c.ToRequest())
+        .FirstOrDefault() ?? new CuadrarCajaRequest();
+        showCard = true;
+
+    }
+    public async Task Eliminar(CuadrarCajaResponse item)
+    {
+        var resultado = await cuadrarCajaServices.Eliminar(item.ToRequest());
+        if (resultado.Success)
+        {
+            await CargarCajas();
+            CashInBox();
+            StateHasChanged();
+        }
+    }
+
+    private async Task PrintPageAsync()
+    {
+        // Llama a la función JavaScript para imprimir la página
+        await JSRuntime.InvokeVoidAsync("printPage");
+    }
+}

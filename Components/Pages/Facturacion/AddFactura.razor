@@ -34,8 +34,8 @@
 
     @*Disenar el espacio para los productos a facturar*@
     <div class="card p-2 d-print-none">
-        <div class="card-header card-title bg-black text-white">
-            <h5>¿Qué desea el cliente?</h5>
+        <div class="card-header card-title bg-black text-white text-uppercase fw-bold">
+            <h6>¿Qué desea el cliente?</h6>
         </div>
         <div class="input-group mb-3 mt-2">
             <input class="form-control w-50"
@@ -85,12 +85,12 @@
     @*Disenar los elementos que se cargan a la factura*@
     <h5 class="mt-1"><b>Detalle de la factura N°:</b> @ultimoIdFactura</h5>
     <table class="table table-hover">
-        <thead class="bg-black text-white">
+        <thead class="bg-black text-white text-uppercase">
             <tr>
                 <th class="col w-25">
                     Cantidad
                 </th>
-                <th>Descripcion</th>
+                <th>Descripción</th>
                 <th>Costo</th>
                 <th>Descuento</th>
                 <th>Total</th>
@@ -183,7 +183,7 @@
                     <div class="input-group d-print-none">
                         <input type="number" @bind="@facturaRequest.SaldoPagado" id="montoPagado" 
                         class="form-control" step="1" min="0"/>
-                        <button class="btn btn-success rounded" type="button" @onclick="CalcularCambio">
+                        <button class="btn btn-success" type="button" @onclick="CalcularCambio">
                             Pagar
                         </button>
                     </div>
@@ -194,7 +194,7 @@
                 <div class="row">
                     <div class="col">
                         <!-- Lista de resumen -->
-                        <ul class="list-unstyled">
+                        <ul class="list-unstyled text-uppercase">
                             <li class="mb-2">
                                 <strong>SubTotal: </strong>
                                 <span class="text-primary">$@($"{(facturaRequest.SubTotal - facturaRequest.ITBIS):N2}")</span>

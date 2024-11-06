@@ -52,44 +52,45 @@
         @if(Role=="Admin")
         {
             <div class="card p-2 d-print-none">
-                <div class="card-header card-title bg-black text-white">
-                    <h5>¿Qué desea el cliente?</h5>
+                <div class="card-header card-title bg-black text-white text-uppercase fw-bold">
+                    <h6>¿Qué desea el cliente?</h6>
                 </div>
                 <div class="input-group mb-3 mt-2">
-                    <input class="form-control"
+                    <input class="form-control w-50"
                         placeholder="Producto"
                         aria-label="Producto"
                         aria-describedby="button-addon2" list="productos"
                         @onchange="(value)=>{
-                            var r = Productos.FirstOrDefault(p=>p.CodigoDescripcion == value.Value!.ToString());
-                            if(r!=null)
-                            BuscarPercio(r.Id);
-                            }"
-                            />
+                        var r = Productos.FirstOrDefault(p=>p.CodigoDescripcion == value.Value!.ToString());
+                        if(r!=null)
+                        BuscarPercio(r.Id);
+                        }"
+                        />
                     <datalist id="productos">
                         @foreach (var producto in Productos)
                         {
-                            <option value="@producto.CodigoDescripcion" @onclick="()=>BuscarPercio(producto.Id)"></option>
+                            <option value="@producto.CodigoDescripcion" @onclick="()=>BuscarPercio(producto.Id)" >
+                                stock: @producto.Stock precio: $@producto.Precio
+                            </option>
                         }
                     </datalist>
-                    
+                    <input @bind="detalleFacturaRequest.Descuento" type="number" 
+                        id="Descuento" placeholder="Descuento" class="form-control w-25" min="0"
+                        max="30" step="1" aria-label="Discount Percentage"/>
+                    <label for="Descuento" class="input-group-text"><strong>Descuento</strong></label>
                 </div>
+
                 <div class="input-group mb-3">
-                    <span class="form-control w-50">
+                    <label for="Descuento" class="input-group-text"><strong>Precio:</strong></label>
+                    <span class="form-control w-25">
                         $@Precio.ToString("N2")
                     </span>
                     <input class="form-control w-25" type="number" @bind="@Cantidad" />
-                    <button class="btn btn-success btn-lg d-print-none"
+                    <button class="btn btn-success d-print-none"
                         type="button" id="button-addon2"
-                        @onclick="async ()=>{await AgregarAlDetalle();}"
-                        title="Agregar producto al detalle">
+                        @onclick="AgregarAlDetalle">
                         <span aria-hidden="true"><i class="bi bi-caret-down-square"></i></span>
                     </button>
-                </div>
-                <div class="input-group mb-3">
-                    <label for="Descuento" class="input-group-text">Descuento:</label>
-                    <input @bind="detalleFacturaRequest.Descuento" type="number" 
-                    id="Descuento" placeholder="Descuento" class="form-control" />
                 </div>
                 @if (Message != null)
                 {
@@ -104,12 +105,12 @@
         @*Disenar los elementos que se cargan a la factura*@
         <h5 class="mt-1"><b>Detalle de la factura N°:</b> @facturaRequest.Id</h5>
         <table class="table table-hover">
-            <thead class="bg-black text-white">
+            <thead class="bg-black text-white text-uppercase">
                 <tr>
                     <th class="col w-25">
                         Cantidad
                     </th>
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Costo</th>
                     <th>Descuento</th>
                     <th>Total</th>
@@ -189,7 +190,7 @@
                     <div class="row">
                         <div class="col">
                             <!-- Lista de resumen -->
-                            <ul class="list-unstyled">
+                            <ul class="list-unstyled text-uppercase">
                                 <li class="mb-2">
                                     <strong>SubTotal: </strong>
                                     <span class="text-primary">$@($"{(facturaRequest.SubTotal - facturaRequest.ITBIS):N2}")</span>

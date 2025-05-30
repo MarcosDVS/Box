@@ -1,31 +1,31 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Box.bundle.scp.css",
+      "Id": "C:\\Project_X\\BOX\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Box.bundle.scp.css",
       "PackagePath": "staticwebassets\\Box.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\HorseMan.png",
+      "Id": "C:\\Project_X\\BOX\\wwwroot\\HorseMan.png",
       "PackagePath": "staticwebassets\\HorseMan.png"
     },
     {
-      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\app.css",
+      "Id": "C:\\Project_X\\BOX\\wwwroot\\app.css",
       "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\Project_X\\BOX\\wwwroot\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\Project_X\\BOX\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\favicon.png",
+      "Id": "C:\\Project_X\\BOX\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
-      "Id": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\me.jpg",
+      "Id": "C:\\Project_X\\BOX\\wwwroot\\me.jpg",
       "PackagePath": "staticwebassets\\me.jpg"
     },
     {

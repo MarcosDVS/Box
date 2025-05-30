@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "IPI0nJwFLdWs1z40/8z9AhXVIBggnWYPo2Y3PONMDSo=",
+  "Hash": "AWD9v6pLWEdJVGLyx3jx9KeJ89RYwRynuMGoLcxIbKE=",
   "Source": "Box",
   "BasePath": "_content/Box",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "Box\\wwwroot",
       "Source": "Box",
-      "ContentRoot": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\",
+      "ContentRoot": "C:\\Project_X\\BOX\\wwwroot\\",
       "BasePath": "_content/Box",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Box.styles.css",
+      "Identity": "C:\\Project_X\\BOX\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Box.styles.css",
       "SourceId": "Box",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Project_X\\BOX\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/Box",
       "RelativePath": "Box.styles.css",
       "AssetKind": "All",
@@ -33,13 +33,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Box.styles.css"
+      "OriginalItemSpec": "C:\\Project_X\\BOX\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Box.styles.css"
     },
     {
-      "Identity": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Box.bundle.scp.css",
+      "Identity": "C:\\Project_X\\BOX\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Box.bundle.scp.css",
       "SourceId": "Box",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "C:\\Project_X\\BOX\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/Box",
       "RelativePath": "Box.bundle.scp.css",
       "AssetKind": "All",
@@ -52,13 +52,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Box.bundle.scp.css"
+      "OriginalItemSpec": "C:\\Project_X\\BOX\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Box.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\app.css",
+      "Identity": "C:\\Project_X\\BOX\\wwwroot\\app.css",
       "SourceId": "Box",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\",
+      "ContentRoot": "C:\\Project_X\\BOX\\wwwroot\\",
       "BasePath": "_content/Box",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot\\app.css"
     },
     {
-      "Identity": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\Project_X\\BOX\\wwwroot\\bootstrap\\bootstrap.min.css",
       "SourceId": "Box",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\",
+      "ContentRoot": "C:\\Project_X\\BOX\\wwwroot\\",
       "BasePath": "_content/Box",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "C:\\Project_X\\BOX\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "Box",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\",
+      "ContentRoot": "C:\\Project_X\\BOX\\wwwroot\\",
       "BasePath": "_content/Box",
       "RelativePath": "bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\favicon.png",
+      "Identity": "C:\\Project_X\\BOX\\wwwroot\\favicon.png",
       "SourceId": "Box",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\",
+      "ContentRoot": "C:\\Project_X\\BOX\\wwwroot\\",
       "BasePath": "_content/Box",
       "RelativePath": "favicon.png",
       "AssetKind": "All",
@@ -131,10 +131,10 @@
       "OriginalItemSpec": "wwwroot\\favicon.png"
     },
     {
-      "Identity": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\HorseMan.png",
+      "Identity": "C:\\Project_X\\BOX\\wwwroot\\HorseMan.png",
       "SourceId": "Box",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\",
+      "ContentRoot": "C:\\Project_X\\BOX\\wwwroot\\",
       "BasePath": "_content/Box",
       "RelativePath": "HorseMan.png",
       "AssetKind": "All",
@@ -150,10 +150,10 @@
       "OriginalItemSpec": "wwwroot\\HorseMan.png"
     },
     {
-      "Identity": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\me.jpg",
+      "Identity": "C:\\Project_X\\BOX\\wwwroot\\me.jpg",
       "SourceId": "Box",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Marcos De Vargas\\Documents\\PROJECTS\\Blazor App\\Box\\wwwroot\\",
+      "ContentRoot": "C:\\Project_X\\BOX\\wwwroot\\",
       "BasePath": "_content/Box",
       "RelativePath": "me.jpg",
       "AssetKind": "All",

@@ -116,11 +116,11 @@
         <div class="card-body">
             <!-- Button trigger modal -->
             <button class="btn btn-outline-success d-print-none" @onclick="ShowCard">
-                <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
+                <span aria-hidden="true"><i style="font-size: 20px;">➕</i></span>
             </button>
-            <button class="btn btn-outline-primary d-print-none" 
+            <button class="btn btn-outline-primary d-print-none text-black" 
                 @onclick="async ()=>{await PrintPageAsync();}">
-                <span aria-hidden="true"><i class="bi bi-printer-fill"></i></span>
+                <span aria-hidden="true"><i style="font-size: 20px;">🖨</i></span>
             </button>
 
             <div class="row">
@@ -164,11 +164,11 @@
                                 {
                                     <td class="d-print-none">
                                         <button @onclick="()=>Seleccionar(Row.Id)"
-                                            class="btn btn-outline-primary">
-                                            <span aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+                                            class="btn btn-outline-primary fw-bold text-black">
+                                            Edit
                                         </button>
                                         <button @onclick="()=>Eliminar(Row)"
-                                            class="btn btn-outline-danger">
+                                            class="btn btn-outline-danger fw-bold text-black">
                                             <span aria-hidden="true"><i class="bi bi-trash-fill"></i></span>
                                         </button>
                                     </td>

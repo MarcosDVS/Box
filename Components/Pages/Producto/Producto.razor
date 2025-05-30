@@ -183,11 +183,11 @@
         <div class="card-body">
             <!-- Button trigger modal -->
             <button class="btn btn-outline-success d-print-none" @onclick="ShowCard">
-                <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
+                <span aria-hidden="true"><i style="font-size: 20px;">➕</i></span>
             </button>
-            <button class="btn btn-outline-primary d-print-none" 
+            <button class="btn btn-outline-primary d-print-none text-black" 
                 @onclick="async ()=>{await PrintPageAsync();}">
-                <span aria-hidden="true"><i class="bi bi-printer-fill"></i></span>
+                <span aria-hidden="true"><i style="font-size: 20px;">🖨</i></span>
             </button>
 
             <div class="row">
@@ -229,14 +229,14 @@
                                 <td>$@productoRow.Precio.ToString("N2")</td>
                                 <td class="d-print-none">
                                     <button @onclick="()=>Seleccionar(productoRow.Id)"
-                                        class="btn btn-outline-primary">
-                                        <span aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+                                        class="btn btn-outline-primary fw-bold text-black">
+                                        Edit
                                     </button>
                                     @if(Role == "Admin")
                                     {
                                         <button @onclick="()=>Eliminar(productoRow)"
-                                            class="btn btn-outline-danger ms-1">
-                                            <span aria-hidden="true"><i class="bi bi-trash-fill"></i></span>
+                                            class="btn btn-outline-danger ms-1 fw-bold text-black">
+                                            Delete
                                         </button>
                                     }
                                     else

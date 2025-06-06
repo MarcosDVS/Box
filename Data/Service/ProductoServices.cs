@@ -3,6 +3,7 @@ using Data.Model;
 using Data.Response;
 using Data.Request;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Data.Services;
 
@@ -21,7 +22,7 @@ public class ProductoServices : IProductoServices
         {
             var contactos = await dbContext.Productos
                 .Where(c =>
-                    (c.Codigo +" "+c.Nombre +" "+ c.Categoria.Nombre +" "+ c.Precio +" "+ c.Stock)
+                    (c.Codigo + " " + c.Nombre + " " + c.Categoria.Nombre + " " + c.Precio + " " + c.Stock)
                     .ToLower()
                     .Contains(filtro.ToLower()
                     )
@@ -87,8 +88,20 @@ public class ProductoServices : IProductoServices
         {
             var contacto = await dbContext.Productos
                 .FirstOrDefaultAsync(c => c.Id == request.Id);
+
             if (contacto == null)
-                return new Result() { Message = "No se encontro el producto", Success = false };
+                return new Result() { Message = "No se encontró el producto", Success = false };
+
+            // Eliminar imagen si existe
+            if (!string.IsNullOrEmpty(contacto.ImagenRuta))
+            {
+                var rutaCompleta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", contacto.ImagenRuta.TrimStart('/'));
+
+                if (File.Exists(rutaCompleta))
+                {
+                    File.Delete(rutaCompleta);
+                }
+            }
 
             dbContext.Productos.Remove(contacto);
             await dbContext.SaveChangesAsync();
@@ -96,7 +109,6 @@ public class ProductoServices : IProductoServices
         }
         catch (Exception E)
         {
-
             return new Result() { Message = E.Message, Success = false };
         }
     }
@@ -163,6 +175,20 @@ public class ProductoServices : IProductoServices
         {
             return false;
         }
+    }
+    
+    public async Task<string> GuardarImagenAsync(IBrowserFile archivo)
+    {
+        var nombreArchivo = $"{Guid.NewGuid()}{Path.GetExtension(archivo.Name)}";
+        var rutaCarpeta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
+        var rutaCompleta = Path.Combine(rutaCarpeta, nombreArchivo);
+
+        Directory.CreateDirectory(rutaCarpeta); // Asegura que la carpeta existe
+
+        using var stream = new FileStream(rutaCompleta, FileMode.Create);
+        await archivo.OpenReadStream().CopyToAsync(stream);
+
+        return $"img/{nombreArchivo}";
     }
 }
 

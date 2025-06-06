@@ -1,25 +1,7 @@
 @page "/factura/cobrar"
 @using Data.Response;
 @using Data.Request;
-@inject IJSRuntime JSRuntime;
 @attribute [Authorize]
-
-<style>
-    /* Estilo para el contenedor de la tabla */
-    .table-container {
-        margin-top: 20px;
-    }
-    /* Estilo para el cuerpo de la tarjeta */
-    .card-body {
-        padding: 20px;
-    }
-
-    /* Estilo para centrar el texto en las celdas de la tabla */
-    .table th, .table td {
-        text-align: center;
-    }
-
-</style>
 
 @if(Form)
 {
@@ -426,9 +408,9 @@ else
                 <div class="card-body">
                     <div class="row">
                         <div class="col-11">
-                            <button class="btn btn-outline-primary d-print-none" 
+                            <button class="btn btn-outline-secondary d-print-none text-black" 
                                 @onclick="async ()=>{await PrintPageAsync();}">
-                                <span aria-hidden="true"><i class="bi bi-printer-fill"></i></span>
+                                <span aria-hidden="true"><i style="font-size: 20px;" class="fw-bold">🖨</i></span>
                             </button>
                         </div>
                     </div>
@@ -451,9 +433,9 @@ else
                             <div class="input-group d-print-none">
                                 <input type="text" class="form-control border-0 border-bottom" 
                                     placeholder="Buscar por nombre" @bind="FiltroInvoice">
-                                <button class="btn btn-outline input-group-text border-0 bg-white" 
+                                <button class="btn btn-outline-secondary border-0 border-bottom" 
                                     type="button" id="button-addon2" @onclick="()=>Consultar()">
-                                    <span aria-hidden="true"><i class="bi bi-search"></i></span>
+                                    <i style="font-size: 20px;" class="fw-bold">🔎</i>
                                 </button>
                             </div>
                         </div>
@@ -506,23 +488,23 @@ else
                                                     {
                                                         <button @onclick="() => MostrarPagos(f)"
                                                             class="btn btn-outline-success me-1">
-                                                            <span aria-hidden="true"><i class="bi bi-currency-dollar"></i></span>
+                                                            <i style="font-size: 15px;" class="fw-bold">💲</i>
                                                         </button>
                                                     
                                                     }
                                                     <button @onclick="()=>Seleccionar(f.Id, f)" class="btn btn-outline-primary">
-                                                        <span aria-hidden="true"><i class="bi bi-info-circle-fill"></i></span>
+                                                        <i style="font-size: 15px;" class="fw-bold">ℹ</i>
                                                     </button>
                                                     @if(Role=="Admin")
                                                     {
                                                         <button @onclick="() => Eliminar(f)" class="btn btn-outline-danger d-print-none ms-1">
-                                                            <span aria-hidden="true"><i class="bi bi-trash-fill"></i></span>
+                                                            <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                                         </button>
                                                     }
                                                     else
                                                     {
                                                        <button class="btn btn-outline-danger d-print-none ms-1" >
-                                                            <span aria-hidden="true"><i class="bi bi-lock-fill"></i></span>
+                                                            <i style="font-size: 15px;" class="fw-bold">🔒</i>
                                                         </button> 
                                                     }
                                                 </div>

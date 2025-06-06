@@ -3,29 +3,6 @@
 @inject IClienteServices clienteServices;
 @attribute [Authorize]
 
-<style>
-    /* Estilo para resaltar las filas al pasar el cursor */
-    .table-hover tbody tr:hover {
-        background-color: #f5f5f5; /* Cambia el color al pasar el cursor */
-    }
-
-    /* Estilo para el contenedor de la tabla */
-    .table-container {
-        margin-top: 20px;
-    }
-
-    /* Estilo para el cuerpo de la tarjeta */
-    .card-body {
-        padding: 20px;
-    }
-
-    /* Estilo para centrar el texto en las celdas de la tabla */
-    .table th, .table td {
-        text-align: center;
-    }
-
-</style>
-
 <h1 class="d-none d-print-block text-center">Listado de Clientes</h1>
 
 
@@ -35,7 +12,7 @@
             <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title"><b>@TituloForm</b></h5>
                 <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close" @onclick="CloseCard">
-                    <span aria-hidden="true"><i class="bi bi-x-circle-fill"></i></span>
+                    <i style="font-size: 15px;" class="fw-bold">X</i>
                 </button>
             </div>
 
@@ -47,14 +24,14 @@
 
                         <div class="form-group input-group mb-3">
                             <span class="input-group-text bg-white text-black">
-                                <span aria-hidden="true"><i class="bi bi-person-fill"></i></span>
+                                <i style="font-size: 15px;" class="fw-bold">👤</i>
                             </span>
                             <input type="text" class="form-control" placeholder="Nombre" 
                                 @bind-value="request.Nombre" required/>
                         </div>
                         <div class="form-group input-group mb-3">
                             <span class="input-group-text bg-white text-black">
-                                <span aria-hidden="true"><i class="bi bi-envelope-fill"></i></span>
+                                <i style="font-size: 15px;" class="fw-bold">✉</i>
                             </span>
                             <input id="emailInput"  class="form-control" placeholder="  Apellidos" 
                                 @bind-value="request.Apellidos" required />
@@ -62,7 +39,7 @@
 
                         <div class="form-group input-group mb-3">
                             <span class="input-group-text bg-white text-black">
-                                <span aria-hidden="true"><i class="bi bi-credit-card-fill"></i></span>
+                                <i style="font-size: 15px;" class="fw-bold">🆔</i>
                             </span>
                             <input  class="form-control" placeholder="Cedula" 
                                 @bind-value="request.Cedula" 
@@ -74,7 +51,7 @@
 
                         <div class="form-group input-group mb-3">
                             <span class="input-group-text bg-white text-black">
-                                <span aria-hidden="true"><i class="bi bi-phone-fill"></i></span>
+                                <i style="font-size: 15px;" class="fw-bold">📞</i>
                             </span>
                             <input class="form-control" type="tel" placeholder="Teléfono" 
                                 @bind-value="request.Telefono" 
@@ -86,14 +63,14 @@
 
                         <div class="form-group input-group mb-3">
                             <span class="input-group-text bg-white text-black">
-                                <span aria-hidden="true"><i class="bi bi-geo-alt-fill"></i></span>
+                                <i style="font-size: 15px;" class="fw-bold">📍</i>
                             </span>
                             <input class="form-control" placeholder="Dirección" 
                                 @bind-value="request.Direccion" />
                         </div>
                         <div class="form-group input-group mb-3">
                             <span class="input-group-text bg-white text-black">
-                                <span aria-hidden="true"><i class="bi bi-envelope-fill"></i></span>
+                                <i style="font-size: 15px;" class="fw-bold">✉️</i>
                             </span>
                             <input type="email" class="form-control" placeholder="Correo" 
                             @bind-value="request.Correo"/>
@@ -116,11 +93,11 @@
         <div class="card-body">
             <!-- Button trigger modal -->
             <button class="btn btn-outline-success d-print-none" @onclick="ShowCard">
-                <span aria-hidden="true"><i style="font-size: 20px;">➕</i></span>
+                <span aria-hidden="true"><i style="font-size: 20px;" class="fw-bold">➕</i></span>
             </button>
-            <button class="btn btn-outline-primary d-print-none text-black" 
+            <button class="btn btn-outline-secondary d-print-none text-black" 
                 @onclick="async ()=>{await PrintPageAsync();}">
-                <span aria-hidden="true"><i style="font-size: 20px;">🖨</i></span>
+                <span aria-hidden="true"><i style="font-size: 20px;" class="fw-bold">🖨</i></span>
             </button>
 
             <div class="row">
@@ -129,9 +106,9 @@
                     <div class="input-group d-print-none">
                         <input type="text" class="form-control border-0 border-bottom" 
                         placeholder="Buscar por nombre" @bind="Filtro">
-                        <button class="btn btn-outline input-group-text border-0 bg-white" 
+                        <button class="btn btn-outline-secondary border-0 border-bottom" 
                             type="button" id="button-addon2" @onclick="()=>CargarContactos()">
-                            <span aria-hidden="true"><i class="bi bi-search"></i></span>
+                            <i style="font-size: 20px;" class="fw-bold">🔎</i>
                         </button>
                     </div>
                 </div>
@@ -165,11 +142,11 @@
                                     <td class="d-print-none">
                                         <button @onclick="()=>Seleccionar(Row.Id)"
                                             class="btn btn-outline-primary fw-bold text-black">
-                                            Edit
+                                            <i style="font-size: 15px;" class="fw-bold">✏️</i>
                                         </button>
                                         <button @onclick="()=>Eliminar(Row)"
                                             class="btn btn-outline-danger fw-bold text-black">
-                                            <span aria-hidden="true"><i class="bi bi-trash-fill"></i></span>
+                                            <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                         </button>
                                     </td>
                                 }

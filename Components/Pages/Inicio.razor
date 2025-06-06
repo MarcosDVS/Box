@@ -1,108 +1,88 @@
 ﻿@page "/inicio"
-@using Data.Response;
-@inject IFacturaServices facturaServices;
-@inject IPagoServices pagoServices;
+@using Data.Response
+@inject IFacturaServices facturaServices
+@inject IPagoServices pagoServices
 @attribute [Authorize]
 
 <PageTitle>Inicio</PageTitle>
 
-<style>
-    /* Estilos CSS */
-    .titulo {
-        background-image: linear-gradient(180deg, #0d0e0f 0%, #040505 70%); /* Fondo oscuro */
-        color: #ffffff; /* Texto blanco */
-        padding: 10px; /* Añadir espacio alrededor del texto */
-    }
-    .hover-shadow:hover {
-        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
-        transition: box-shadow .3s ease-in-out;
-    }
-</style>
-
-<h3 class="mt-4 titulo">
-    <span aria-hidden="true"><i class="bi bi-speedometer2"></i></span>
-    <strong>CASA IRYS Dashboard</strong> 
+<h3 class="mt-4 bg-dark text-white py-2 px-3 rounded">
+    <i class="bi bi-speedometer2 me-2"></i>
+    <strong>DASHBOARD</strong>
 </h3>
 
-<div class="container mt-4">
-    <hr>
-    <div class="row">
+<div class="container mt-3">
+    <hr />
+    <div class="row g-4">
         <div class="col-md-6">
-            <div class="card" title="La suma total de los ingresos recibidos durante el mes en curso.">
+            <div class="card border-primary" title="La suma total de los ingresos recibidos durante el mes en curso.">
                 <div class="card-body">
-                    <h5 class="card-title">
-                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong class="text-uppercase">Ingresos del Mes</strong>
+                    <h5 class="card-title text-primary">
+                        <i class="bi bi-cash-coin me-2"></i> Ingresos del Mes
                     </h5>
-                    <p class="card-text">Monto: $@IngresoMensual.ToString("N2")</p>
+                    <p class="card-text fs-5">Monto: $@IngresoMensual.ToString("N2")</p>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card" title="La suma total de los ingresos recibidos durante el año en curso.">
+            <div class="card border-success" title="La suma total de los ingresos recibidos durante el año en curso.">
                 <div class="card-body">
-                    <h5 class="card-title">
-                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong class="text-uppercase">Ingresos del Año</strong>
+                    <h5 class="card-title text-success">
+                        <i class="bi bi-cash-coin me-2"></i> Ingresos del Año
                     </h5>
-                    <p class="card-text">Monto: $@IngresoAnual.ToString("N2")</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <div class="card shadow-sm hover-shadow" title="La suma total de las ventas al contado durante el día en curso.">
-                <div class="card-body" @onclick='()=>{urlHelper.NavigateTo("/factura/paga");}' style="cursor: pointer;">
-                    <h5 class="card-title">
-                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong class="text-uppercase">Ventas al Contado</strong>
-                    </h5>
-                    <p class="card-text">Cantidad: $@VentaContado.ToString("N2")</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card shadow-sm hover-shadow" title="La suma total de las ventas a crédito durante el día en curso.">
-                <div class="card-body" @onclick='()=>{urlHelper.NavigateTo("/factura/cobrar");}' style="cursor: pointer;">
-                    <h5 class="card-title">
-                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong class="text-uppercase">Ventas a Crédito</strong>
-                    </h5>
-                    <p class="card-text">Cantidad: $@VentaCredito.ToString("N2")</p>
+                    <p class="card-text fs-5">Monto: $@IngresoAnual.ToString("N2")</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row mt-4">
+    <hr />
+
+    <div class="row g-4 mt-2">
         <div class="col-md-6">
-            <div class="card shadow-sm hover-shadow" title="La suma total de las ventas al contado y los pagos de las ventas a crédito durante el día en curso.">
-                <div class="card-body" @onclick="Cuadre" style="cursor: pointer;">
-                    <h5 class="card-title" >
-                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong class="text-uppercase">Dinero en caja</strong>
+            <div class="card border-info" title="Ventas al contado durante el día en curso.">
+                <div class="card-body" style="cursor: pointer;" @onclick='()=>urlHelper.NavigateTo("/factura/paga")'>
+                    <h5 class="card-title text-info">
+                        <i style="font-size: 18px;" class="fw-bold me-2">💲</i> Ventas al Contado
                     </h5>
-                    <p class="card-text fw-bold">Monto: $@DineroEnCaja.ToString("N2")</p>
+                    <p class="card-text fs-5">Cantidad: $@VentaContado.ToString("N2")</p>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card" title="La suma total de las ventas al contado y crédito durante el día en curso.">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
-                        <strong class="text-uppercase">Ingreso Total</strong>
+            <div class="card border-warning" title="Ventas a crédito durante el día en curso.">
+                <div class="card-body" style="cursor: pointer;" @onclick='()=>urlHelper.NavigateTo("/factura/cobrar")'>
+                    <h5 class="card-title text-warning">
+                        <i style="font-size: 18px;" class="fw-bold me-2">💳</i> Ventas a Crédito
                     </h5>
-                    <p class="card-text">Monto: $@IngresoTotal.ToString("N2")</p>
+                    <p class="card-text fs-5">Cantidad: $@VentaCredito.ToString("N2")</p>
                 </div>
             </div>
         </div>
     </div>
 
-    
+    <div class="row g-4 mt-2">
+        <div class="col-md-6">
+            <div class="card border-secondary" title="Dinero total en caja durante el día en curso.">
+                <div class="card-body" style="cursor: pointer;" @onclick="Cuadre">
+                    <h5 class="card-title text-secondary">
+                        <i style="font-size: 18px;" class="fw-bold me-2">📠</i> Dinero en Caja
+                    </h5>
+                    <p class="card-text fs-5 fw-bold">Monto: $@DineroEnCaja.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-dark" title="Ingreso total diario: contado + crédito.">
+                <div class="card-body">
+                    <h5 class="card-title text-dark">
+                        <i style="font-size: 18px;" class="fw-bold me-2">📊</i> Ingreso Total
+                    </h5>
+                    <p class="card-text fs-5">Monto: $@IngresoTotal.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

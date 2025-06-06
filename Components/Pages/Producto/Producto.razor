@@ -1,29 +1,6 @@
 @page "/producto"
-@inject IJSRuntime JSRuntime;
 @attribute [Authorize]
 
-<style>
-    /* Estilo para resaltar las filas al pasar el cursor */
-    .table-hover tbody tr:hover {
-        background-color: #f5f5f5; /* Cambia el color al pasar el cursor */
-    }
-
-    /* Estilo para el contenedor de la tabla */
-    .table-container {
-        margin-top: 20px;
-    }
-
-    /* Estilo para el cuerpo de la tarjeta */
-    .card-body {
-        padding: 20px;
-    }
-
-    /* Estilo para centrar el texto en las celdas de la tabla */
-    .table th, .table td {
-        text-align: center;
-    }
-
-</style>
 
 <h1 class="d-none d-print-block text-center">Listado de Productos</h1>
 
@@ -33,7 +10,7 @@
             <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title"><b>@TituloForm</b></h5>
                 <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close" @onclick="CloseCard">
-                    <span aria-hidden="true"><i class="bi bi-x-circle-fill"></i></span>
+                    <i style="font-size: 18px;" class="fw-bold">X</i>
                 </button>
             </div>
 
@@ -47,7 +24,7 @@
                     }
                     <div class="form-group input-group mb-3 mt-1">
                         <span class="input-group-text bg-white text-black">
-                            <span aria-hidden="true"><i class="bi bi-code-slash"></i></span>
+                            <i style="font-size: 20px;" class="fw-bold">#</i>
                         </span>
                         @if(Role == "Admin")
                         {
@@ -65,7 +42,7 @@
                             <div class="col">
                                 <div class="input-group">
                                     <label class="input-group-text bg-white text-black">
-                                        <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
+                                        <i style="font-size: 20px;" class="fw-bold">+</i>
                                     </label>
                                     <input type="number" class="form-control"  
                                         @bind-value="@Stock"/>
@@ -95,13 +72,13 @@
                                 <strong>Stock</strong>
                             </span>
                             <input type="number" class="form-control" placeholder="Stock" id="correo" 
-                                @bind-value="productoRequest.Stock" required min="0.01" step="0.01"
+                                @bind-value="productoRequest.Stock" required min="1" step="1"
                                 title="Agrega la cantidad de productos"/>
                         </div>
                     }
                     <div class="form-group input-group mb-3">
                         <span class="input-group-text bg-white text-black">
-                            <span aria-hidden="true"><i class="bi bi-file-earmark-text-fill"></i></span>
+                            <i style="font-size: 20px;" class="fw-bold">📝</i>
                         </span>
                         <input type="text" class="form-control" placeholder="Descripción" id="correo" 
                             @bind-value="productoRequest.Nombre" required/>
@@ -109,7 +86,7 @@
                     <div class="form-group input-group mb-3">
                         <div class="input-group">
                             <span class="input-group-text bg-white text-black">
-                                <span aria-hidden="true"><i class="bi bi-tag-fill"></i></span>
+                                <i style="font-size: 20px;" class="fw-bold">📦</i>
                             </span>
                             <select class="form-select" placeholder="Categoria" required @bind="productoRequest.CategoriaID">
                                 @if (Categorias.Any())
@@ -128,7 +105,7 @@
                                 }
                             </select>
                             <button class="btn btn-outline-success" @onclick="GoCategory">
-                                <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
+                                <i style="font-size: 20px;" class="fw-bold">+</i>
                             </button>
                         </div>
                     </div>
@@ -142,7 +119,7 @@
                     </div> *@
                     <div class="form-group input-group mb-3">
                         <span class="input-group-text bg-white text-black">
-                            <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span>
+                            <i style="font-size: 20px;" class="fw-bold">💰</i>
                         </span>
                         @if(productoRequest.Id > 0)
                         {
@@ -164,6 +141,9 @@
                                 title="Precio de venta"/>
                         }
                     </div>
+                    <div class="form-group input-group mb-3">
+                        <InputFile OnChange="OnInputFileChange" class="form-control" type="file" id="formFile" />
+                    </div>
                 </div>
 
                 <div class="modal-footer bg-dark text-white">
@@ -183,11 +163,11 @@
         <div class="card-body">
             <!-- Button trigger modal -->
             <button class="btn btn-outline-success d-print-none" @onclick="ShowCard">
-                <span aria-hidden="true"><i style="font-size: 20px;">➕</i></span>
+                <span aria-hidden="true"><i style="font-size: 20px;" class="fw-bold">➕</i></span>
             </button>
-            <button class="btn btn-outline-primary d-print-none text-black" 
+            <button class="btn btn-outline-secondary d-print-none text-black" 
                 @onclick="async ()=>{await PrintPageAsync();}">
-                <span aria-hidden="true"><i style="font-size: 20px;">🖨</i></span>
+                <span aria-hidden="true"><i style="font-size: 20px;" class="fw-bold">🖨</i></span>
             </button>
 
             <div class="row">
@@ -196,53 +176,66 @@
                     <div class="input-group d-print-none">
                         <input type="text" class="form-control border-0 border-bottom" 
                         placeholder="Buscar por nombre" @bind="Filtro">
-                        <button class="btn btn-outline input-group-text border-0 bg-white" 
+                        <button class="btn btn-outline-secondary border-0 border-bottom" 
                             type="button" id="button-addon2" @onclick="()=>CargarDatos()">
-                            <span aria-hidden="true"><i class="bi bi-search"></i></span>
+                            <i style="font-size: 20px;" class="fw-bold">🔎</i>
                         </button>
                     </div>
                 </div>
             </div>
 
             <div class="row-12 mt-2">
-                <table class="table table-striped">
+                <table class="table table-striped table-bordered shadow-sm rounded overflow-hidden">
                     <thead class="bg-black text-white">
                         <tr>
-                            <th>Codigo</th>
-                            <th>Stock</th>
-                            <th>Nombre</th>
-                            <th>Categoria</th>
+                            <th scope="col">Imagen</th>
+                            <th scope="col">Codigo</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Categoria</th>
                             @* <th>Precio/Compra</th> *@
                             <th>Precio/Venta</th>
-                            <th class="d-print-none">...</th>
+                            <th scope="col" class="d-print-none text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var productoRow in Productos)
                         {
                             <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(productoRow.ImagenRuta))
+                                    {
+                                        <img src="@productoRow.ImagenRuta" width="70" height="70" class="img-thumbnail mt-2" />
+                                    }
+                                    @if (string.IsNullOrEmpty(productoRow.ImagenRuta))
+                                    {
+                                        <img src="/img/no-image.png" width="70" height="70" class="img-thumbnail mt-2" />
+                                    }
+                                </td>
                                 <td>@productoRow.Codigo</td>
                                 <td>@productoRow.Stock</td>
                                 <td>@productoRow.Nombre</td>
                                 <td>@productoRow.NombreCategoriatexto</td>
                                 @* <td>@productoRow.PrecioCompra.ToString("N2")</td> *@
                                 <td>$@productoRow.Precio.ToString("N2")</td>
-                                <td class="d-print-none">
+                                <td class="d-print-none text-center">
                                     <button @onclick="()=>Seleccionar(productoRow.Id)"
-                                        class="btn btn-outline-primary fw-bold text-black">
-                                        Edit
+                                            class="btn btn-sm btn-outline-primary me-1"
+                                            title="Editar">
+                                        <i style="font-size: 15px;" class="fw-bold">✏️</i>
                                     </button>
                                     @if(Role == "Admin")
                                     {
                                         <button @onclick="()=>Eliminar(productoRow)"
-                                            class="btn btn-outline-danger ms-1 fw-bold text-black">
-                                            Delete
+                                            class="btn btn-sm btn-outline-danger"
+                                            title="Eliminar">
+                                            <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                         </button>
                                     }
                                     else
                                     {
                                         <button class="btn btn-outline-danger d-print-none ms-1" >
-                                            <span aria-hidden="true"><i class="bi bi-lock-fill"></i></span>
+                                            <i style="font-size: 15px;" class="fw-bold">🔒</i>
                                         </button> 
                                     }
                                 </td>
@@ -286,6 +279,26 @@
         // Verifica que el código no esté en la lista de productos ya registrados
         while (Productos.Any(p => p.Codigo == nuevoCodigo));
         return nuevoCodigo;
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        var extension = Path.GetExtension(file.Name);
+        var fileName = $"{Guid.NewGuid()}{extension}";
+        var path = Path.Combine(Environment.CurrentDirectory, "wwwroot", "img");
+
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        var filePath = Path.Combine(path, fileName);
+        await using var stream = File.Create(filePath);
+        await file.OpenReadStream().CopyToAsync(stream);
+
+        // Guardar la ruta relativa para usarla en la etiqueta <img>
+        productoRequest.ImagenRuta = $"/img/{fileName}";
     }
 
     void GoCategory()

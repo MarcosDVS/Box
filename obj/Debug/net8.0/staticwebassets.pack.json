@@ -1,31 +1,39 @@
 {
   "Files": [
     {
-      "Id": "C:\\Project_X\\BOX\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Box.bundle.scp.css",
+      "Id": "C:\\Project_X\\Box\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Box.bundle.scp.css",
       "PackagePath": "staticwebassets\\Box.bundle.scp.css"
     },
     {
-      "Id": "C:\\Project_X\\BOX\\wwwroot\\HorseMan.png",
+      "Id": "C:\\Project_X\\Box\\wwwroot\\HorseMan.png",
       "PackagePath": "staticwebassets\\HorseMan.png"
     },
     {
-      "Id": "C:\\Project_X\\BOX\\wwwroot\\app.css",
+      "Id": "C:\\Project_X\\Box\\wwwroot\\app.css",
       "PackagePath": "staticwebassets\\app.css"
     },
     {
-      "Id": "C:\\Project_X\\BOX\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\Project_X\\Box\\wwwroot\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Project_X\\BOX\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\Project_X\\Box\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\Project_X\\BOX\\wwwroot\\favicon.png",
+      "Id": "C:\\Project_X\\Box\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
-      "Id": "C:\\Project_X\\BOX\\wwwroot\\me.jpg",
+      "Id": "C:\\Project_X\\Box\\wwwroot\\img\\255eb0df-bb64-47d6-b894-0f34f8a50bd2.png",
+      "PackagePath": "staticwebassets\\img\\255eb0df-bb64-47d6-b894-0f34f8a50bd2.png"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\img\\7ee6e708-8d96-4f24-94d9-f4ead9350339.jpg",
+      "PackagePath": "staticwebassets\\img\\7ee6e708-8d96-4f24-94d9-f4ead9350339.jpg"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\me.jpg",
       "PackagePath": "staticwebassets\\me.jpg"
     },
     {

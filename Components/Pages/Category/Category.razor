@@ -1,26 +1,6 @@
 @page "/category"
 @attribute [Authorize]
 
-<style>
-    /* Estilo para el contenedor de la tabla */
-    .table-container {
-        margin-top: 20px;
-    }
-
-    /* Estilo para el cuerpo de la tarjeta */
-    .card-body {
-        padding: 20px;
-    }
-
-    /* Estilo para centrar el texto en las celdas de la tabla */
-    .table th, .table td {
-        text-align: center;
-    }
-
-</style>
-
-
-
 <div class="row">
     <div class="col-12">
         <h1 class="d-none d-print-block text-center">Listado de categorías</h1>
@@ -33,7 +13,7 @@
             <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title"><b>@TituloForm</b></h5>
                 <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close" @onclick="CloseCard">
-                    <span aria-hidden="true"><i class="bi bi-x-circle-fill"></i></span>
+                    <i style="font-size: 15px;" class="fw-bold">X</i>
                 </button>
             </div>
 
@@ -62,13 +42,13 @@
             <div class="row">
                 <div class="col-11">
                     <!-- Button trigger modal -->
-                    <button class="btn btn-outline-success" @onclick="ShowCard">
-                        <span aria-hidden="true"><i class="bi bi-plus-circle-fill"></i></span>
-                    </button>
+                    <button class="btn btn-outline-success d-print-none" @onclick="ShowCard">
+                <span aria-hidden="true"><i style="font-size: 20px;" class="fw-bold">➕</i></span>
+            </button>
                 </div>
                 <div class="col-1">
                     <button class="btn btn-outline-danger" @onclick="Producto">
-                        <span aria-hidden="true"><i class="bi bi-arrow-left-circle-fill"></i></span>
+                        <i style="font-size: 20px;" class="fw-bold">⬅</i>
                     </button>
                 </div>
             </div>
@@ -79,9 +59,9 @@
                     <div class="input-group">
                         <input type="text" class="form-control border-0 border-bottom" 
                         placeholder="Buscar por nombre" @bind="Filtro">
-                        <button class="btn btn-outline input-group-text border-0 bg-white" 
+                        <button class="btn btn-outline-secondary border-0 border-bottom" 
                             type="button" id="button-addon2" @onclick="()=>CargarContactos()">
-                            <span class="oi oi-magnifying-glass text-black"></span>
+                            <i style="font-size: 20px;" class="fw-bold">🔎</i>
                         </button>
                     </div>
                 </div>
@@ -105,11 +85,11 @@
                                 <td>
                                     <button @onclick="()=>Seleccionar(item.Id)"
                                         class="btn btn-outline-primary">
-                                        <span aria-hidden="true"><i class="bi bi-pencil-square"></i></span>
+                                        <i style="font-size: 15px;" class="fw-bold">✏️</i>
                                     </button>
                                     <button @onclick="()=>Eliminar(item)"
                                         class="btn btn-outline-danger">
-                                        <span aria-hidden="true"><i class="bi bi-trash-fill"></i></span>
+                                        <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                     </button>
                                 </td>
                             </tr>

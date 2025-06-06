@@ -17,6 +17,8 @@ public class Producto
     public int CategoriaID { get; set; }
     [Column(TypeName = "decimal(18,2)")]
     public decimal Precio { get; set; }
+    
+    public string? ImagenRuta { get; set; }
 
     // [ForeignKey("ProveedorID")]
     // public virtual Proveedor? Proveedor { get; set; }
@@ -31,42 +33,20 @@ public class Producto
             Nombre = item.Nombre,
             Stock = item.Stock,
             CategoriaID = item.CategoriaID,
-            Precio = item.Precio
+            Precio = item.Precio,
+            ImagenRuta = item.ImagenRuta
         };
 
     public bool Mofidicar(ProductoRequest item)
     {
         var cambio = false;
-        if (Codigo != item.Codigo)
-        {
-            Codigo = item.Codigo;
-            cambio = true;
-        }
-        // if (ProveedorID != item.ProveedorID)
-        // {
-        //     ProveedorID = item.ProveedorID;
-        //     cambio = true;
-        // }
-        if (Stock != item.Stock)
-        {
-            Stock = item.Stock;
-            cambio = true;
-        }
-        if (Nombre != item.Nombre)
-        {
-            Nombre = item.Nombre;
-            cambio = true;
-        }
-        if (CategoriaID != item.CategoriaID)
-        {
-            CategoriaID = item.CategoriaID;
-            cambio = true;
-        }
-        if (Precio != item.Precio)
-        {
-            Precio = item.Precio;
-            cambio = true;
-        }
+        if (Codigo != item.Codigo) Codigo = item.Codigo; cambio = true;
+        // if (ProveedorID != item.ProveedorID) ProveedorID = item.ProveedorID; cambio = true;
+        if (Stock != item.Stock) Stock = item.Stock; cambio = true;
+        if (Nombre != item.Nombre) Nombre = item.Nombre; cambio = true;
+        if (CategoriaID != item.CategoriaID) CategoriaID = item.CategoriaID; cambio = true;
+        if (Precio != item.Precio) Precio = item.Precio; cambio = true;
+        if (ImagenRuta != item.ImagenRuta) ImagenRuta = item.ImagenRuta; cambio = true;
         return cambio;
     }
 
@@ -79,7 +59,8 @@ public class Producto
             Stock = Stock,
             Precio = Precio,
             CategoriaID = CategoriaID,
-            Categoria = Categoria != null? Categoria!.ToResponse():null,
+            Categoria = Categoria != null ? Categoria!.ToResponse() : null,
+            ImagenRuta = ImagenRuta,
             // ProveedorID = ProveedorID,
             // Proveedor = Proveedor != null? Proveedor!.ToResponse():null
         };

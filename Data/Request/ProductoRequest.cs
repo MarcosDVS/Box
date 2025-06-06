@@ -14,5 +14,6 @@ public class ProductoRequest
     public int Stock { get; set; }
     public int CategoriaID { get; set; }
     public decimal Precio { get; set; }
+    public string? ImagenRuta { get; set; }
     
 }

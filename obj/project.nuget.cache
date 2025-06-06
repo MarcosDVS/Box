@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uko68OFoqU0=",
+  "dgSpecHash": "Oj4uKoMsVBw=",
   "success": true,
-  "projectFilePath": "C:\\Project_X\\BOX\\Box.csproj",
+  "projectFilePath": "C:\\Project_X\\Box\\Box.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Marcos De Vargas\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.1\\microsoft.data.sqlite.core.7.0.1.nupkg.sha512",
     "C:\\Users\\Marcos De Vargas\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.1\\microsoft.entityframeworkcore.7.0.1.nupkg.sha512",

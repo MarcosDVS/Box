@@ -40,15 +40,15 @@
                 }
             </select>
             
-            <button class="btn btn-outline-primary d-print-none" 
-                    @onclick="async ()=>{await PrintPageAsync();}">
-                    <span aria-hidden="true"><i class="bi bi-printer-fill"></i></span>
-                </button>
+            <button class="btn btn-outline-secondary d-print-none" 
+                @onclick="async ()=>{await PrintPageAsync();}">
+                <i style="font-size: 18px;" class="fw-bold text-black">🖨</i>
+            </button>
             <button 
                 class="btn btn-outline-danger d-print-none"
                 type="button" id="button-addon2"
                 @onclick="Back2">
-                <span aria-hidden="true"><i class="bi bi-arrow-left-circle-fill"></i></span>
+                <i style="font-size: 18px;" class="fw-bold">⬅</i>
             </button>
         </div>
 
@@ -61,12 +61,12 @@
             <thead class="bg-black text-white">
                 <tr>
                     <th class="col w-25">
-                        Cantidad
+                        CANT
                     </th>
-                    <th>Descripcion</th>
-                    <th>Costo</th>
-                    <th>Descuento</th>
-                    <th>Total</th>
+                    <th>DESCRIPCIÓN</th>
+                    <th>COSTO</th>
+                    @* <th>Descuento</th> *@
+                    <th>TOTAL</th>
                 </tr>
             </thead>
             <tbody>
@@ -82,11 +82,11 @@
                         <td class="col w-25">
                             $@($"{(detalle.Precio):N2}")
                         </td>
-                        <td class="col w-25">
+                        @* <td class="col w-25">
                             <span style="white-space: nowrap;">
                                 $@($"{(detalle.SubTotal * (detalle.Descuento / 100)):N2}")
                             </span>
-                        </td>
+                        </td> *@
 
                         <td class="col text-center">
                             $@($"{(detalle.SubTotal - detalle.TotalDesc):N2}")
@@ -129,25 +129,25 @@
                             <!-- Lista de resumen -->
                             <ul class="list-unstyled">
                                 <li class="mb-2">
-                                    <strong>SubTotal: </strong>
+                                    <strong>SUBTOTAL: </strong>
                                     <span class="text-primary">$@($"{(facturaRequest.SubTotal - facturaRequest.ITBIS):N2}")</span>
                                 </li>
                                 <li class="mb-2">
                                     <strong>ITBIS:</strong>
                                     <span class="text-danger">$@($"{(facturaRequest.ITBIS):N2}")</span>
                                 </li>
-                                <li class="mb-2"> 
+                                @* <li class="mb-2"> 
                                     <strong>Descuento: </strong>
                                     <span class="text-success">$@facturaRequest.TotalDesc.ToString("N2")</span>
-                                </li>
+                                </li> *@
                                 <li class="mb-2">
-                                    <strong>Importe: </strong>
+                                    <strong>IMPORTE: </strong>
                                     <span class="text-dark">
                                         <strong>$@($"{(facturaRequest.SubTotal - facturaRequest.TotalDesc):N2}")</strong>
                                     </span>
                                 </li>
                                 <li>
-                                    <strong>Devuelta: </strong>
+                                    <strong>DEVUELTA: </strong>
                                     @if(facturaRequest.Cambio > 0)
                                     {
                                         <span class="text-dark">
@@ -216,7 +216,7 @@ else
                                     <th scope="col">Cliente</th>
                                     <th scope="col">Total</th>
                                     <th scope="col">ITBIS</th>
-                                    <th scope="col">Descuento</th>
+                                    @* <th scope="col">Descuento</th> *@
                                     <th scope="col">Importe</th>
                                     <th scope="col">Fecha</th>
                                     <th scope="col" class="d-print-none">...</th>
@@ -236,7 +236,7 @@ else
                                                     $@($"{(f.ITBIS):N2}")
                                                 </span>
                                             </td>
-                                            <td>$@f.TotalDesc.ToString("N2")</td>
+                                            @* <td>$@f.TotalDesc.ToString("N2")</td> *@
                                             <td><strong>$@($"{(f.SubTotal - f.TotalDesc):N2}")</strong></td>
                                             <td>@f.Fecha.ToShortDateString()</td>
                                             <td>

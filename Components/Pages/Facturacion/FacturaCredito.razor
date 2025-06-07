@@ -18,15 +18,15 @@
                 }
             </select>
             
-            <button class="btn btn-outline-primary d-print-none" 
+            <button class="btn btn-outline-secondary d-print-none" 
                 @onclick="async ()=>{await PrintPageAsync();}">
-                <span aria-hidden="true"><i class="bi bi-printer-fill"></i></span>
+                <i style="font-size: 18px;" class="fw-bold text-black">🖨</i>
             </button>
             <button 
                 class="btn btn-outline-danger d-print-none"
                 type="button" id="button-addon2"
                 @onclick="Back2">
-                <span aria-hidden="true"><i class="bi bi-arrow-left-circle-fill"></i></span>
+                <i style="font-size: 18px;" class="fw-bold">⬅</i>
             </button>
         </div>
 
@@ -56,10 +56,10 @@
                             </option>
                         }
                     </datalist>
-                    <input @bind="detalleFacturaRequest.Descuento" type="number" 
+                    @* <input @bind="detalleFacturaRequest.Descuento" type="number" 
                         id="Descuento" placeholder="Descuento" class="form-control w-25" min="0"
                         max="30" step="1" aria-label="Discount Percentage"/>
-                    <label for="Descuento" class="input-group-text"><strong>Descuento</strong></label>
+                    <label for="Descuento" class="input-group-text"><strong>Descuento</strong></label> *@
                 </div>
 
                 <div class="input-group mb-3">
@@ -90,11 +90,11 @@
             <thead class="bg-black text-white text-uppercase">
                 <tr>
                     <th class="col w-25">
-                        Cantidad
+                        Cant
                     </th>
                     <th>Descripción</th>
                     <th>Costo</th>
-                    <th>Descuento</th>
+                    @* <th>Descuento</th> *@
                     <th>Total</th>
                 </tr>
             </thead>
@@ -133,11 +133,11 @@
                         <td class="col w-25">
                             $@($"{(detalle.Precio):N2}")
                         </td>
-                        <td class="col w-25">
+                        @* <td class="col w-25">
                             <span style="white-space: nowrap;">
                                 $@($"{(detalle.SubTotal * (detalle.Descuento / 100)):N2}")
                             </span>
-                        </td>
+                        </td> *@
 
                         <td class="col text-center">
                             $@($"{(detalle.SubTotal - detalle.TotalDesc):N2}")
@@ -174,29 +174,29 @@
                             <!-- Lista de resumen -->
                             <ul class="list-unstyled text-uppercase">
                                 <li class="mb-2">
-                                    <strong>SubTotal: </strong>
+                                    <strong>SUBTOTAL: </strong>
                                     <span class="text-primary">$@($"{(facturaRequest.SubTotal - facturaRequest.ITBIS):N2}")</span>
                                 </li>
                                 <li class="mb-2">
                                     <strong>ITBIS:</strong>
                                     <span class="text-danger">$@($"{(facturaRequest.ITBIS):N2}")</span>
                                 </li>
-                                <li class="mb-2">
+                                @* <li class="mb-2">
                                     <strong>Descuento: </strong>
                                     <span class="text-success">$@facturaRequest.TotalDesc.ToString("N2")</span>
-                                </li>
+                                </li> *@
                                 <li class="mb-2">
-                                    <strong>Importe: </strong>
+                                    <strong>IMPORTE: </strong>
                                     <span class="text-dark">
                                         <strong>$@($"{(facturaRequest.SubTotal - facturaRequest.TotalDesc):N2}")</strong>
                                     </span>
                                 </li>
                                 <li class="mb-2">
-                                    <strong>Pagado: </strong>
+                                    <strong>PAGADO: </strong>
                                     <span class="text-success">$@($"{(facturaRequest.DineroPagado):N2}")</span>
                                 </li>
                                 <li >
-                                    <strong>Pendiente: </strong>
+                                    <strong>PENDIENTE: </strong>
                                     <span class="text-danger">
                                         <strong>$@($"{(facturaRequest.SaldoPendiente):N2}")</strong>
                                     </span>
@@ -296,7 +296,7 @@ else
 
                             <div class="form-group input-group d-print-none mb-3">
                                 <span class="input-group-text bg-white text-black">
-                                    <span aria-hidden="true"><i class="bi bi-calendar-fill"></i></span>
+                                    <i style="font-size: 18px;" class="fw-bold text-black">📅</i>
                                 </span>
                                 <input type="date" class="form-control" placeholder="Fecha" 
                                 @bind-value="pagoRequest.Fecha" readonly/>
@@ -304,7 +304,7 @@ else
                             
                             <div class="form-group input-group mb-3 d-print-none">
                                 <span class="input-group-text bg-white text-black ">
-                                    <span aria-hidden="true"><i class="bi bi-code-slash"></i></span>
+                                    <i style="font-size: 18px;" class="fw-bold text-black">#️⃣</i>
                                 </span>
                                 <input type="text" class="form-control" placeholder="Codigo"
                                 @bind-value="pagoRequest.FacturaID" readonly />
@@ -312,7 +312,7 @@ else
 
                             <div class="form-group input-group mb-3 d-print-none">
                                 <span class="input-group-text bg-white text-black">
-                                    <span aria-hidden="true"><i class="bi bi-eye-fill"></i></span>
+                                    <i style="font-size: 18px;" class="fw-bold text-black">👁‍🗨</i>
                                 </span>
                                 <select class="form-select" @bind="@pagoRequest.Observacion" required>
                                     <option disabled selected value="">Observación</option>

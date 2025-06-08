@@ -34,7 +34,7 @@
                 <h5 class="modal-title text-dark d-none d-print-block"><b>Detalles del Cuadre</b></h5>
                 <button type="button" class="close btn btn-danger d-print-none" data-dismiss="modal" aria-label="Close" 
                 @onclick="Clear">
-                    <span aria-hidden="true"><i class="bi bi-x-circle-fill"></i></span>
+                    <i style="font-size: 15px;" class="fw-bold">X</i>
                 </button>
             </div>
 
@@ -387,24 +387,19 @@
         var facturasPosteriores = Facturas.Where(f => f.Fecha > ultimoCuadreFecha);
         var pagosPosteriores = Pagos.Where(p => p.Fecha > ultimoCuadreFecha);
 
-        var Credito = facturasPosteriores
-            .Where(c => c.TypePayment == "2" && c.SaldoPendiente > 0)
-            .Sum(c => c.SubTotal - c.TotalDesc);
-
         // Calcular el monto en caja sumando las facturas y los pagos posteriores al último cuadre
         var Contado = facturasPosteriores
             .Where(c => c.TypePayment == "1" && c.SaldoPendiente <= 0)
             .Sum(c => c.SubTotal - c.TotalDesc);
 
+        var Credito = facturasPosteriores
+            .Where(c => c.TypePayment == "2" && c.SaldoPendiente > 0)
+            .Sum(c => c.SubTotal - c.TotalDesc);
+
         var Pago = (decimal)pagosPosteriores
             .Sum(c => c.MontoPagado);
 
-        
         DineroEnCaja = Contado + Pago;
-        request.VentaCredito = Credito;
-        request.VentaContado = Contado;
-        request.Abonado = Pago;
-        request.Monto = DineroEnCaja;
     }
 
     async Task ConsultarCashier()

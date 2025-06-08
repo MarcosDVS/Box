@@ -1,5 +1,4 @@
 ﻿@page "/inicio"
-@using Data.Response
 @inject IFacturaServices facturaServices
 @inject IPagoServices pagoServices
 @attribute [Authorize]
@@ -17,7 +16,7 @@
         <div class="col-md-6">
             <div class="card border-primary" title="La suma total de los ingresos recibidos durante el mes en curso.">
                 <div class="card-body">
-                    <h5 class="card-title text-primary fw-bold">
+                    <h5 class="card-title text-primary text-uppercase fw-bold">
                         <i class="bi bi-cash-coin me-2"></i> Ingresos del Mes
                     </h5>
                     <p class="card-text fs-5">Monto: $@IngresoMensual.ToString("N2")</p>
@@ -27,7 +26,7 @@
         <div class="col-md-6">
             <div class="card border-success" title="La suma total de los ingresos recibidos durante el año en curso.">
                 <div class="card-body">
-                    <h5 class="card-title text-success fw-bold">
+                    <h5 class="card-title text-success text-uppercase fw-bold">
                         <i class="bi bi-cash-coin me-2"></i> Ingresos del Año
                     </h5>
                     <p class="card-text fs-5">Monto: $@IngresoAnual.ToString("N2")</p>
@@ -40,7 +39,7 @@
 
     <div class="row g-4 mt-2">
         <div class="col-md-6">
-            <div class="card border-info" title="Ventas al contado durante el día en curso.">
+            <div class="card border-info" title="Ventas al contado realizadas durante el día en curso.">
                 <div class="card-body" style="cursor: pointer;" @onclick='()=>urlHelper.NavigateTo("/factura/paga")'>
                     <h5 class="card-title text-info fw-bold">
                         <i style="font-size: 18px;" class="me-2">💲</i> Ventas al Contado
@@ -50,7 +49,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card border-warning" title="Ventas a crédito durante el día en curso.">
+            <div class="card border-warning" title="Ventas a crédito realizadas durante el día en curso.">
                 <div class="card-body" style="cursor: pointer;" @onclick='()=>urlHelper.NavigateTo("/factura/cobrar")'>
                     <h5 class="card-title text-warning fw-bold">
                         <i style="font-size: 18px;" class="me-2">💳</i> Ventas a Crédito
@@ -63,7 +62,7 @@
 
     <div class="row g-4 mt-2">
         <div class="col-md-6">
-            <div class="card border-secondary" title="Dinero total en caja durante el día en curso.">
+            <div class="card border-secondary" title="Monto total de dinero en caja, incluyendo ventas y pagos recibidos.">
                 <div class="card-body" style="cursor: pointer;" @onclick="Cuadre">
                     <h5 class="card-title text-secondary text-uppercase fw-bold">
                         <i style="font-size: 18px;" class="me-2">📠</i> Dinero en Caja
@@ -73,10 +72,10 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card border-dark" title="Ingreso total diario: contado + crédito.">
+            <div class="card border-dark" title="Venta total diaria: contado + crédito.">
                 <div class="card-body">
                     <h5 class="card-title text-dark text-uppercase fw-bold">
-                        <i style="font-size: 18px;" class="me-2">📊</i> Ingreso Total
+                        <i style="font-size: 18px;" class="me-2">📊</i> Venta Total
                     </h5>
                     <p class="card-text fs-5">Monto: $@IngresoTotal.ToString("N2")</p>
                 </div>

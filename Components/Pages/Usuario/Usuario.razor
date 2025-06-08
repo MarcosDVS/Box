@@ -12,7 +12,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title"><b>@TituloForm</b></h5>
+                <h5 class="modal-title text-uppercase"><b>@TituloForm</b></h5>
                 <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close" @onclick="CloseCard">
                     <i style="font-size: 15px;" class="fw-bold">X</i>
                 </button>
@@ -22,47 +22,74 @@
                 <div class="modal-body">
                     @if (Message != null)
                     {
-                        <div class="alert-warning text-center">
+                        <div class="alert alert-warning text-center">
                             <label class="text-dark"><strong>@Message</strong></label>
                         </div>
                     }
-                    <div class="form-group">
-                        <label for="nombre" class="fw-bold">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" 
-                        @bind-value="request.Nombre" required />
+
+                    <div class="form-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i style="font-size: 15px;" class="fw-bold">👤</i>
+                            </span>
+                            <input type="text" class="form-control" id="nombre" 
+                            @bind-value="request.Nombre" placeholder="Nombre" required />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="apellidos" class="fw-bold">Apellidos</label>
-                        <input type="text" class="form-control" id="apellidos" 
-                        @bind-value="request.Apellidos" required />
+
+                    <div class="form-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i style="font-size: 15px;" class="fw-bold">🔖</i>
+                            </span>
+                            <input type="text" class="form-control" id="apellidos" 
+                            @bind-value="request.Apellidos" placeholder="Apellidos" required />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="email" class="fw-bold">Email</label>
-                        <input  class="form-control" id="email" 
-                        @bind-value="request.Email" required />
+
+                    <div class="form-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i style="font-size: 15px;" class="fw-bold">📧</i>
+                            </span>
+                            <input type="email" class="form-control" id="email" 
+                            @bind-value="request.Email" placeholder="Email" required />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="password" class="fw-bold">Password</label>
-                        <input type="text" class="form-control" id="password" 
-                        @bind-value="request.Password" required />
+
+                    <div class="form-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i style="font-size: 15px;" class="fw-bold">🔒</i>
+                            </span>
+                            <input type="password" class="form-control" id="password"
+                            @bind-value="request.Password" placeholder="Password" required />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="role" class="fw-bold">Role</label>
-                        @if(Role == "Admin")
-                        {
-                            <select class="form-select" required @bind="@request.Role">
-                                <option disabled selected>Seleccione un role</option>
-                                <option value="Admin">Admin</option>
-                                <option value="User">User</option>
-                            </select>
-                        }
-                        else{
-                            <select class="form-select" required @bind="@request.Role">
-                                <option disabled selected>Seleccione un role</option>
-                                <option value="User">User</option>
-                            </select>
-                        }
+
+                    <div class="form-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i style="font-size: 15px;" class="fw-bold">🛡️</i>
+                            </span>
+                            @if (Role == "Admin")
+                            {
+                                <select class="form-select" required @bind="@request.Role">
+                                    <option disabled selected>Seleccione un role</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="User">User</option>
+                                </select>
+                            }
+                            else
+                            {
+                                <select class="form-select" required @bind="@request.Role">
+                                    <option disabled selected>Seleccione un role</option>
+                                    <option value="User">User</option>
+                                </select>
+                            }
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="modal-footer bg-dark text-white">

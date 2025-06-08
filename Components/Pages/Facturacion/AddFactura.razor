@@ -5,9 +5,8 @@
 
 <EditForm Model="facturaRequest">
     <div class="row g-4">
-
-        <!-- CLIENTE / CONTACTO -->
-        <div class="col-md-6">
+        <div class="col-md-7">
+            <!-- CLIENTE / CONTACTO -->
             <label for="clienteInput" class="form-label fw-bold">Cliente</label>
             <input 
                 id="clienteInput"
@@ -71,7 +70,7 @@
                             <td class="text-center">$@($"{(detalle.SubTotal - detalle.TotalDesc):N2}")</td>
                             <td>
                                 <button class="btn btn-outline-danger btn-sm d-print-none" @onclick="()=>EliminarDetalle(detalle.ProductoId)" aria-label="Eliminar detalle">
-                                    <i class="bi bi-trash-fill"></i>
+                                    <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                 </button>
                             </td>
                         </tr>
@@ -85,7 +84,7 @@
                     <h5 class="mb-0">Resumen</h5>
                     <div class="d-flex gap-2">
                         <button class="btn btn-warning btn-sm d-print-none" @onclick="async ()=> await UpdatePage()" title="Actualizar resumen">
-                            <i class="bi bi">🔁</i>
+                            <i class="fas fa-redo-alt"></i>
                         </button>
                         <select class="form-select form-select-sm" required @bind="facturaRequest.TypePayment" aria-label="Tipo de venta">
                             <option disabled selected>TIPO DE VENTA</option>
@@ -97,7 +96,9 @@
                 <div class="card-body">
                     <div class="input-group mb-3 d-print-none">
                         <input type="number" @bind="facturaRequest.SaldoPagado" class="form-control form-control-sm" min="0" step="1" placeholder="Monto pagado" aria-label="Monto pagado" />
-                        <button class="btn btn-success btn-sm" type="button" @onclick="CalcularCambio">Pagar</button>
+                        <button class="btn btn-success btn-sm" type="button" @onclick="CalcularCambio">
+                            <i class="fas fa-cash-register" style="font-size: 20px;"></i>
+                        </button>
                     </div>
 
                     <ul class="list-unstyled text-uppercase mb-0">
@@ -144,7 +145,7 @@
         </div>
 
         <!-- PRODUCTOS -->
-        <div class="col-md-6 d-print-none">
+        <div class="col-md-5 d-print-none">
             <div class="card p-3">
                 <div class="card-header bg-black text-white fw-bold text-uppercase">
                     <h6 class="mb-0">¿Qué desea el cliente?</h6>
@@ -171,7 +172,7 @@
                     </div>
                     <div class="col">
                         <button class="btn btn-success mt-3 w-100" @onclick="AgregarAlDetalle">
-                            Agregar al detalle
+                            <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
                         </button>
                     </div>
                 </div>
@@ -190,7 +191,7 @@
                             <img src="@producto.ImagenRuta" class="img-thumbnail" width="50" height="50" />
                             <div>
                                 <strong>@producto.CodigoDescripcion</strong><br />
-                                <small>stock: @producto.Stock | precio: $@producto.Precio</small>
+                                <small>stock: @producto.Stock | precio: $@producto.Precio.ToString("N2")</small>
                             </div>
                         </button>
                     }
@@ -204,7 +205,6 @@
                 }
             </div>
         </div>
-
     </div>
 </EditForm>
 

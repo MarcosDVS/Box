@@ -3,32 +3,129 @@
 @using Data.Response;
 @attribute [Authorize]
 
+<div class="modal" style="display: @(showCard ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title text-uppercase"><b>Agregar Cliente</b></h5>
+                <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close" @onclick="OpenCloseModal">
+                    <i style="font-size: 15px;" class="fw-bold">X</i>
+                </button>
+            </div>
+
+            <EditForm Model="requestCustomer" OnValidSubmit="SendCustomer">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="modal-body">
+
+                        <div class="form-group input-group mb-3">
+                            <span class="input-group-text bg-white text-black">
+                                <i style="font-size: 15px;" class="fw-bold">👤</i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Nombre" 
+                                @bind-value="requestCustomer.Nombre" required/>
+                        </div>
+                        <div class="form-group input-group mb-3">
+                            <span class="input-group-text bg-white text-black">
+                                <i style="font-size: 15px;" class="fw-bold">✉</i>
+                            </span>
+                            <input id="emailInput"  class="form-control" placeholder="  Apellidos" 
+                                @bind-value="requestCustomer.Apellidos" required />
+                        </div>
+
+                        <div class="form-group input-group mb-3">
+                            <span class="input-group-text bg-white text-black">
+                                <i style="font-size: 15px;" class="fw-bold">🆔</i>
+                            </span>
+                            <input  class="form-control" placeholder="Cedula" 
+                                @bind-value="requestCustomer.Cedula" 
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11)"  
+                                pattern="\d{11}" 
+                                title="Debe tener 11 dígitos" 
+                            />
+                        </div>
+
+                        <div class="form-group input-group mb-3">
+                            <span class="input-group-text bg-white text-black">
+                                <i style="font-size: 15px;" class="fw-bold">📞</i>
+                            </span>
+                            <input class="form-control" type="tel" placeholder="Teléfono" 
+                                @bind-value="requestCustomer.Telefono" 
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"  
+                                pattern="\d{10}" 
+                                title="Debe tener 10 dígitos" 
+                            />
+                        </div>
+
+                        <div class="form-group input-group mb-3">
+                            <span class="input-group-text bg-white text-black">
+                                <i style="font-size: 15px;" class="fw-bold">📍</i>
+                            </span>
+                            <input class="form-control" placeholder="Dirección" 
+                                @bind-value="requestCustomer.Direccion" />
+                        </div>
+                        <div class="form-group input-group mb-3">
+                            <span class="input-group-text bg-white text-black">
+                                <i style="font-size: 15px;" class="fw-bold">✉️</i>
+                            </span>
+                            <input type="email" class="form-control" placeholder="Correo" 
+                            @bind-value="requestCustomer.Correo"/>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer  bg-dark text-white">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">
+                                Guardar
+                                <i style="font-size: 15px;" class="fw-bold">✔</i>
+                            </button>
+                            <button type="button" class="btn btn-secondary" @onclick="OpenCloseModal">
+                                Cerrar
+                                <i style="font-size: 15px;" class="fw-bold">❌</i>
+                            </button>
+                        </div>
+                    </div>
+                </EditForm>
+        </div>
+    </div>
+</div>
+
 <EditForm Model="facturaRequest">
     <div class="row g-4">
         <div class="col-md-7">
             <!-- CLIENTE / CONTACTO -->
-            <label for="clienteInput" class="form-label fw-bold">Cliente</label>
-            <input 
-                id="clienteInput"
-                class="form-control"
-                placeholder="Selecciona un cliente"
-                list="contactos"
-                @bind="Nombre"
-                required
-                title="Debes seleccionar un cliente"
-                aria-describedby="clienteHelp" />
-            <datalist id="contactos">
-                @foreach (var contacto in Contactos)
-                {
-                    <option value="@($"{contacto.Nombre} {contacto.Apellidos}")" @onclick="()=>BuscarSeleccionarCliente(contacto.Nombre + contacto.Apellidos)">
-                        @FormatCustomerId(contacto.Cedula)
-                    </option>
-                }
-            </datalist>
-            <div id="clienteHelp" class="form-text d-print-none">Selecciona o escribe el cliente para facturar</div>
+            <div class="input-group">
+                <span class="input-group-text text-black">
+                    <label for="clienteInput" class="form-label fw-bold">Cliente:</label>
+                </span>
+                <input 
+                    id="clienteInput"
+                    class="form-control"
+                    placeholder="Escribe o selecciona un cliente"
+                    list="contactos"
+                    @bind="Nombre"
+                    required
+                    title="Debes seleccionar un cliente"
+                    aria-describedby="clienteHelp" />
+                <datalist id="contactos">
+                    @foreach (var contacto in Contactos)
+                    {
+                        <option value="@($"{contacto.Nombre} {contacto.Apellidos}")" @onclick="()=>BuscarSeleccionarCliente(contacto.Nombre + contacto.Apellidos)">
+                            @FormatCustomerId(contacto.Cedula)
+                        </option>
+                    }
+                </datalist>
+                <button class="btn btn-primary d-print-none" 
+                @onclick="OpenCloseModal" title="Agregar nuevo cliente">
+                    <i style="font-size: 15px;" class="fw-bold">➕</i>
+                </button>
+            </div>
 
             <!-- Detalle de factura -->
-            <h5 class="mt-4"><b>Detalle factura N°:</b> @ultimoIdFactura</h5>
+            <h5 class="mt-4 fw-bold text-uppercase">
+                Detalle de la factura <span class="text-primary">N° @ultimoIdFactura</span>
+            </h5>
             <table class="table table-hover table-striped align-middle">
                 <thead class="table-dark text-uppercase">
                     <tr>
@@ -69,7 +166,8 @@
                             </td> *@
                             <td class="text-center">$@($"{(detalle.SubTotal - detalle.TotalDesc):N2}")</td>
                             <td>
-                                <button class="btn btn-outline-danger btn-sm d-print-none" @onclick="()=>EliminarDetalle(detalle.ProductoId)" aria-label="Eliminar detalle">
+                                <button class="btn btn-outline-danger btn-sm d-print-none" title="Eliminar detalle"
+                                @onclick="()=>EliminarDetalle(detalle.ProductoId)" aria-label="Eliminar detalle">
                                     <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                 </button>
                             </td>
@@ -83,7 +181,8 @@
                 <div class="card-header d-flex justify-content-between align-items-center bg-black text-white">
                     <h5 class="mb-0">Resumen</h5>
                     <div class="d-flex gap-2">
-                        <button class="btn btn-warning btn-sm d-print-none" @onclick="async ()=> await UpdatePage()" title="Actualizar resumen">
+                        <button class="btn btn-warning btn-sm d-print-none" 
+                        @onclick="async ()=> await UpdatePage()" title="Limpiar lista de productos">
                             <i class="fas fa-redo-alt"></i>
                         </button>
                         <select class="form-select form-select-sm" required @bind="facturaRequest.TypePayment" aria-label="Tipo de venta">
@@ -96,7 +195,8 @@
                 <div class="card-body">
                     <div class="input-group mb-3 d-print-none">
                         <input type="number" @bind="facturaRequest.SaldoPagado" class="form-control form-control-sm" min="0" step="1" placeholder="Monto pagado" aria-label="Monto pagado" />
-                        <button class="btn btn-success btn-sm" type="button" @onclick="CalcularCambio">
+                        <button class="btn btn-success btn-sm" type="button" 
+                        @onclick="CalcularCambio" title="Calcular cambio">
                             <i class="fas fa-cash-register" style="font-size: 20px;"></i>
                         </button>
                     </div>
@@ -161,8 +261,9 @@
                 <!-- Precio y cantidad -->
                 <div class="mb-3 mt-2 d-flex align-items-center gap-3">
                     <label class="fw-bold mb-0">Precio:</label>
-                    <span class="form-control w-50">$@Precio.ToString("N2")</span>
-                    <InputNumber class="form-control w-25" @bind-Value="Cantidad" min="1" step="1" aria-label="Cantidad" />
+                    <span class="form-control w-50" title="Precio del producto">$@Precio.ToString("N2")</span>
+                    <InputNumber class="form-control w-25" @bind-Value="Cantidad" title="Cantidad del producto seleccionado"
+                    min="1" step="1" aria-label="Cantidad" />
                 </div>
 
                 <!-- Producto buscador -->
@@ -171,7 +272,8 @@
                         <label class="form-label fw-bold" for="productoBuscar">Buscar producto</label>
                     </div>
                     <div class="col">
-                        <button class="btn btn-success mt-3 w-100" @onclick="AgregarAlDetalle">
+                        <button class="btn btn-success mt-3 w-100" title="Agregar al detalle"
+                        @onclick="AgregarAlDetalle">
                             <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
                         </button>
                     </div>
@@ -228,6 +330,8 @@
     // --- Factura y detalles ---
     public FacturaRequest facturaRequest { get; set; } = new();
     public FacturaDetalleRequest detalleFacturaRequest { get; set; } = new();
+    public ClienteRequest requestCustomer { get; set; } = new();
+    public bool showCard { get; set; } = false;
 
     // --- Valores de factura ---
     public decimal Precio { get; set; } = 0;
@@ -428,6 +532,27 @@
         var result = await facturaServices.Crear(facturaRequest);
         Message = null;
         await PrintPageAsync();
+    }
+
+    public async Task SendCustomer()
+    {
+        if(requestCustomer.Id == 0)
+        {
+            //Debo registrar el contacto..
+            var r = await clienteServices.Crear(requestCustomer);
+            if (r.Success)
+            {
+                OpenCloseModal();
+                await CargarContacto();
+                StateHasChanged();
+            }
+        }
+    }
+    
+    void OpenCloseModal()
+    {
+        requestCustomer  = new ClienteRequest();
+        showCard = !showCard;
     }
 
     void CancelarPago()

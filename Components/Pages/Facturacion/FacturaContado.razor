@@ -40,11 +40,11 @@
                 }
             </select>
             
-            <button class="btn btn-outline-secondary d-print-none" 
+            <button class="btn btn-outline-secondary d-print-none" title="Imprimir factura"
                 @onclick="async ()=>{await PrintPageAsync();}">
                 <i style="font-size: 18px;" class="fw-bold text-black">🖨</i>
             </button>
-            <button 
+            <button title="Volver"
                 class="btn btn-outline-danger d-print-none"
                 type="button" id="button-addon2"
                 @onclick="Back2">
@@ -56,7 +56,9 @@
 
         
         @*Disenar los elementos que se cargan a la factura*@
-        <h5 class="mt-1"><b>Detalle de la factura N°:</b> @facturaRequest.Id</h5>
+        <h5 class="mt-4 fw-bold text-uppercase">
+            Detalle de la factura <span class="text-primary">N° @facturaRequest.Id</span>
+        </h5>
         <table class="table table">
             <thead class="bg-black text-white">
                 <tr>
@@ -128,19 +130,19 @@
                         <div class="col">
                             <!-- Lista de resumen -->
                             <ul class="list-unstyled">
-                                <li class="mb-2">
+                                <li>
                                     <strong>SUBTOTAL: </strong>
                                     <span class="text-primary">$@($"{(facturaRequest.SubTotal - facturaRequest.ITBIS):N2}")</span>
                                 </li>
-                                <li class="mb-2">
+                                <li>
                                     <strong>ITBIS:</strong>
                                     <span class="text-danger">$@($"{(facturaRequest.ITBIS):N2}")</span>
                                 </li>
-                                @* <li class="mb-2"> 
+                                @* <li> 
                                     <strong>Descuento: </strong>
                                     <span class="text-success">$@facturaRequest.TotalDesc.ToString("N2")</span>
                                 </li> *@
-                                <li class="mb-2">
+                                <li>
                                     <strong>IMPORTE: </strong>
                                     <span class="text-dark">
                                         <strong>$@($"{(facturaRequest.SubTotal - facturaRequest.TotalDesc):N2}")</strong>
@@ -189,7 +191,7 @@ else
                 <div class="card-body">
                     <div class="row">
                         <div class="col-11">
-                            <button class="btn btn-outline-secondary d-print-none text-black" 
+                            <button class="btn btn-outline-secondary d-print-none text-black" title="Imprimir página"
                                 @onclick="async ()=>{await PrintPageAsync();}">
                                 <span aria-hidden="true"><i style="font-size: 20px;" class="fw-bold">🖨</i></span>
                             </button>
@@ -201,7 +203,7 @@ else
                             <div class="input-group d-print-none">
                                 <input type="text" class="form-control border-0 border-bottom" 
                                     placeholder="Buscar por nombre" @bind="FiltroInvoice">
-                                <button class="btn btn-outline-secondary border-0 border-bottom" 
+                                <button class="btn btn-outline-secondary border-0 border-bottom" title="Consultar facturas"
                                     type="button" id="button-addon2" @onclick="()=>Consultar()">
                                     <i style="font-size: 20px;" class="fw-bold">🔎</i>
                                 </button>
@@ -241,18 +243,18 @@ else
                                             <td>@f.Fecha.ToShortDateString()</td>
                                             <td>
                                                 <div class="button d-print-none">
-                                                    <button @onclick="()=>Seleccionar(f.Id, f)" class="btn btn-outline-primary">
+                                                    <button @onclick="()=>Seleccionar(f.Id, f)" class="btn btn-outline-primary" title="Ver detalles de la factura">
                                                         <i style="font-size: 15px;" class="fw-bold">ℹ</i>
                                                     </button>
                                                     @if(Role=="Admin")
                                                     {
-                                                        <button @onclick="() => Eliminar(f)" class="btn btn-outline-danger d-print-none ms-1">
+                                                        <button @onclick="() => Eliminar(f)" class="btn btn-outline-danger d-print-none ms-1" title="Eliminar factura">
                                                             <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                                         </button>
                                                     }
                                                     else
                                                     {
-                                                       <button class="btn btn-outline-danger d-print-none ms-1" >
+                                                       <button class="btn btn-outline-danger d-print-none ms-1" title="Acción no permitida">
                                                             <i style="font-size: 15px;" class="fw-bold">🔒</i>
                                                         </button> 
                                                     }

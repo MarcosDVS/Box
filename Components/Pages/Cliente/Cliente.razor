@@ -10,7 +10,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title"><b>@TituloForm</b></h5>
+                <h5 class="modal-title text-uppercase"><b>@TituloForm</b></h5>
                 <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close" @onclick="CloseCard">
                     <i style="font-size: 15px;" class="fw-bold">X</i>
                 </button>
@@ -172,8 +172,8 @@
 
 @code {
     public string TituloForm => request.Id == 0 ? 
-    "Agregar proveedor" : "Modificar proveedor";
-    
+    "Agregar cliente" : "Modificar cliente";
+
     public string Filtro { get; set; } = "";
     public bool ShowForm { get; set; } = false;
     public List<ClienteResponse> Clientes { get; set; } = new();

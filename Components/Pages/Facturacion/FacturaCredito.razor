@@ -21,10 +21,10 @@
                     </select>
                     
                     <button class="btn btn-outline-secondary d-print-none" 
-                        @onclick="async ()=>{await PrintPageAsync();}">
+                        @onclick="async ()=>{await PrintPageAsync();}" title="Imprimir factura">
                         <i style="font-size: 18px;" class="fw-bold text-black">🖨</i>
                     </button>
-                    <button 
+                    <button title="Volver"
                         class="btn btn-outline-danger d-print-none"
                         type="button" id="button-addon2"
                         @onclick="Back2">
@@ -32,7 +32,10 @@
                     </button>
                 </div>
                 <!-- Detalle de factura -->
-                <h5 class="mt-4"><b>Detalle factura N°:</b> @ultimoIdFactura</h5>
+                <h5 class="mt-4 fw-bold text-uppercase">
+                    Detalle de la factura <span class="text-primary">N° @facturaRequest.Id</span>
+                </h5>
+
                 <table class="table table-hover table-striped align-middle">
                     <thead class="table-dark text-uppercase">
                         <tr>
@@ -73,9 +76,19 @@
                                 </td> *@
                                 <td class="text-center">$@($"{(detalle.SubTotal - detalle.TotalDesc):N2}")</td>
                                 <td>
-                                    <button class="btn btn-outline-danger btn-sm d-print-none" @onclick="()=>EliminarDetalle(detalle.ProductoId)" aria-label="Eliminar detalle">
-                                        <i style="font-size: 15px;" class="fw-bold">🗑️</i>
-                                    </button>
+                                    @if(Role=="Admin")
+                                    {
+                                        <button class="btn btn-outline-danger btn-sm d-print-none" title="Eliminar detalle" 
+                                        @onclick="()=>EliminarDetalle(detalle.ProductoId)" aria-label="Eliminar detalle">
+                                            <i style="font-size: 15px;" class="fw-bold">🗑️</i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-outline-danger btn-sm d-print-none" title="Acción no permitida" aria-label="Eliminar detalle">
+                                            <i style="font-size: 15px;" class="fw-bold">🔒</i>
+                                        </button>
+                                    }
                                 </td>
                             </tr>
                         }
@@ -140,7 +153,8 @@
                     <div class="mb-3 mt-2 d-flex align-items-center gap-3">
                         <label class="fw-bold mb-0">Precio:</label>
                         <span class="form-control w-50">$@Precio.ToString("N2")</span>
-                        <InputNumber class="form-control w-25" @bind-Value="Cantidad" min="1" step="1" aria-label="Cantidad" />
+                        <InputNumber class="form-control w-25" @bind-Value="Cantidad" title="Cantidad del producto seleccionado"
+                        min="1" step="1" aria-label="Cantidad" />
                     </div>
 
                     <!-- Producto buscador -->
@@ -149,7 +163,8 @@
                             <label class="form-label fw-bold" for="productoBuscar">Buscar producto</label>
                         </div>
                         <div class="col">
-                            <button class="btn btn-success mt-3 w-100" @onclick="AgregarAlDetalle">
+                            <button class="btn btn-success mt-3 w-100" title="Agregar al detalle"
+                                @onclick="AgregarAlDetalle">
                                 <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
                             </button>
                         </div>
@@ -369,7 +384,7 @@ else
                 <div class="card-body">
                     <div class="row">
                         <div class="col-11">
-                            <button class="btn btn-outline-secondary d-print-none text-black" 
+                            <button class="btn btn-outline-secondary d-print-none text-black" title="Imprimir página" 
                                 @onclick="async ()=>{await PrintPageAsync();}">
                                 <span aria-hidden="true"><i style="font-size: 20px;" class="fw-bold">🖨</i></span>
                             </button>
@@ -394,7 +409,7 @@ else
                             <div class="input-group d-print-none">
                                 <input type="text" class="form-control border-0 border-bottom" 
                                     placeholder="Buscar por nombre" @bind="FiltroInvoice">
-                                <button class="btn btn-outline-secondary border-0 border-bottom" 
+                                <button class="btn btn-outline-secondary border-0 border-bottom" title="Buscar factura" 
                                     type="button" id="button-addon2" @onclick="()=>Consultar()">
                                     <i style="font-size: 20px;" class="fw-bold">🔎</i>
                                 </button>
@@ -447,24 +462,24 @@ else
                                                 <div class="button d-print-none">
                                                     @if (f.SaldoPendiente > 0)
                                                     {
-                                                        <button @onclick="() => MostrarPagos(f)"
+                                                        <button @onclick="() => MostrarPagos(f)" title="Mostrar pagos"
                                                             class="btn btn-outline-success me-1">
                                                             <i style="font-size: 15px;" class="fw-bold">💲</i>
                                                         </button>
                                                     
                                                     }
-                                                    <button @onclick="()=>Seleccionar(f.Id, f)" class="btn btn-outline-primary">
+                                                    <button @onclick="()=>Seleccionar(f.Id, f)" class="btn btn-outline-primary" title="Ver detalles">
                                                         <i style="font-size: 15px;" class="fw-bold">ℹ</i>
                                                     </button>
                                                     @if(Role=="Admin")
                                                     {
-                                                        <button @onclick="() => Eliminar(f)" class="btn btn-outline-danger d-print-none ms-1">
+                                                        <button @onclick="() => Eliminar(f)" class="btn btn-outline-danger d-print-none ms-1" title="Eliminar factura">
                                                             <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                                         </button>
                                                     }
                                                     else
                                                     {
-                                                       <button class="btn btn-outline-danger d-print-none ms-1" >
+                                                       <button class="btn btn-outline-danger d-print-none ms-1" title="Acción no permitida">
                                                             <i style="font-size: 15px;" class="fw-bold">🔒</i>
                                                         </button> 
                                                     }

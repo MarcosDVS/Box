@@ -194,7 +194,8 @@
                 </div>
                 <div class="card-body">
                     <div class="input-group mb-3 d-print-none">
-                        <input type="number" @bind="facturaRequest.SaldoPagado" class="form-control form-control-sm" min="0" step="1" placeholder="Monto pagado" aria-label="Monto pagado" />
+                        <input type="number" @bind="facturaRequest.SaldoPagado" title="Cantidad recibida del cliente para el pago"
+                        class="form-control form-control-sm" min="0" step="1" />
                         <button class="btn btn-success btn-sm" type="button" 
                         @onclick="CalcularCambio" title="Calcular cambio">
                             <i class="fas fa-cash-register" style="font-size: 20px;"></i>
@@ -348,8 +349,6 @@
     private int ultimoIdFactura = 0;
 
     // --- Ciclo de vida ---
-
-
 
     private string FormatCustomerId(string customerId)
     {

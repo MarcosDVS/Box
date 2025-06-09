@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "rSPcbzrVRPh8qIfy5BfQQmOmnmoVp2VP8QS5BZWFRl0=",
+  "Hash": "boV1maIc7r08kGzINB7DrfrYAbmD2THnBUbk8QdbFMw=",
   "Source": "Box",
   "BasePath": "_content/Box",
   "Mode": "Default",
@@ -167,25 +167,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\255eb0df-bb64-47d6-b894-0f34f8a50bd2.png"
-    },
-    {
-      "Identity": "C:\\Project_X\\Box\\wwwroot\\img\\7ee6e708-8d96-4f24-94d9-f4ead9350339.jpg",
-      "SourceId": "Box",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Project_X\\Box\\wwwroot\\",
-      "BasePath": "_content/Box",
-      "RelativePath": "img/7ee6e708-8d96-4f24-94d9-f4ead9350339.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\img\\7ee6e708-8d96-4f24-94d9-f4ead9350339.jpg"
     },
     {
       "Identity": "C:\\Project_X\\Box\\wwwroot\\me.jpg",

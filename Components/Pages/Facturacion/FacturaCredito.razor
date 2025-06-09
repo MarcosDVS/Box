@@ -152,7 +152,7 @@
                     <!-- Precio y cantidad -->
                     <div class="mb-3 mt-2 d-flex align-items-center gap-3">
                         <label class="fw-bold mb-0">Precio:</label>
-                        <span class="form-control w-50">$@Precio.ToString("N2")</span>
+                        <span class="form-control w-50" title="Precio del producto">$@Precio.ToString("N2")</span>
                         <InputNumber class="form-control w-25" @bind-Value="Cantidad" title="Cantidad del producto seleccionado"
                         min="1" step="1" aria-label="Cantidad" />
                     </div>
@@ -473,7 +473,7 @@ else
                                                     </button>
                                                     @if(Role=="Admin")
                                                     {
-                                                        <button @onclick="() => Eliminar(f)" class="btn btn-outline-danger d-print-none ms-1" title="Eliminar factura">
+                                                        <button @onclick="() => ShowQuestion(f)" class="btn btn-outline-danger d-print-none ms-1" title="Eliminar factura">
                                                             <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                                         </button>
                                                     }
@@ -494,6 +494,33 @@ else
                 </div>
             </div>
         </div>
+
+        <div class="modal" style="display: @(ShowConfirmation ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content shadow-lg rounded-4">
+                    <div class="modal-header bg-light border-0">
+                        <h5 class="modal-title text-dark fw-bold">¿Estás seguro?</h5>
+                        <button type="button" class="btn-close" aria-label="Cerrar" @onclick="OpenClosedConfirmation"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p class="mb-0">Esta acción no se puede deshacer. ¿Deseas continuar?</p>
+                    </div>
+                    <div class="modal-footer justify-content-center border-0">
+                        <button class="btn btn-success px-4"
+                                @onclick="async () => {
+                                    await Eliminar(factura);
+                                    OpenClosedConfirmation();
+                                }">
+                            <i style="font-size: 15px;" class="fw-bold">🗑️</i> Sí, eliminar
+                        </button>
+                        <button class="btn btn-outline-secondary px-4"
+                                @onclick="OpenClosedConfirmation">
+                            <i style="font-size: 15px;" class="fw-bold">✖️</i> Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 
 }
@@ -506,9 +533,10 @@ else
     public bool ShowDetails { get; set; } = false;
     public bool ShowDetailPayment { get; set; } = false;
     public List<FacturaResponse> Facturas { get; set; } = new();
+    public FacturaResponse factura { get; set; } = new();
     public List<FacturaDetalleResponse> FacturaDetalles { get; set; } = new();
     public FacturaResponse? SelectedFactura { get; set; } // Factura seleccionada
-    
+    public bool ShowConfirmation {get; set; } = false;
     public List<ProductoResponse> ProductosFiltrados { get; set; } = new();
 
     void FiltrarProductos(string filtro)
@@ -545,6 +573,17 @@ else
             // Devuelve el número telefónico sin cambios si no tiene la longitud esperada
             return customerId;
         }
+    }
+    void OpenClosedConfirmation()
+    {
+        ShowConfirmation = !ShowConfirmation;
+        StateHasChanged();
+    }
+    //Metodos Para confirmar las perdidas
+    void ShowQuestion(FacturaResponse seletedItem)
+    {
+        OpenClosedConfirmation();
+        factura = seletedItem; // Usa la variable de instancia en lugar de declarar una nueva.
     }
     void Back2()
     {

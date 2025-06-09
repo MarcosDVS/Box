@@ -2,29 +2,6 @@
 @using Data.Response;
 @attribute [Authorize]
 
-<style>
-    /* Estilo para el contenedor de la tabla */
-    .table-container {
-        margin-top: 20px;
-    }
-    /* Estilo para el cuerpo de la tarjeta */
-    .card-body {
-        padding: 20px;
-    }
-
-    /* Estilo para centrar el texto en las celdas de la tabla */
-    .table th, .table td {
-        text-align: center;
-    }
-
-    .titulo {
-        background-image: linear-gradient(180deg, rgb(0, 29, 82) 0%, rgb(0, 0, 0) 70%);
-        color: #ffffff; /* Texto blanco */
-        text-align: center; /* Centrar texto */
-        padding: 10px; /* Añadir espacio alrededor del texto */
-    }
-</style>
-
 @if(Form)
 {
     <EditForm Model="facturaRequest">
@@ -59,23 +36,21 @@
         <h5 class="mt-4 fw-bold text-uppercase">
             Detalle de la factura <span class="text-primary">N° @facturaRequest.Id</span>
         </h5>
-        <table class="table table">
-            <thead class="bg-black text-white">
+        <table class="table table-hover table-striped align-middle">
+            <thead class="table-dark text-uppercase">
                 <tr>
-                    <th class="col w-25">
-                        CANT
-                    </th>
-                    <th>DESCRIPCIÓN</th>
-                    <th>COSTO</th>
-                    @* <th>Descuento</th> *@
-                    <th>TOTAL</th>
+                    <th style="width:80px;">Cant</th>
+                    <th>Descripción</th>
+                    <th style="width:120px;">Costo</th>
+                    @* <th style="width:150px;">Descuento</th> *@
+                    <th style="width:100px;" class="text-center">Total</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var detalle in facturaRequest.Detalles)
                 {
                     <tr>
-                        <td class="col w-25 text-center">
+                        <td class="col w-25">
                             @detalle.Cantidad
                         </td>
                         <td class="col w-25">
@@ -98,15 +73,14 @@
             </tbody>
         </table>
 
-        <div class="row">
             @*Resumen de la venta*@
-            <div class="col card mt-1">
-                <div class="row card-header">
+            <div class="card mt-4">
+                <div class="card-header d-flex justify-content-between align-items-center bg-black text-white">
                     <!-- Encabezado de la tarjeta -->
-                    <div class="col-4">
-                        <h5><b>Resumen:</b></h5>
+                    <div class="mb-0">
+                        <h5>Resumen</h5>
                     </div>
-                    <div class="col-4">
+                    <div class="d-flex gap-2">
                         <!-- Sección de tipo de venta y botón de actualización -->
                         <div class="input-group">
                             <select class="form-control" readonly required @bind="@facturaRequest.TypePayment">
@@ -115,8 +89,6 @@
                                 <option disabled value="2">Crédito 💳</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="col-4">
                         <!-- Sección de pago -->
                         <div class="input-group d-print-none">
                             <input type="number" @bind="@facturaRequest.SaldoPagado" 
@@ -171,7 +143,6 @@
 
             </div>
 
-        </div>
 
     </EditForm>
 }
@@ -248,7 +219,7 @@ else
                                                     </button>
                                                     @if(Role=="Admin")
                                                     {
-                                                        <button @onclick="() => Eliminar(f)" class="btn btn-outline-danger d-print-none ms-1" title="Eliminar factura">
+                                                        <button @onclick="() => ShowQuestion(f)" class="btn btn-outline-danger d-print-none ms-1" title="Eliminar factura">
                                                             <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                                         </button>
                                                     }
@@ -269,6 +240,33 @@ else
                 </div>
             </div>
         </div>
+
+        <div class="modal" style="display: @(ShowConfirmation ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content shadow-lg rounded-4">
+                    <div class="modal-header bg-light border-0">
+                        <h5 class="modal-title text-dark fw-bold">¿Estás seguro?</h5>
+                        <button type="button" class="btn-close" aria-label="Cerrar" @onclick="OpenClosedConfirmation"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p class="mb-0">Esta acción no se puede deshacer. ¿Deseas continuar?</p>
+                    </div>
+                    <div class="modal-footer justify-content-center border-0">
+                        <button class="btn btn-success px-4"
+                                @onclick="async () => {
+                                    await Eliminar(factura);
+                                    OpenClosedConfirmation();
+                                }">
+                            <i style="font-size: 15px;" class="fw-bold">🗑️</i> Sí, eliminar
+                        </button>
+                        <button class="btn btn-outline-secondary px-4"
+                                @onclick="OpenClosedConfirmation">
+                            <i style="font-size: 15px;" class="fw-bold">✖️</i> Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 }
 
@@ -278,8 +276,10 @@ else
     "Módulo de facturas al contado" : "Módulo de facturación";
     public bool ShowDetails { get; set; } = false;
     public List<FacturaResponse> Facturas { get; set; } = new();
+    public FacturaResponse factura { get; set; } = new();
     public List<FacturaDetalleResponse> FacturaDetalles { get; set; } = new();
     public FacturaResponse? SelectedFactura { get; set; } // Factura seleccionada
+    public bool ShowConfirmation { get; set; } = false;
 
     private string FormatPhoneNumber(string phoneNumber)
     {
@@ -308,6 +308,18 @@ else
             // Devuelve el número telefónico sin cambios si no tiene la longitud esperada
             return customerId;
         }
+    }
+
+    void OpenClosedConfirmation()
+    {
+        ShowConfirmation = !ShowConfirmation;
+        StateHasChanged();
+    }
+    //Metodos Para confirmar las perdidas
+    void ShowQuestion(FacturaResponse seletedItem)
+    {
+        OpenClosedConfirmation();
+        factura = seletedItem; // Usa la variable de instancia en lugar de declarar una nueva.
     }
 
     void Back2()

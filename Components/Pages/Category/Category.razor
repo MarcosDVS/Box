@@ -7,6 +7,33 @@
     </div>
 </div>
 
+<div class="modal" style="display: @(ShowConfirmation ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow-lg rounded-4">
+            <div class="modal-header bg-light border-0">
+                <h5 class="modal-title text-dark fw-bold">¿Estás seguro?</h5>
+                <button type="button" class="btn-close" aria-label="Cerrar" @onclick="OpenClosedConfirmation"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p class="mb-0">Esta acción no se puede deshacer. ¿Deseas continuar?</p>
+            </div>
+            <div class="modal-footer justify-content-center border-0">
+                <button class="btn btn-success px-4"
+                        @onclick="async () => {
+                            await Eliminar(category);
+                            OpenClosedConfirmation();
+                        }">
+                    <i style="font-size: 15px;" class="fw-bold">🗑️</i> Sí, eliminar
+                </button>
+                <button class="btn btn-outline-secondary px-4"
+                        @onclick="OpenClosedConfirmation">
+                    <i style="font-size: 15px;" class="fw-bold">✖️</i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal" style="display: @(showCard ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -108,8 +135,10 @@
     public string Filtro { get; set; } = "";
     public bool ShowForm { get; set; } = false;
     public List<CategoriaResponse> Categorias { get; set; } = new();
+    public CategoriaResponse category { get; set; } = new();
     public CategoriaRequest categoriaRequest { get; set; } = new();
     public bool showCard { get; set; } = false;
+    public bool ShowConfirmation { get; set; } = false;
 
     void Producto()
     {
@@ -124,6 +153,18 @@
     {
         categoriaRequest  = new CategoriaRequest();
         showCard = false;
+    }
+
+    void OpenClosedConfirmation()
+    {
+        ShowConfirmation = !ShowConfirmation;
+        StateHasChanged();
+    }
+    //Metodos Para confirmar las perdidas
+    void ShowQuestion(CategoriaResponse seletedItem)
+    {
+        OpenClosedConfirmation();
+        category = seletedItem; // Usa la variable de instancia en lugar de declarar una nueva.
     }
 
     async Task CargarContactos()

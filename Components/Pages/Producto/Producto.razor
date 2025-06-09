@@ -4,6 +4,33 @@
 
 <h1 class="d-none d-print-block text-center">Listado de Productos</h1>
 
+<div class="modal" style="display: @(ShowConfirmation ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow-lg rounded-4">
+            <div class="modal-header bg-light border-0">
+                <h5 class="modal-title text-dark fw-bold">¿Estás seguro?</h5>
+                <button type="button" class="btn-close" aria-label="Cerrar" @onclick="OpenClosedConfirmation"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p class="mb-0">Esta acción no se puede deshacer. ¿Deseas continuar?</p>
+            </div>
+            <div class="modal-footer justify-content-center border-0">
+                <button class="btn btn-success px-4"
+                        @onclick="async () => {
+                            await Eliminar(product);
+                            OpenClosedConfirmation();
+                        }">
+                    <i style="font-size: 15px;" class="fw-bold">🗑️</i> Sí, eliminar
+                </button>
+                <button class="btn btn-outline-secondary px-4"
+                        @onclick="OpenClosedConfirmation">
+                    <i style="font-size: 15px;" class="fw-bold">✖️</i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal" style="display: @(showCard ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -226,7 +253,7 @@
                                     </button>
                                     @if(Role == "Admin")
                                     {
-                                        <button @onclick="()=>Eliminar(productoRow)"
+                                        <button @onclick="()=>ShowQuestion(productoRow)"
                                             class="btn btn-sm btn-outline-danger"
                                             title="Eliminar">
                                             <i style="font-size: 15px;" class="fw-bold">🗑️</i>
@@ -258,8 +285,10 @@
     public List<ProductoResponse> Productos { get; set; } = new();
     public List<CategoriaResponse> Categorias { get; set; } = new();
     public List<ProveedorResponse> Proveedores { get; set; } = new();
+    public ProductoResponse product { get; set; } = new();
     public ProductoRequest productoRequest { get; set; } = new();
     public bool showCard { get; set; } = false;
+    public bool ShowConfirmation { get; set; } = false;
     public string Message { get; set; } = null;
     public string Nombre { get; set; } = string.Empty;
     public string NombreEmp { get; set; } = string.Empty;
@@ -324,6 +353,18 @@
         Stock = 0;
     }
 
+    void OpenClosedConfirmation()
+    {
+        ShowConfirmation = !ShowConfirmation;
+        StateHasChanged();
+    }
+    //Metodos Para confirmar las perdidas
+    void ShowQuestion(ProductoResponse seletedItem)
+    {
+        OpenClosedConfirmation();
+        product = seletedItem; // Usa la variable de instancia en lugar de declarar una nueva.
+    }
+    
     async Task CargarDatos()
     {
         var resultado =

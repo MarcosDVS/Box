@@ -5,6 +5,32 @@
 
 <h1 class="d-none d-print-block text-center">Listado de Clientes</h1>
 
+<div class="modal" style="display: @(ShowConfirmation ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow-lg rounded-4">
+            <div class="modal-header bg-light border-0">
+                <h5 class="modal-title text-dark fw-bold">¿Estás seguro?</h5>
+                <button type="button" class="btn-close" aria-label="Cerrar" @onclick="OpenClosedConfirmation"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p class="mb-0">Esta acción no se puede deshacer. ¿Deseas continuar?</p>
+            </div>
+            <div class="modal-footer justify-content-center border-0">
+                <button class="btn btn-success px-4"
+                        @onclick="async () => {
+                            await Eliminar(customer);
+                            OpenClosedConfirmation();
+                        }">
+                    <i style="font-size: 15px;" class="fw-bold">🗑️</i> Sí, eliminar
+                </button>
+                <button class="btn btn-outline-secondary px-4"
+                        @onclick="OpenClosedConfirmation">
+                    <i style="font-size: 15px;" class="fw-bold">✖️</i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal" style="display: @(showCard ? "block" : "none"); background-color: rgba(0, 0, 0, 0.5);" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -144,7 +170,7 @@
                                             class="btn btn-outline-primary fw-bold text-black">
                                             <i style="font-size: 15px;" class="fw-bold">✏️</i>
                                         </button>
-                                        <button @onclick="()=>Eliminar(Row)"
+                                        <button @onclick="()=>ShowQuestion(Row)"
                                             class="btn btn-outline-danger fw-bold text-black">
                                             <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                         </button>
@@ -177,8 +203,10 @@
     public string Filtro { get; set; } = "";
     public bool ShowForm { get; set; } = false;
     public List<ClienteResponse> Clientes { get; set; } = new();
+    public ClienteResponse customer { get; set; } = new();
     public ClienteRequest request { get; set; } = new();
     public bool showCard { get; set; } = false;
+    public bool ShowConfirmation { get; set; } = false;
     public string Message { get; set; } = "";
     public string Role { get; set; } = "";
 
@@ -221,6 +249,17 @@
         showCard = false;
     }
 
+    void OpenClosedConfirmation()
+    {
+        ShowConfirmation = !ShowConfirmation;
+        StateHasChanged();
+    }
+    //Metodos Para confirmar las perdidas
+    void ShowQuestion(ClienteResponse seletedItem)
+    {
+        OpenClosedConfirmation();
+        customer = seletedItem; // Usa la variable de instancia en lugar de declarar una nueva.
+    }
     async Task CargarContactos()
     {
         var resultado =

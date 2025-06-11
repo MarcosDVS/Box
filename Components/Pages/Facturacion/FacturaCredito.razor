@@ -52,14 +52,15 @@
                         {
                             <tr>
                                 <td>
-                                    <InputNumber 
+                                    <InputNumber @onclick=" async ()=>{await Send();}"
                                         class="form-control d-print-none" 
                                         @bind-Value="@detalle.Cantidad" min="0" step="1" />
                                     <span class="d-none d-print-inline">@detalle.Cantidad</span>
                                 </td>
                                 <td>@detalle.Descripcion</td>
                                 <td>
-                                    <InputNumber class="form-control d-print-none" @bind-Value="@detalle.Precio" />
+                                    <InputNumber class="form-control d-print-none" 
+                                    @bind-Value="@detalle.Precio" @onclick=" async ()=>{await Send();}"/>
                                     <span class="d-none d-print-inline">$@($"{detalle.Precio:N2}")</span>
                                 </td>
                                 @* <td>

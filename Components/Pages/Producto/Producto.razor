@@ -212,62 +212,70 @@
             </div>
 
             <div class="row d-flex justify-content-center d-print-none">
-                @foreach (var row in Productos)
+                @if (Productos.Count == 0)
                 {
-                    <div class="col-lg-4 col-md-6 col-sm-12 mt-3">
-                        <div class="card shadow-sm border-0 rounded-3 h-100 text-center" style="width: 18rem;">
-                            <img src="@(!string.IsNullOrEmpty(row.ImagenRuta) ? row.ImagenRuta : "/img/no-image.png")"
-                                class="card-img-top"
-                                style="object-fit: cover;" height="175"/>
-                            <div class="card-body">
-                                <h5 class="card-title text-dark text-truncate mb-1" style="max-width: 200px; margin: auto;">
-                                    <b>@row.Nombre</b>
-                                </h5>
+                    <div class="col-12 text-center mt-3"></div>
+                        <h5 class="text-muted">No hay productos registrados</h5>
+                    </div>
+                }
+                else{
+                    @foreach (var row in Productos)
+                    {
+                        <div class="col-lg-4 col-md-6 col-sm-12 mt-3">
+                            <div class="card shadow-sm border-0 rounded-3 h-100 text-center" style="width: 18rem;">
+                                <img src="@(!string.IsNullOrEmpty(row.ImagenRuta) ? row.ImagenRuta : "/img/no-image.png")"
+                                    class="card-img-top"
+                                    style="object-fit: cover;" height="175"/>
+                                <div class="card-body">
+                                    <h5 class="card-title text-dark text-truncate mb-1" style="max-width: 200px; margin: auto;">
+                                        <b>@row.Nombre</b>
+                                    </h5>
 
-                                <div class="text-start small">
-                                    <div class="mb-0">
-                                        <span class="text-muted fw-bold">Código:</span>
-                                        <span class="ms-1">@row.Codigo</span>
-                                    </div>
+                                    <div class="text-start small">
+                                        <div class="mb-0">
+                                            <span class="text-muted fw-bold">Código:</span>
+                                            <span class="ms-1">@row.Codigo</span>
+                                        </div>
 
-                                    <div class="mb-0">
-                                        <span class="text-muted fw-bold">Categoría:</span>
-                                        <span class="ms-1">@row.Categoria.Nombre</span>
-                                    </div>
+                                        <div class="mb-0">
+                                            <span class="text-muted fw-bold">Categoría:</span>
+                                            <span class="ms-1">@row.Categoria.Nombre</span>
+                                        </div>
 
-                                    <div class="mb-0">
-                                        <span class="text-muted fw-bold">Stock:</span>
-                                        <span class="ms-1">@row.Stock</span>
-                                    </div>
+                                        <div class="mb-0">
+                                            <span class="text-muted fw-bold">Stock:</span>
+                                            <span class="ms-1">@row.Stock</span>
+                                        </div>
 
-                                    <div class="mb-0">
-                                        <span class="text-muted fw-bold">Precio:</span>
-                                        <span class="ms-1 text-success">RD$ @row.Precio.ToString("N2")</span>
+                                        <div class="mb-0">
+                                            <span class="text-muted fw-bold">Precio:</span>
+                                            <span class="ms-1 text-success">RD$ @row.Precio.ToString("N2")</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
 
-                            <div class="card-footer bg-white border-0 d-flex justify-content-center gap-2">
-                                <button class="btn btn-outline-warning" @onclick="()=>Seleccionar(row.Id)">
-                                    <i style="font-size: 15px;" class="fw-bold">✏️</i>
-                                </button>
-
-                                @if (Role == "Admin")
-                                {
-                                    <button class="btn btn-outline-danger" @onclick="()=>ShowQuestion(row)" title="Eliminar">
-                                        <i style="font-size: 15px;" class="fw-bold">🗑️</i>
+                                <div class="card-footer bg-white border-0 d-flex justify-content-center gap-2">
+                                    <button class="btn btn-outline-warning" @onclick="()=>Seleccionar(row.Id)">
+                                        <i style="font-size: 15px;" class="fw-bold">✏️</i>
                                     </button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-outline-danger d-print-none" disabled>
-                                        <i style="font-size: 15px;" class="fw-bold">🔒</i>
-                                    </button>
-                                }
+
+                                    @if (Role == "Admin")
+                                    {
+                                        <button class="btn btn-outline-danger" @onclick="()=>ShowQuestion(row)" title="Eliminar">
+                                            <i style="font-size: 15px;" class="fw-bold">🗑️</i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-outline-danger d-print-none" disabled>
+                                            <i style="font-size: 15px;" class="fw-bold">🔒</i>
+                                        </button>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
 
@@ -275,7 +283,7 @@
 
             <div class="row-12 mt-2 d-none d-print-block">
                 <table class="table table-striped table-bordered shadow-sm rounded overflow-hidden">
-                    <thead class="bg-black text-white">
+                    <thead>
                         <tr>
                             <th scope="col">Imagen</th>
                             <th scope="col">Codigo</th>

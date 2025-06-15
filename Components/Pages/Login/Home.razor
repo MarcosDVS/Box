@@ -2,72 +2,58 @@
 @using Authentication;
 @inject IUserAccountService userAccountService
 @inject AuthenticationStateProvider authStateProvider
-@inject NavigationManager NavigationManager
-<style>
-    body{
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-</style>
-<br/>
-<br/>
-<br/>
-<div class="container">
-    <div class="row justify-content-center">
-        <AuthorizeView>
-            <Authorized>
-                <div class="card p-4" style="width: 25rem; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                    <div class="text-center">
+
+<div class="container py-1 bg-light">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-2 col-lg-4">
+            <AuthorizeView>
+                <Authorized>
+                    <div class="card border-0 shadow-lg rounded-4 p-2 text-center">
                         <div class="mb-3">
-                            <i style="font-size: 64px;">👤</i>
+                            <i class="bi bi-person-circle display-1 text-primary"></i>
                         </div>
-                        <h2 class="mb-3 fw-bold text-uppercase">¡Bienvenido/a!</h2>
+                        <h2 class="fw-bold text-uppercase">¡Bienvenid@@!</h2>
                         <p class="lead mb-4">
                             <i class="bi bi-person-badge me-2"></i>
                             @context.User.FindFirstValue(ClaimTypes.GivenName)
                         </p>
-                        <button type="button" class="btn btn-primary btn-lg w-100" @onclick="NavigateToHome">
-                            <i class="bi bi-house-door-fill me-2"></i>
-                            Ir al Inicio
+                        <button class="btn btn-primary btn-lg w-100" @onclick="NavigateToHome">
+                            <i class="bi bi-house-door-fill me-2"></i> Ir al Inicio
                         </button>
                     </div>
-                </div>
-            </Authorized>
-            <NotAuthorized>
-                <div class="card p-4" style="width: 25rem; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                    <div class="text-center">
+                </Authorized>
+
+                <NotAuthorized>
+                    <div class="card border-0 shadow-lg rounded-4 p-4 text-center">
                         <div class="mb-3">
-                            <i style="font-size: 64px;">👤</i>
+                            <i class="bi bi-person-circle display-1 text-primary"></i>
                         </div>
-                        <h2 class="mb-3 text-center">Iniciar Sesión</h2>
+                        <h2 class="fw-bold text-uppercase mb-4">Iniciar Sesión</h2>
                         <form>
-                            <div class="form-group mb-3">
-                                <input type="email" class="form-control" @bind="model.UserName" placeholder="User Name">
+                            <div class="form-floating mb-3 text-start">
+                                <input type="email" class="form-control" id="userInput" placeholder="Usuario" @bind="model.UserName">
+                                <label for="userInput">Usuario</label>
                             </div>
-                            <div class="form-group mb-3">
-                                <input type="password" class="form-control" @bind="model.Password" placeholder="Password">
+                            <div class="form-floating mb-4 text-start">
+                                <input type="password" class="form-control" id="passwordInput" placeholder="Contraseña" @bind="model.Password">
+                                <label for="passwordInput">Contraseña</label>
                             </div>
-                            @*<div class="d-flex justify-content-center mb-3">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-outline-primary" @onclick="Authenticate">Sing in</button>
-                                </div>
-                            </div>*@
+                            <button type="button" class="btn btn-primary btn-lg w-100" @onclick="Authenticate">Entrar</button>
                         </form>
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-primary" @onclick="Authenticate">Sign In</button>
-                        </div>
+
                         @if (!string.IsNullOrEmpty(mensajeError))
                         {
-                            <div class="alert alert-warning mt-3" role="alert">
-                                <p class="text-dark text-center fw-bold text-uppercase">@mensajeError</p>
+                            <div class="alert alert-warning mt-4" role="alert">
+                                <p class="text-dark fw-bold mb-0">@mensajeError</p>
                             </div>
                         }
                     </div>
-                </div>
-            </NotAuthorized>
-        </AuthorizeView>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
     </div>
-
 </div>
+
 
 @code 
 {
@@ -76,8 +62,8 @@
 
     private class LoginModel
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string UserName { get; set; } = null!;
+        public string Password { get; set; } = null!;  
     }
 
     private async Task Authenticate()
@@ -103,10 +89,10 @@
                     UserId = userAccount.Id,
                     UserName = userAccount.Email,
                     Name = userAccount.Nombre + " " + userAccount.Apellidos,
-                    Role = userAccount.Role
+                    Role = userAccount.Role? .ToString() ?? "Usuario"
                 });
+                NavigateToHome();
                 mensajeError = string.Empty;
-                NavigationManager.NavigateTo("/inicio", true);
             }
             catch (Exception ex)
             {
@@ -126,6 +112,6 @@
 
     private void NavigateToHome()
     {
-        NavigationManager.NavigateTo("/inicio");
+        urlHelper.NavigateTo("/inicio");
     }
 }

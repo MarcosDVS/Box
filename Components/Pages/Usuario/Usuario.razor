@@ -166,51 +166,61 @@
                 </div>
             </div>
 
-            <div class="row-12 mt-2">
-                <table class="table table-striped">
-                    <thead class="bg-black text-white">
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>...</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Usuarios)
-                        {
-                            <tr>
-                                <td>@item.Id</td>
-                                <td>@item.Nombre</td>
-                                <td>@item.Apellidos</td>
-                                <td>@item.Email</td>
-                                <td>@item.Role</td>
-                                <td>
-                                    <button @onclick="()=>Seleccionar(item.Id)"
-                                        class="btn btn-outline-warning">
+            <div class="row d-flex justify-content-center d-print-none">
+                @if (Usuarios.Count == 0)
+                {
+                    <div class="col-12 mt-3">
+                        <h5 class="text-muted">No hay usuarios registrados</h5>
+                    </div>
+                }
+                else{
+                    @foreach (var row in Usuarios)
+                    {
+                        <div class="col-lg-4 col-md-6 col-sm-12 mt-3">
+                            <div class="card shadow-sm border-0 rounded-3 h-100 text-center" style="width: 18rem;">
+                                
+                                <div class="card-body">
+                                    <h5 class="card-title text-dark text-truncate mb-1" style=" margin: auto;">
+                                        <b>@row.Nombre @row.Apellidos</b>
+                                    </h5>
+
+                                    <div class="text-start small">
+
+                                        <div class="mb-0">
+                                            <span class="text-muted fw-bold">Role:</span>
+                                            <span class="ms-1">@row.Role</span>
+                                        </div>
+
+                                        <div class="mb-0">
+                                            <span class="text-muted fw-bold">Email:</span>
+                                            <span class="ms-1">@row.Email</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card-footer bg-white border-0 d-flex justify-content-center gap-2">
+                                    <button class="btn btn-outline-warning" @onclick="()=>Seleccionar(row.Id)">
                                         <i style="font-size: 15px;" class="fw-bold">✏️</i>
                                     </button>
-                                    @if(Role == "Admin")
+
+                                    @if (Role == "Admin")
                                     {
-                                        <button @onclick="()=>ShowQuestion(item)"
-                                            class="btn btn-outline-danger ms-1">
+                                        <button class="btn btn-outline-danger" @onclick="()=>ShowQuestion(row)" title="Eliminar">
                                             <i style="font-size: 15px;" class="fw-bold">🗑️</i>
                                         </button>
                                     }
                                     else
                                     {
-                                       <button class="btn btn-outline-danger ms-1">
+                                        <button class="btn btn-outline-danger d-print-none" disabled>
                                             <i style="font-size: 15px;" class="fw-bold">🔒</i>
-                                        </button> 
+                                        </button>
                                     }
-                                </td>
-                                
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         </div>
     </div>

@@ -214,7 +214,7 @@
             <div class="row d-flex justify-content-center d-print-none">
                 @if (Productos.Count == 0)
                 {
-                    <div class="col-12 text-center mt-3"></div>
+                    <div class="col-12 mt-3">
                         <h5 class="text-muted">No hay productos registrados</h5>
                     </div>
                 }
@@ -227,7 +227,7 @@
                                     class="card-img-top"
                                     style="object-fit: cover;" height="175"/>
                                 <div class="card-body">
-                                    <h5 class="card-title text-dark text-truncate mb-1" style="max-width: 200px; margin: auto;">
+                                    <h5 class="card-title text-dark text-truncate mb-1" style="margin: auto;">
                                         <b>@row.Nombre</b>
                                     </h5>
 
@@ -239,7 +239,7 @@
 
                                         <div class="mb-0">
                                             <span class="text-muted fw-bold">Categoría:</span>
-                                            <span class="ms-1">@row.Categoria.Nombre</span>
+                                            <span class="ms-1">@row.Categoria?.Nombre</span>
                                         </div>
 
                                         <div class="mb-0">
@@ -249,7 +249,7 @@
 
                                         <div class="mb-0">
                                             <span class="text-muted fw-bold">Precio:</span>
-                                            <span class="ms-1 text-success">RD$ @row.Precio.ToString("N2")</span>
+                                            <span class="ms-1 text-success fw-bold">RD$ @row.Precio.ToString("N2")</span>
                                         </div>
                                     </div>
                                 </div>
@@ -286,10 +286,10 @@
                     <thead>
                         <tr>
                             <th scope="col">Imagen</th>
-                            <th scope="col">Codigo</th>
+                            <th scope="col">Código</th>
                             <th scope="col">Stock</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Categoria</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Categoría</th>
                             @* <th>Precio/Compra</th> *@
                             <th>Precio/Venta</th>
                         </tr>
@@ -311,9 +311,9 @@
                                 <td>@productoRow.Codigo</td>
                                 <td>@productoRow.Stock</td>
                                 <td>@productoRow.Nombre</td>
-                                <td>@productoRow.Categoria.Nombre</td>
+                                <td>@productoRow.Categoria?.Nombre</td>
                                 @* <td>@productoRow.PrecioCompra.ToString("N2")</td> *@
-                                <td>$@productoRow.Precio.ToString("N2")</td>
+                                <td class="fw-bold">RD$ @productoRow.Precio.ToString("N2")</td>
                             </tr>
                         }
                     </tbody>

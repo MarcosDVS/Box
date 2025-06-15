@@ -95,34 +95,51 @@
             </div>
 
             <div class="row-12 mt-2">
-                <table class="table table-striped">
-                    <thead class="bg-black text-white">
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            <th>...</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Categorias)
-                        {
+                @if (Categorias.Count == 0)
+                {
+                    <div class="col-12 mt-3">
+                        <h5 class="text-muted">No hay categorías registradas</h5>
+                    </div>
+                }
+                else{
+                    <table class="table table-striped">
+                        <thead class="bg-black text-white">
                             <tr>
-                                <td>@item.Id</td>
-                                <td>@item.Nombre</td>
-                                <td>
-                                    <button @onclick="()=>Seleccionar(item.Id)"
-                                        class="btn btn-outline-warning">
-                                        <i style="font-size: 15px;" class="fw-bold">✏️</i>
-                                    </button>
-                                    <button @onclick="()=>Eliminar(item)"
-                                        class="btn btn-outline-danger">
-                                        <i style="font-size: 15px;" class="fw-bold">🗑️</i>
-                                    </button>
-                                </td>
+                                <th>N°</th>
+                                <th>Nombre de categoría</th>
+                                <th>...</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Categorias)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Nombre</td>
+                                    <td>
+                                        <button @onclick="()=>Seleccionar(item.Id)"
+                                            class="btn btn-outline-warning me-2">
+                                            <i style="font-size: 15px;" class="fw-bold">✏️</i>
+                                        </button>
+                                        @if (Role == "Admin")
+                                        {
+                                            <button class="btn btn-outline-danger" @onclick="()=>ShowQuestion(item)" title="Eliminar">
+                                                <i style="font-size: 15px;" class="fw-bold">🗑️</i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-outline-danger d-print-none" disabled>
+                                                <i style="font-size: 15px;" class="fw-bold">🔒</i>
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                }
             </div>
         </div>
     </div>
@@ -139,6 +156,7 @@
     public CategoriaRequest categoriaRequest { get; set; } = new();
     public bool showCard { get; set; } = false;
     public bool ShowConfirmation { get; set; } = false;
+    public string Role { get; set; } = "";
 
     void Producto()
     {
@@ -179,6 +197,16 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // Obtener el estado de autenticación
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authenticationState.User;
+
+        // Verifica si el usuario está autenticado
+        if (user.Identity.IsAuthenticated)
+        {
+            // Extrae los valores de los reclamos y asigna las propiedades
+            Role = user.FindFirst(ClaimTypes.Role)?.Value ?? "";
+        }
         await CargarContactos();
     }
 

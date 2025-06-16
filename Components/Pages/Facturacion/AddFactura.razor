@@ -185,9 +185,9 @@
                         @onclick="async ()=> await UpdatePage()" title="Limpiar lista de productos">
                             <i class="fas fa-redo-alt"></i>
                         </button>
-                        <select class="form-select form-select-sm" required @bind="facturaRequest.TypePayment" aria-label="Tipo de venta">
-                            <option disabled selected>TIPO DE VENTA</option>
-                            <option value="1" >CONTADO 💲</option>
+                        <select class="form-select form-select-sm" @bind="facturaRequest.TypePayment" aria-label="Tipo de venta">
+                            <option disabled>TIPO DE VENTA</option>
+                            <option selected value="1">CONTADO 💲</option>
                             <option value="2">CRÉDITO 💳</option>
                         </select>
                     </div>
@@ -375,6 +375,8 @@
             facturaRequest.Detalles.Clear();
             Chance = false;
 
+            facturaRequest.SaldoPagado = 0;
+            Cambio = 0;
             // Actualizar el valor de @ultimoIdFactura
             await Consultar();
             
@@ -416,6 +418,7 @@
             Contactos = r.Data!;
         }
     }
+
     async Task CargarProducto()
     { 
         //Llenar la lista de contactos para mostrar al usuario...
@@ -577,8 +580,7 @@
 
         if (string.IsNullOrEmpty(facturaRequest.TypePayment))
         {
-            Message = "😒 Debes seleccionar el tipo de venta. 💰";
-            return;
+            facturaRequest.TypePayment = "1";
         }
         
 

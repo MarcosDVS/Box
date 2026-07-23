@@ -1,0 +1,69 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Project_X\\Box\\obj\\Release\\net8.0\\scopedcss\\projectbundle\\Box.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Box.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\HorseMan.png",
+      "PackagePath": "staticwebassets\\HorseMan.png"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\bronco.png",
+      "PackagePath": "staticwebassets\\bronco.png"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\img\\5425c3c1-03bd-4f28-87d8-b5b13b1d561a.png",
+      "PackagePath": "staticwebassets\\img\\5425c3c1-03bd-4f28-87d8-b5b13b1d561a.png"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\img\\6d6a834d-e665-4901-b0ec-345fc0c2bc8f.png",
+      "PackagePath": "staticwebassets\\img\\6d6a834d-e665-4901-b0ec-345fc0c2bc8f.png"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\img\\6fca79a8-534c-44ef-b811-5981dd70356c.png",
+      "PackagePath": "staticwebassets\\img\\6fca79a8-534c-44ef-b811-5981dd70356c.png"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\me.jpg",
+      "PackagePath": "staticwebassets\\me.jpg"
+    },
+    {
+      "Id": "C:\\Project_X\\Box\\wwwroot\\you.jpeg",
+      "PackagePath": "staticwebassets\\you.jpeg"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.Box.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.build.Box.props",
+      "PackagePath": "build\\Box.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Box.props",
+      "PackagePath": "buildMultiTargeting\\Box.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildTransitive.Box.props",
+      "PackagePath": "buildTransitive\\Box.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

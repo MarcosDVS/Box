@@ -3,85 +3,467 @@
 @inject IPagoServices pagoServices
 @attribute [Authorize]
 
-<PageTitle>Inicio</PageTitle>
+<PageTitle>Dashboard</PageTitle>
 
-<h3 class="mt-4 bg-dark text-white py-2 px-3 rounded">
-    <i class="bi bi-speedometer2 me-2"></i>
-    <strong>DASHBOARD</strong>
-</h3>
+<div class="container-fluid py-3">
 
-<div class="container mt-3">
-    <hr />
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="card border-primary" title="La suma total de los ingresos recibidos durante el mes en curso.">
-                <div class="card-body">
-                    <h5 class="card-title text-primary text-uppercase fw-bold">
-                        <i class="bi bi-cash-coin me-2"></i> Ingresos del Mes
-                    </h5>
-                    <p class="card-text fs-5">Monto: $@IngresoMensual.ToString("N2")</p>
-                </div>
-            </div>
+    <!-- ===================================================== -->
+    <!-- ENCABEZADO -->
+    <!-- ===================================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h3 class="fw-bold mb-1">
+                Dashboard
+            </h3>
+
+            <p class="text-muted mb-0">
+                Resumen general de las operaciones del negocio
+            </p>
         </div>
-        <div class="col-md-6">
-            <div class="card border-success" title="La suma total de los ingresos recibidos durante el año en curso.">
-                <div class="card-body">
-                    <h5 class="card-title text-success text-uppercase fw-bold">
-                        <i class="bi bi-cash-coin me-2"></i> Ingresos del Año
-                    </h5>
-                    <p class="card-text fs-5">Monto: $@IngresoAnual.ToString("N2")</p>
-                </div>
+
+        <div class="text-end d-none d-md-block">
+
+            <div class="fw-semibold">
+                @DateTime.Now.ToString("dd MMMM yyyy")
             </div>
+
+            <small class="text-muted">
+                Resumen del día
+            </small>
+
         </div>
+
     </div>
 
-    <hr />
 
-    <div class="row g-4 mt-2">
-        <div class="col-md-6">
-            <div class="card border-info" title="Ventas al contado realizadas durante el día en curso.">
-                <div class="card-body" style="cursor: pointer;" @onclick='()=>urlHelper.NavigateTo("/factura/paga")'>
-                    <h5 class="card-title text-info fw-bold">
-                        <i style="font-size: 18px;" class="me-2">💲</i> Ventas al Contado
-                    </h5>
-                    <p class="card-text fs-5">Cantidad: $@VentaContado.ToString("N2")</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card border-warning" title="Ventas a crédito realizadas durante el día en curso.">
-                <div class="card-body" style="cursor: pointer;" @onclick='()=>urlHelper.NavigateTo("/factura/cobrar")'>
-                    <h5 class="card-title text-warning fw-bold">
-                        <i style="font-size: 18px;" class="me-2">💳</i> Ventas a Crédito
-                    </h5>
-                    <p class="card-text fs-5">Cantidad: $@VentaCredito.ToString("N2")</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- ===================================================== -->
+    <!-- INDICADORES PRINCIPALES -->
+    <!-- ===================================================== -->
 
-    <div class="row g-4 mt-2">
-        <div class="col-md-6">
-            <div class="card border-secondary" title="Monto total de dinero en caja, incluyendo ventas y pagos recibidos.">
-                <div class="card-body" style="cursor: pointer;" @onclick="Cuadre">
-                    <h5 class="card-title text-secondary text-uppercase fw-bold">
-                        <i style="font-size: 18px;" class="me-2">📠</i> Dinero en Caja
-                    </h5>
-                    <p class="card-text fs-5 fw-bold">Monto: $@DineroEnCaja.ToString("N2")</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card border-dark" title="Venta total diaria: contado + crédito.">
+    <div class="row g-3 mb-4">
+
+        <!-- DINERO EN CAJA -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <div class="card border-0 shadow-sm h-100">
+
                 <div class="card-body">
-                    <h5 class="card-title text-dark text-uppercase fw-bold">
-                        <i style="font-size: 18px;" class="me-2">📊</i> Venta Total
-                    </h5>
-                    <p class="card-text fs-5">Monto: $@IngresoTotal.ToString("N2")</p>
+
+                    <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+
+                            <small class="text-muted fw-semibold text-uppercase">
+                                Dinero en caja
+                            </small>
+
+                            <h3 class="fw-bold mt-2 mb-1">
+                                $@DineroEnCaja.ToString("N2")
+                            </h3>
+
+                            <small class="text-muted">
+                                Disponible actualmente
+                            </small>
+
+                        </div>
+
+                        <div class="rounded-circle bg-light p-3"
+                             style="font-size: 22px;">
+
+                            💰
+
+                        </div>
+
+                    </div>
+
                 </div>
+
             </div>
+
         </div>
+
+
+        <!-- VENTA CONTADO -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <div class="card border-0 shadow-sm h-100"
+                 style="cursor: pointer;"
+                 @onclick='()=>urlHelper.NavigateTo("/factura/paga")'>
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+
+                            <small class="text-muted fw-semibold text-uppercase">
+                                Ventas al contado
+                            </small>
+
+                            <h3 class="fw-bold mt-2 mb-1">
+                                $@VentaContado.ToString("N2")
+                            </h3>
+
+                            <small class="text-success fw-semibold">
+                                Ver ventas →
+                            </small>
+
+                        </div>
+
+                        <div class="rounded-circle bg-success bg-opacity-10 p-3"
+                             style="font-size: 22px;">
+
+                            💵
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- VENTA CRÉDITO -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <div class="card border-0 shadow-sm h-100"
+                 style="cursor: pointer;"
+                 @onclick='()=>urlHelper.NavigateTo("/factura/cobrar")'>
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+
+                            <small class="text-muted fw-semibold text-uppercase">
+                                Ventas a crédito
+                            </small>
+
+                            <h3 class="fw-bold mt-2 mb-1">
+                                $@VentaCredito.ToString("N2")
+                            </h3>
+
+                            <small class="text-warning fw-semibold">
+                                Ver créditos →
+                            </small>
+
+                        </div>
+
+                        <div class="rounded-circle bg-warning bg-opacity-10 p-3"
+                             style="font-size: 22px;">
+
+                            💳
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- VENTA TOTAL -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+
+                            <small class="text-muted fw-semibold text-uppercase">
+                                Venta total del día
+                            </small>
+
+                            <h3 class="fw-bold mt-2 mb-1">
+                                $@IngresoTotal.ToString("N2")
+                            </h3>
+
+                            <small class="text-muted">
+                                Contado + crédito
+                            </small>
+
+                        </div>
+
+                        <div class="rounded-circle bg-dark bg-opacity-10 p-3"
+                             style="font-size: 22px;">
+
+                            📊
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+
+
+    <!-- ===================================================== -->
+    <!-- RESUMEN FINANCIERO -->
+    <!-- ===================================================== -->
+
+    <div class="row g-3 mb-4">
+
+        <!-- INGRESOS DEL MES -->
+
+        <div class="col-12 col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3"
+                             style="font-size: 20px;">
+
+                            📅
+
+                        </div>
+
+                        <div>
+
+                            <h5 class="fw-bold mb-0">
+                                Ingresos del mes
+                            </h5>
+
+                            <small class="text-muted">
+                                Ventas al contado cobradas + abonos de facturas a crédito recibidos este mes
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <h2 class="fw-bold mb-0">
+                        $@IngresoMensual.ToString("N2")
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INGRESOS DEL AÑO -->
+
+        <div class="col-12 col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3"
+                             style="font-size: 20px;">
+
+                            📈
+
+                        </div>
+
+                        <div>
+
+                            <h5 class="fw-bold mb-0">
+                                Ingresos del año
+                            </h5>
+
+                            <small class="text-muted">
+                                Ventas al contado cobradas + abonos de facturas a crédito recibidos este año
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <h2 class="fw-bold mb-0">
+                        $@IngresoAnual.ToString("N2")
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- ACCIONES RÁPIDAS -->
+    <!-- ===================================================== -->
+
+    <div class="mb-3">
+
+        <h5 class="fw-bold mb-1">
+            Acciones rápidas
+        </h5>
+
+        <small class="text-muted">
+            Accede rápidamente a las principales operaciones
+        </small>
+
+    </div>
+
+
+    <div class="row g-3">
+
+        <!-- VENTAS AL CONTADO -->
+
+        <div class="col-12 col-md-4">
+
+            <div class="card border-0 shadow-sm h-100"
+                 style="cursor: pointer;"
+                 @onclick='()=>urlHelper.NavigateTo("/factura/paga")'>
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3"
+                             style="font-size: 20px;">
+
+                            💵
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                Ventas al contado
+                            </h6>
+
+                            <small class="text-muted">
+                                Consultar facturas pagadas
+                            </small>
+
+                        </div>
+
+                        <div class="ms-auto text-muted">
+                            →
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- VENTAS A CRÉDITO -->
+
+        <div class="col-12 col-md-4">
+
+            <div class="card border-0 shadow-sm h-100"
+                 style="cursor: pointer;"
+                 @onclick='()=>urlHelper.NavigateTo("/factura/cobrar")'>
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3"
+                             style="font-size: 20px;">
+
+                            💳
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                Ventas a crédito
+                            </h6>
+
+                            <small class="text-muted">
+                                Gestionar cuentas pendientes
+                            </small>
+
+                        </div>
+
+                        <div class="ms-auto text-muted">
+                            →
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CUADRE DE CAJA -->
+
+        <div class="col-12 col-md-4">
+
+            <div class="card border-0 shadow-sm h-100"
+                 style="cursor: pointer;"
+                 @onclick="Cuadre">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="rounded-circle bg-dark bg-opacity-10 p-3 me-3"
+                             style="font-size: 20px;">
+
+                            📠
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                Cuadre de caja
+                            </h6>
+
+                            <small class="text-muted">
+                                Revisar y cuadrar la caja
+                            </small>
+
+                        </div>
+
+                        <div class="ms-auto text-muted">
+                            →
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
 

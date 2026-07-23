@@ -3,56 +3,484 @@
 @inject IUserAccountService userAccountService
 @inject AuthenticationStateProvider authStateProvider
 
-<div class="container py-1 bg-light">
-    <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-md-2 col-lg-4">
-            <AuthorizeView>
-                <Authorized>
-                    <div class="card border-0 shadow-lg rounded-4 p-2 text-center">
-                        <div class="mb-3">
-                            <i class="bi bi-person-circle display-1 text-primary"></i>
-                        </div>
-                        <h2 class="fw-bold text-uppercase">¡Bienvenid@@!</h2>
-                        <p class="lead mb-4">
-                            <i class="bi bi-person-badge me-2"></i>
+<div class="box-login-page">
+
+    <AuthorizeView>
+
+        <!-- ============================================= -->
+        <!-- USUARIO AUTENTICADO -->
+        <!-- ============================================= -->
+
+        <Authorized>
+
+            <div class="box-login-card">
+
+                <div class="box-brand">
+                    <div class="box-logo">
+                        B
+                    </div>
+
+                    <div>
+                        <h4>BOX</h4>
+                        <small>Sistema de gestión</small>
+                    </div>
+                </div>
+
+                <div class="box-divider"></div>
+
+                <div class="box-welcome">
+
+                    <div class="box-avatar">
+                        @context.User.FindFirstValue(ClaimTypes.GivenName)?.Substring(0, 1).ToUpper()
+                    </div>
+
+                    <div>
+                        <h5 class="mb-1">
+                            ¡Bienvenido!
+                        </h5>
+
+                        <p class="text-muted mb-0">
                             @context.User.FindFirstValue(ClaimTypes.GivenName)
                         </p>
-                        <button class="btn btn-primary btn-lg w-100" @onclick="NavigateToHome">
-                            <i class="bi bi-house-door-fill me-2"></i> Ir al Inicio
-                        </button>
                     </div>
-                </Authorized>
 
-                <NotAuthorized>
-                    <div class="card border-0 shadow-lg rounded-4 p-4 text-center">
-                        <div class="mb-3">
-                            <i class="bi bi-person-circle display-1 text-primary"></i>
+                </div>
+
+                <button class="btn btn-dark w-100 mt-4"
+                        @onclick="NavigateToHome">
+
+                    <i class="bi bi-speedometer2 me-2"></i>
+
+                    Ir al Dashboard
+
+                </button>
+
+            </div>
+
+        </Authorized>
+
+
+        <!-- ============================================= -->
+        <!-- USUARIO NO AUTENTICADO -->
+        <!-- ============================================= -->
+
+        <NotAuthorized>
+
+            <div class="box-login-card">
+
+                <!-- ENCABEZADO -->
+
+                <div class="box-brand">
+
+                    <div class="box-logo">
+                        B
+                    </div>
+
+                    <div>
+                        <h4>BOX</h4>
+                        <small>Sistema de gestión</small>
+                    </div>
+
+                </div>
+
+
+                <div class="box-divider"></div>
+
+
+                <!-- TÍTULO -->
+
+                <div class="mb-3">
+
+                    <h5 class="fw-bold mb-1">
+                        Iniciar sesión
+                    </h5>
+
+                    <small class="text-muted">
+                        Ingresa tus credenciales para continuar
+                    </small>
+
+                </div>
+
+
+                <!-- FORMULARIO -->
+
+                <form>
+
+                    <!-- USUARIO -->
+
+                    <div class="mb-3">
+
+                        <label for="userInput"
+                               class="form-label small fw-semibold">
+
+                            Usuario
+
+                        </label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+
+                            <input type="email"
+                                   class="form-control"
+                                   id="userInput"
+                                   placeholder="Ingresa tu usuario"
+                                   @bind="model.UserName">
+
                         </div>
-                        <h2 class="fw-bold text-uppercase mb-4">Iniciar Sesión</h2>
-                        <form>
-                            <div class="form-floating mb-3 text-start">
-                                <input type="email" class="form-control" id="userInput" placeholder="Usuario" @bind="model.UserName">
-                                <label for="userInput">Usuario</label>
-                            </div>
-                            <div class="form-floating mb-4 text-start">
-                                <input type="password" class="form-control" id="passwordInput" placeholder="Contraseña" @bind="model.Password">
-                                <label for="passwordInput">Contraseña</label>
-                            </div>
-                            <button type="button" class="btn btn-primary btn-lg w-100" @onclick="Authenticate">Entrar</button>
-                        </form>
 
-                        @if (!string.IsNullOrEmpty(mensajeError))
-                        {
-                            <div class="alert alert-warning mt-4" role="alert">
-                                <p class="text-dark fw-bold mb-0">@mensajeError</p>
-                            </div>
-                        }
                     </div>
-                </NotAuthorized>
-            </AuthorizeView>
-        </div>
-    </div>
+
+
+                    <!-- CONTRASEÑA -->
+
+                    <div class="mb-3">
+
+                        <label for="passwordInput"
+                            class="form-label small fw-semibold">
+
+                            Contraseña
+
+                        </label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+
+                            <input type="password"
+                                class="form-control"
+                                id="passwordInput"
+                                placeholder="Ingresa tu contraseña"
+                                @bind="model.Password">
+
+                            <button type="button"
+                                    class="btn btn-outline-secondary"
+                                    onclick="togglePassword()"
+                                    title="Mostrar contraseña">
+
+                                👁️
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <script>
+
+                        function togglePassword() {
+
+                            const password = document.getElementById("passwordInput");
+
+                            password.type =
+                                password.type === "password"
+                                    ? "text"
+                                    : "password";
+
+                        }
+
+                    </script>
+
+
+                    <!-- MENSAJE DE ERROR -->
+
+                    @if (!string.IsNullOrEmpty(mensajeError))
+                    {
+
+                        <div class="alert alert-danger py-2 mb-3"
+                             role="alert">
+
+                            <small class="fw-semibold">
+
+                                <i class="bi bi-exclamation-circle me-1"></i>
+
+                                @mensajeError
+
+                            </small>
+
+                        </div>
+
+                    }
+
+
+                    <!-- BOTÓN -->
+
+                    <button type="button"
+                            class="btn btn-dark w-100"
+                            @onclick="Authenticate">
+
+                        <i class="bi bi-box-arrow-in-right me-2"></i>
+
+                        Iniciar sesión
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </NotAuthorized>
+
+    </AuthorizeView>
+
 </div>
+
+
+<style>
+
+    /* ========================================= */
+    /* PÁGINA */
+    /* ========================================= */
+
+    .box-login-page {
+
+        min-height: calc(100vh - 80px);
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 20px;
+
+        background: #f5f6f8;
+
+    }
+
+
+    /* ========================================= */
+    /* TARJETA */
+    /* ========================================= */
+
+    .box-login-card {
+
+        width: 100%;
+
+        max-width: 400px;
+
+        background: white;
+
+        padding: 25px 30px;
+
+        border-radius: 14px;
+
+        box-shadow:
+            0 8px 25px rgba(0, 0, 0, 0.08);
+
+    }
+
+
+    /* ========================================= */
+    /* MARCA */
+    /* ========================================= */
+
+    .box-brand {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+
+    }
+
+
+    .box-logo {
+
+        width: 45px;
+
+        height: 45px;
+
+        border-radius: 10px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: #212529;
+
+        color: white;
+
+        font-size: 22px;
+
+        font-weight: 700;
+
+    }
+
+
+    .box-brand h4 {
+
+        margin: 0;
+
+        font-weight: 700;
+
+        letter-spacing: 1px;
+
+    }
+
+
+    .box-brand small {
+
+        color: #6c757d;
+
+        font-size: 12px;
+
+    }
+
+
+    /* ========================================= */
+    /* SEPARADOR */
+    /* ========================================= */
+
+    .box-divider {
+
+        height: 1px;
+
+        background: #e9ecef;
+
+        margin: 20px 0;
+
+    }
+
+
+    /* ========================================= */
+    /* INPUTS */
+    /* ========================================= */
+
+    .input-group-text {
+
+        background: white;
+
+        border-right: 0;
+
+        color: #6c757d;
+
+    }
+
+
+    .input-group .form-control {
+
+        border-left: 0;
+
+        padding: 10px;
+
+    }
+
+
+    .form-control:focus {
+
+        box-shadow: none;
+
+        border-color: #212529;
+
+    }
+
+
+    .input-group:focus-within {
+
+        box-shadow:
+            0 0 0 2px rgba(33, 37, 41, 0.1);
+
+        border-radius: 6px;
+
+    }
+
+
+    /* ========================================= */
+    /* BOTÓN */
+    /* ========================================= */
+
+    .box-login-card .btn {
+
+        padding: 10px;
+
+        font-weight: 600;
+
+        border-radius: 7px;
+
+    }
+
+
+    /* ========================================= */
+    /* PERFIL */
+    /* ========================================= */
+
+    .box-welcome {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 15px;
+
+    }
+
+
+    .box-avatar {
+
+        width: 55px;
+
+        height: 55px;
+
+        border-radius: 50%;
+
+        background: #212529;
+
+        color: white;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        font-size: 22px;
+
+        font-weight: 700;
+
+    }
+
+
+    /* ========================================= */
+    /* LAPTOPS PEQUEÑAS */
+    /* ========================================= */
+
+    @@media (max-height: 700px) {
+
+        .box-login-page {
+
+            padding: 10px;
+
+        }
+
+        .box-login-card {
+
+            padding: 20px 25px;
+
+        }
+
+        .box-divider {
+
+            margin: 15px 0;
+
+        }
+
+        .mb-3 {
+
+            margin-bottom: 0.7rem !important;
+
+        }
+
+    }
+
+</style>
 
 
 @code 

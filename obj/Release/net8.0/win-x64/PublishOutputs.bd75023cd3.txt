@@ -1,0 +1,17 @@
+C:\Project_X\Box\publish\Box.exe
+C:\Project_X\Box\publish\appsettings.Development.json
+C:\Project_X\Box\publish\appsettings.json
+C:\Project_X\Box\publish\Box.dll
+C:\Project_X\Box\publish\Box.deps.json
+C:\Project_X\Box\publish\Box.runtimeconfig.json
+C:\Project_X\Box\publish\Box.pdb
+C:\Project_X\Box\publish\Microsoft.Data.Sqlite.dll
+C:\Project_X\Box\publish\Microsoft.EntityFrameworkCore.dll
+C:\Project_X\Box\publish\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Project_X\Box\publish\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Project_X\Box\publish\Microsoft.EntityFrameworkCore.Sqlite.dll
+C:\Project_X\Box\publish\Microsoft.Extensions.DependencyModel.dll
+C:\Project_X\Box\publish\SQLitePCLRaw.batteries_v2.dll
+C:\Project_X\Box\publish\SQLitePCLRaw.core.dll
+C:\Project_X\Box\publish\SQLitePCLRaw.provider.e_sqlite3.dll
+C:\Project_X\Box\publish\e_sqlite3.dll

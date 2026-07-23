@@ -153,99 +153,474 @@
 </div>
 
 
-<div class="table-container">
-    <div class="card col-12">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-11">
-                    @if(Role == "Admin")
-                    {
-                        <!-- Button trigger modal -->
-                        <button class="btn btn-outline-success d-print-none" @onclick="ShowCard">
-                            <span aria-hidden="true"><i style="font-size: 20px;" class="fw-bold">➕</i></span>
-                        </button>
-                    }
-                </div>
-                <div class="col-1">
-                    <button class="btn btn-outline-danger" @onclick='()=>{urlHelper.NavigateTo("/inicio");}'>
-                        <i style="font-size: 20px;" class="fw-bold">⬅</i>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="row mt-2">
-                <div class="col-8"></div>
-                <div class="col-4">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-0 border-bottom" 
-                        placeholder="Buscar por nombre" @bind="Filtro">
-                        <button class="btn btn-outline-secondary border-0 border-bottom" 
-                            type="button" id="button-addon2" @onclick="()=>CargarContactos()">
-                            <i style="font-size: 20px;" class="fw-bold">🔎</i>
-                        </button>
+<!-- ========================================================= -->
+<!-- CONTENEDOR PRINCIPAL -->
+<!-- ========================================================= -->
+
+<div class="container-fluid py-3">
+
+    <!-- ===================================================== -->
+    <!-- ENCABEZADO -->
+    <!-- ===================================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h3 class="fw-bold mb-0">
+                👤 Mi perfil
+            </h3>
+
+            <p class="text-muted mb-0">
+                Consulta y administra tu información personal
+            </p>
+        </div>
+
+
+        <button class="btn btn-outline-secondary d-print-none"
+                @onclick='() => urlHelper.NavigateTo("/inicio")'
+                title="Volver al inicio">
+
+            ⬅️ Volver
+
+        </button>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- PERFIL DEL USUARIO -->
+    <!-- ===================================================== -->
+
+    @if (Usuarios.Count > 0)
+    {
+        var usuarioPerfil = Role == "Admin"
+            ? Usuarios.FirstOrDefault(u => u.Id.ToString() == UserId)
+            : Usuarios.FirstOrDefault();
+
+        @if (usuarioPerfil != null)
+        {
+            <div class="row justify-content-center mb-5">
+
+                <div class="col-12 col-xl-8">
+
+                    <div class="card border-0 shadow-sm overflow-hidden">
+
+                        <!-- CABECERA DEL PERFIL -->
+
+                        <div class="bg-dark text-white p-4">
+
+                            <div class="d-flex align-items-center">
+
+                                <!-- AVATAR -->
+
+                                <div class="rounded-circle bg-white text-dark
+                                            d-flex align-items-center
+                                            justify-content-center
+                                            me-3 fw-bold"
+                                     style="width: 70px;
+                                            height: 70px;
+                                            font-size: 28px;">
+
+                                    @(string.IsNullOrWhiteSpace(usuarioPerfil.Nombre)
+                                        ? "?"
+                                        : usuarioPerfil.Nombre.Substring(0, 1).ToUpper())
+
+                                </div>
+
+
+                                <!-- INFORMACIÓN PRINCIPAL -->
+
+                                <div>
+
+                                    <h4 class="fw-bold mb-1">
+
+                                        @usuarioPerfil.Nombre
+                                        @usuarioPerfil.Apellidos
+
+                                    </h4>
+
+                                    <div class="small opacity-75">
+
+                                        👤 Información de mi cuenta
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- INFORMACIÓN -->
+
+                        <div class="card-body p-4">
+
+                            <h6 class="fw-bold mb-3">
+                                Información personal
+                            </h6>
+
+
+                            <div class="row g-3">
+
+                                <!-- NOMBRE -->
+
+                                <div class="col-md-6">
+
+                                    <div class="border rounded p-3 h-100">
+
+                                        <small class="text-muted d-block mb-1">
+                                            Nombre
+                                        </small>
+
+                                        <span class="fw-semibold">
+                                            @usuarioPerfil.Nombre
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- APELLIDOS -->
+
+                                <div class="col-md-6">
+
+                                    <div class="border rounded p-3 h-100">
+
+                                        <small class="text-muted d-block mb-1">
+                                            Apellidos
+                                        </small>
+
+                                        <span class="fw-semibold">
+                                            @usuarioPerfil.Apellidos
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- EMAIL -->
+
+                                <div class="col-md-6">
+
+                                    <div class="border rounded p-3 h-100">
+
+                                        <small class="text-muted d-block mb-1">
+                                            Correo electrónico
+                                        </small>
+
+                                        <span class="fw-semibold text-break">
+                                            @usuarioPerfil.Email
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- ROL -->
+
+                                <div class="col-md-6">
+
+                                    <div class="border rounded p-3 h-100">
+
+                                        <small class="text-muted d-block mb-1">
+                                            Tipo de cuenta
+                                        </small>
+
+                                        @if (usuarioPerfil.Role == "Admin")
+                                        {
+                                            <span class="badge bg-danger">
+                                                🛡️ Administrador
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-primary">
+                                                👤 Usuario
+                                            </span>
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACCIONES -->
+
+                        <div class="card-footer bg-white border-0 p-4 pt-0">
+
+                            <button class="btn btn-primary"
+                                    @onclick="() => Seleccionar(usuarioPerfil.Id)">
+
+                                ✏️ Editar mi información
+
+                            </button>
+
+                        </div>
+
                     </div>
+
                 </div>
+
+            </div>
+        }
+    }
+
+
+    <!-- ===================================================== -->
+    <!-- ADMINISTRACIÓN DE USUARIOS -->
+    <!-- SOLO ADMIN -->
+    <!-- ===================================================== -->
+
+    @if (Role == "Admin")
+    {
+
+        <div class="mt-4">
+
+            <!-- ENCABEZADO -->
+
+            <div class="d-flex justify-content-between
+                        align-items-center mb-3">
+
+                <div>
+
+                    <h4 class="fw-bold mb-1">
+                        👥 Gestión de usuarios
+                    </h4>
+
+                    <p class="text-muted mb-0">
+                        Administra las cuentas registradas en el sistema
+                    </p>
+
+                </div>
+
+
+                <!-- NUEVO USUARIO -->
+
+                <button class="btn btn-success d-print-none"
+                        @onclick="ShowCard">
+
+                    ➕ Nuevo usuario
+
+                </button>
+
             </div>
 
-            <div class="row d-flex justify-content-center d-print-none">
+
+            <!-- BUSCADOR -->
+
+            <div class="card border-0 shadow-sm mb-3">
+
+                <div class="card-body">
+
+                    <div class="input-group">
+
+                        <span class="input-group-text bg-white">
+                            🔎
+                        </span>
+
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Buscar usuario por nombre..."
+                               @bind="Filtro" />
+
+                        <button class="btn btn-outline-secondary"
+                                type="button"
+                                @onclick="CargarContactos">
+
+                            Buscar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LISTADO -->
+
+            <div class="card border-0 shadow-sm">
+
                 @if (Usuarios.Count == 0)
                 {
-                    <div class="col-12 mt-3">
-                        <h5 class="text-muted">No hay usuarios registrados</h5>
-                    </div>
-                }
-                else{
-                    @foreach (var row in Usuarios)
-                    {
-                        <div class="col-lg-4 col-md-6 col-sm-12 mt-3">
-                            <div class="card shadow-sm border-0 rounded-3 h-100 text-center" style="width: 18rem;">
-                                
-                                <div class="card-body">
-                                    <h5 class="card-title text-dark text-truncate mb-1" style=" margin: auto;">
-                                        <b>@row.Nombre @row.Apellidos</b>
-                                    </h5>
 
-                                    <div class="text-start small">
+                    <div class="text-center p-5">
 
-                                        <div class="mb-0">
-                                            <span class="text-muted fw-bold">Role:</span>
-                                            <span class="ms-1">@row.Role</span>
-                                        </div>
-
-                                        <div class="mb-0">
-                                            <span class="text-muted fw-bold">Email:</span>
-                                            <span class="ms-1">@row.Email</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="card-footer bg-white border-0 d-flex justify-content-center gap-2">
-                                    <button class="btn btn-outline-warning" @onclick="()=>Seleccionar(row.Id)">
-                                        <i style="font-size: 15px;" class="fw-bold">✏️</i>
-                                    </button>
-
-                                    @if (Role == "Admin")
-                                    {
-                                        <button class="btn btn-outline-danger" @onclick="()=>ShowQuestion(row)" title="Eliminar">
-                                            <i style="font-size: 15px;" class="fw-bold">🗑️</i>
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        <button class="btn btn-outline-danger d-print-none" disabled>
-                                            <i style="font-size: 15px;" class="fw-bold">🔒</i>
-                                        </button>
-                                    }
-                                </div>
-                            </div>
+                        <div style="font-size: 40px;">
+                            👥
                         </div>
-                    }
+
+                        <h5 class="text-muted mt-3">
+                            No hay usuarios registrados
+                        </h5>
+
+                    </div>
+
                 }
+                else
+                {
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle mb-0">
+
+                            <thead class="table-dark">
+
+                                <tr>
+
+                                    <th>
+                                        Usuario
+                                    </th>
+
+                                    <th>
+                                        Correo electrónico
+                                    </th>
+
+                                    <th>
+                                        Rol
+                                    </th>
+
+                                    <th class="text-end d-print-none">
+                                        Acciones
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                @foreach (var row in Usuarios)
+                                {
+
+                                    <tr>
+
+                                        <!-- USUARIO -->
+
+                                        <td>
+
+                                            <div class="d-flex align-items-center">
+
+                                                <div class="rounded-circle bg-light border
+                                                            d-flex align-items-center
+                                                            justify-content-center
+                                                            me-2 fw-bold"
+                                                     style="width: 40px;
+                                                            height: 40px;">
+
+                                                    @(string.IsNullOrWhiteSpace(row.Nombre)
+                                                        ? "?"
+                                                        : row.Nombre.Substring(0, 1).ToUpper())
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <div class="fw-semibold">
+
+                                                        @row.Nombre
+                                                        @row.Apellidos
+
+                                                    </div>
+
+                                                    <small class="text-muted">
+
+                                                        ID: @row.Id
+
+                                                    </small>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- EMAIL -->
+
+                                        <td>
+
+                                            <span class="text-muted">
+
+                                                @row.Email
+
+                                            </span>
+
+                                        </td>
+
+
+                                        <!-- ROL -->
+
+                                        <td>
+
+                                            @if (row.Role == "Admin")
+                                            {
+                                                <span class="badge bg-danger">
+                                                    🛡️ Admin
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-primary">
+                                                    👤 User
+                                                </span>
+                                            }
+
+                                        </td>
+
+
+                                        <!-- ACCIONES -->
+
+                                        <td class="text-end d-print-none">
+
+                                            <button class="btn btn-sm btn-outline-primary me-1"
+                                                    @onclick="() => Seleccionar(row.Id)"
+                                                    title="Editar usuario">
+
+                                                ✏️
+
+                                            </button>
+
+
+                                            <button class="btn btn-sm btn-outline-danger"
+                                                    @onclick="() => ShowQuestion(row)"
+                                                    title="Eliminar usuario">
+
+                                                🗑️
+
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                }
+
             </div>
+
         </div>
-    </div>
-    
+
+    }
+
 </div>
 
 @code {

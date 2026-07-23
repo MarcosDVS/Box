@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "yboFEnK8pcU=",
+  "dgSpecHash": "8X77WBxdj4g=",
   "success": true,
   "projectFilePath": "C:\\Project_X\\Box\\Box.csproj",
   "expectedPackageFiles": [
@@ -28,7 +28,9 @@
     "C:\\Users\\Marcos De Vargas\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\Marcos De Vargas\\.nuget\\packages\\system.net.http.json\\7.0.1\\system.net.http.json.7.0.1.nupkg.sha512",
     "C:\\Users\\Marcos De Vargas\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
-    "C:\\Users\\Marcos De Vargas\\.nuget\\packages\\system.text.json\\7.0.2\\system.text.json.7.0.2.nupkg.sha512"
+    "C:\\Users\\Marcos De Vargas\\.nuget\\packages\\system.text.json\\7.0.2\\system.text.json.7.0.2.nupkg.sha512",
+    "C:\\Users\\Marcos De Vargas\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.26\\microsoft.windowsdesktop.app.ref.8.0.26.nupkg.sha512",
+    "C:\\Users\\Marcos De Vargas\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.26\\microsoft.aspnetcore.app.ref.8.0.26.nupkg.sha512"
   ],
   "logs": []
 }

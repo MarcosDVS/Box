@@ -232,30 +232,52 @@ else
                             </div>
                         }
                         else{
-                            <div class="alert-warning text-dark" role="alert" style="display: @(string.IsNullOrEmpty(ErrorMessage) ? "none" : "block")">
-                                <strong>@ErrorMessage</strong> 
+                            <div class="alert alert-warning text-dark"
+                                role="alert"
+                                style="display: @(string.IsNullOrEmpty(ErrorMessage) ? "none" : "block")">
+                                <strong>@ErrorMessage</strong>
                             </div>
-                            <table class="table table-hover mt-2">
-                                <thead class="bg-black text-white">
-                                    <tr>
-                                        <th>FacturaId</th>
-                                        <th>Monto/Pagado</th>
-                                        <th>Observación</th>
-                                        <th>Fecha</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var pago in PagosFacturaSeleccionada)
-                                    {
-                                        <tr>
-                                            <td>@pago.FacturaID</td>
-                                            <td>$@pago.MontoPagado.ToString("N2")</td>
-                                            <td>@pago.Observacion</td>
-                                            <td>@pago.Fecha.ToShortDateString()</td>
-                                        </tr>
-                                    } 
-                                </tbody>
-                            </table>
+
+                            <div class="card mt-3 shadow-sm">
+                                <div class="card-header bg-dark text-white">
+                                    <h6 class="mb-0">💳 Historial de pagos</h6>
+                                </div>
+
+                                <div class="card-body p-0">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>💰 Monto pagado</th>
+                                                <th>📋 Estado</th>
+                                                <th>📅 Fecha</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach (var pago in PagosFacturaSeleccionada)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <strong class="text-success">
+                                                            $@pago.MontoPagado.ToString("N2")
+                                                        </strong>
+                                                    </td>
+
+                                                    <td>
+                                                        <span class="badge bg-secondary">
+                                                            @pago.Observacion
+                                                        </span>
+                                                    </td>
+
+                                                    <td>
+                                                        @pago.Fecha.ToShortDateString()
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         }
                     </div>
                     <div class="modal-footer bg-dark text-white d-print-none">
@@ -307,10 +329,10 @@ else
                                     <i style="font-size: 18px;" class="fw-bold text-black">👁‍🗨</i>
                                 </span>
                                 <select class="form-select" @bind="@pagoRequest.Observacion" required>
-                                    <option disabled selected value="">Observación</option>
-                                    <option value="Justo 😉">Justo 😉</option>
-                                    <option value="Antes 😎">Antes 😎</option>
-                                    <option value="Atrazado 😴">Atrazado 😴</option>
+                                    <option disabled selected value="">Estado del pago</option>
+                                    <option value="Anticipado">🚀 Pago anticipado</option>
+                                    <option value="A tiempo">✅ Pago a tiempo</option>
+                                    <option value="Atrasado">⏰ Pago atrasado</option>
                                 </select>
                             </div>
 
@@ -417,89 +439,180 @@ else
                             </div>
                         </div>
                     </div>
-                    <div class="row-12 mt-2">
+
+                    <div class="row mt-2">
                         @if (FacturasFiltradas.Count == 0)
                         {
                             <div class="col-12 mt-3">
-                                <h5 class="text-muted">No hay facturas registradas</h5>
+                                <div class="alert alert-light border text-center">
+                                    <div style="font-size: 30px;">📄</div>
+                                    <h5 class="text-muted mb-1">No hay facturas registradas</h5>
+                                    <small class="text-muted">
+                                        No se encontraron facturas con los filtros seleccionados.
+                                    </small>
+                                </div>
                             </div>
                         }
-                        else{
-                                <table class="table table-striped">
-                                    <thead class="bg-black text-white">
-                                        <tr>
-                                            <th scope="col">N°</th>
-                                            <th scope="col">Cliente</th>
-                                            <th scope="col">Total</th>
-                                            <th scope="col">ITBIS</th>
-                                            <th scope="col">Descuento</th>
-                                            <th scope="col">Importe</th>
-                                            <th scope="col">Pendiente</th>
-                                            <th scope="col">Fecha</th>
-                                            <th scope="col" class="d-print-none">...</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var f in FacturasFiltradas)
-                                        {
-                                            
-                                            @if(f.TypePayment == "2")    
+                        else
+                        {
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table align-middle table-hover">
+
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>N° Factura</th>
+                                                <th>Cliente</th>
+                                                <th>Total</th>
+                                                <th>Descuento</th>
+                                                <th>Estado</th>
+                                                <th>Fecha</th>
+                                                <th class="text-center d-print-none">Acciones</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach (var f in FacturasFiltradas)
                                             {
-                                                <tr>
-                                                    <th scope="row">@f.Id</th>
-                                                    <td>@f.Cliente.Nombre @f.Cliente.Apellidos
-                                                        <details>
-                                                            <small>@FormatCustomerId(f.Cliente.Cedula)</small>
-                                                            <br>
-                                                            <small>@FormatPhoneNumber(f.Cliente.Telefono)</small>
-                                                            <br>
-                                                            <small>@f.Cliente.Direccion</small>
-                                                        </details>
-                                                    </td>
-                                                    <td>$@($"{(f.SubTotal - f.ITBIS):N2}")</td>
-                                                    <td>
-                                                        <span style="white-space: nowrap;">
-                                                            $@($"{(f.ITBIS):N2}")
-                                                        </span>
-                                                    </td>
-                                                    <td>$@f.TotalDesc.ToString("N2")</td>
-                                                    <td>$@($"{(f.SubTotal - f.TotalDesc):N2}")</td>
-                                                    <td><strong>-$@f.SaldoPendiente.ToString("N2")</strong></td>
-                                                    <td>@f.Fecha.ToShortDateString()</td>
-                                                    <td>
-                                                        <div class="button d-print-none">
-                                                            @if (f.SaldoPendiente > 0)
+                                                @if (f.TypePayment == "2")
+                                                {
+                                                    <tr>
+
+                                                        <!-- FACTURA -->
+                                                        <td>
+                                                            <strong>#@f.Id</strong>
+                                                        </td>
+
+                                                        <!-- CLIENTE -->
+                                                        <td>
+                                                            <div>
+                                                                <strong>
+                                                                    @f.Cliente.Nombre @f.Cliente.Apellidos
+                                                                </strong>
+
+                                                                <details class="mt-1">
+                                                                    <summary class="text-muted small">
+                                                                        Ver información
+                                                                    </summary>
+
+                                                                    <div class="mt-2 small text-muted">
+                                                                        <div>
+                                                                            🪪 @FormatCustomerId(f.Cliente.Cedula)
+                                                                        </div>
+                                                                        <div>
+                                                                            📞 @FormatPhoneNumber(f.Cliente.Telefono)
+                                                                        </div>
+                                                                        <div>
+                                                                            📍 @f.Cliente.Direccion
+                                                                        </div>
+                                                                    </div>
+                                                                </details>
+                                                            </div>
+                                                        </td>
+
+                                                        <!-- TOTAL -->
+                                                        <td>
+                                                            <strong class="text-success">
+                                                                $@($"{(f.SubTotal - f.TotalDesc):N2}")
+                                                            </strong>
+
+                                                            <div class="small text-muted">
+                                                                + ITBIS $@f.ITBIS.ToString("N2")
+                                                            </div>
+                                                        </td>
+
+                                                        <!-- DESCUENTO -->
+                                                        <td>
+                                                            @if (f.TotalDesc > 0)
                                                             {
-                                                                <button @onclick="() => MostrarPagos(f)" title="Mostrar pagos"
-                                                                    class="btn btn-outline-success me-1">
-                                                                    <i style="font-size: 15px;" class="fw-bold">💲</i>
-                                                                </button>
-                                                            
-                                                            }
-                                                            <button @onclick="()=>Seleccionar(f.Id, f)" class="btn btn-outline-primary" title="Ver detalles">
-                                                                <i style="font-size: 15px;" class="fw-bold">ℹ</i>
-                                                            </button>
-                                                            @if(Role=="Admin")
-                                                            {
-                                                                <button @onclick="() => ShowQuestion(f)" class="btn btn-outline-danger d-print-none ms-1" title="Eliminar factura">
-                                                                    <i style="font-size: 15px;" class="fw-bold">🗑️</i>
-                                                                </button>
+                                                                <span class="badge bg-warning text-dark">
+                                                                    -$@f.TotalDesc.ToString("N2")
+                                                                </span>
                                                             }
                                                             else
                                                             {
-                                                            <button class="btn btn-outline-danger d-print-none ms-1" title="Acción no permitida">
-                                                                    <i style="font-size: 15px;" class="fw-bold">🔒</i>
-                                                                </button> 
+                                                                <span class="text-muted">
+                                                                    Sin descuento
+                                                                </span>
                                                             }
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+
+                                                        <!-- ESTADO -->
+                                                        <td>
+                                                            @if (f.SaldoPendiente > 0)
+                                                            {
+                                                                <span class="badge bg-danger">
+                                                                    Pendiente
+                                                                </span>
+
+                                                                <div class="small text-danger mt-1">
+                                                                    $@f.SaldoPendiente.ToString("N2")
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="badge bg-success">
+                                                                    Pagada
+                                                                </span>
+                                                            }
+                                                        </td>
+
+                                                        <!-- FECHA -->
+                                                        <td>
+                                                            <span class="text-muted">
+                                                                📅 @f.Fecha.ToShortDateString()
+                                                            </span>
+                                                        </td>
+
+                                                        <!-- ACCIONES -->
+                                                        <td class="text-center d-print-none">
+                                                            <div class="btn-group">
+
+                                                                @if (f.SaldoPendiente > 0)
+                                                                {
+                                                                    <button @onclick="() => MostrarPagos(f)"
+                                                                            title="Ver pagos"
+                                                                            class="btn btn-outline-success">
+                                                                        💲
+                                                                    </button>
+                                                                }
+
+                                                                <button @onclick="() => Seleccionar(f.Id, f)"
+                                                                        title="Ver detalles"
+                                                                        class="btn btn-outline-primary">
+                                                                    ℹ️
+                                                                </button>
+
+                                                                @if (Role == "Admin")
+                                                                {
+                                                                    <button @onclick="() => ShowQuestion(f)"
+                                                                            title="Eliminar factura"
+                                                                            class="btn btn-outline-danger">
+                                                                        🗑️
+                                                                    </button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button class="btn btn-outline-secondary"
+                                                                            title="Acción no permitida">
+                                                                        🔒
+                                                                    </button>
+                                                                }
+
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                }
                                             }
-                                        }
-                                    </tbody>
-                                </table>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
                         }
                     </div>
+
                 </div>
             </div>
         </div>

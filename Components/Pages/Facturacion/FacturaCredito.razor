@@ -413,88 +413,88 @@ else
                     <!-- ================================================= -->
 
                     <div class="d-flex flex-column flex-md-row
-            justify-content-between
-            align-items-stretch
-            align-items-md-center
-            gap-3
-            d-print-none">
+                        justify-content-between
+                        align-items-stretch
+                        align-items-md-center
+                        gap-3
+                        d-print-none">
 
-    <!-- FILTROS -->
-    <div class="btn-group"
-         role="group"
-         aria-label="Filtro de facturas">
+                        <!-- FILTROS -->
+                        <div class="btn-group"
+                            role="group"
+                            aria-label="Filtro de facturas">
 
-        <input type="radio"
-               class="btn-check"
-               name="btnradio"
-               id="btnPendientes"
-               checked="@mostrarPendientes"
-               @onclick="() => CambiarFiltro(true)">
+                            <input type="radio"
+                                class="btn-check"
+                                name="btnradio"
+                                id="btnPendientes"
+                                checked="@mostrarPendientes"
+                                @onclick="() => CambiarFiltro(true)">
 
-        <label class="btn btn-outline-warning"
-               for="btnPendientes">
+                            <label class="btn btn-outline-warning"
+                                for="btnPendientes">
 
-            <i class="bi bi-hourglass-split me-1"></i>
-            Pendientes
+                                <i class="bi bi-hourglass-split me-1"></i>
+                                Pendientes
 
-        </label>
-
-
-        <input type="radio"
-               class="btn-check"
-               name="btnradio"
-               id="btnPagadas"
-               checked="@mostrarPagadas"
-               @onclick="() => CambiarFiltro(false)">
-
-        <label class="btn btn-outline-success"
-               for="btnPagadas">
-
-            <i class="bi bi-check-circle me-1"></i>
-            Pagadas
-
-        </label>
-
-    </div>
+                            </label>
 
 
-    <!-- BUSCADOR -->
-    <div class="input-group flex-grow-1"
-         style="max-width: 450px;">
+                            <input type="radio"
+                                class="btn-check"
+                                name="btnradio"
+                                id="btnPagadas"
+                                checked="@mostrarPagadas"
+                                @onclick="() => CambiarFiltro(false)">
 
-        <span class="input-group-text bg-white">
-            <i class="bi bi-search"></i>
-        </span>
+                            <label class="btn btn-outline-success"
+                                for="btnPagadas">
 
-        <input type="text"
-               class="form-control"
-               placeholder="Buscar factura o cliente..."
-               @bind="FiltroInvoice">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Pagadas
 
-        <button class="btn btn-primary"
-                type="button"
-                title="Buscar factura"
-                @onclick="Consultar">
+                            </label>
 
-            <i class="bi bi-search me-1"></i>
-            Buscar
-
-        </button>
-
-    </div>
+                        </div>
 
 
-    <!-- IMPRIMIR -->
-    <button class="btn btn-outline-dark"
-            title="Imprimir página"
-            @onclick="async () => await PrintPageAsync()">
+                        <!-- BUSCADOR -->
+                        <div class="input-group flex-grow-1"
+                            style="max-width: 450px;">
 
-        <i class="bi bi-printer me-1"></i>
-        Imprimir
+                            <span class="input-group-text bg-white">
+                                <i class="bi bi-search"></i>
+                            </span>
 
-    </button>
+                            <input type="text"
+                                class="form-control"
+                                placeholder="Buscar factura o cliente..."
+                                @bind="FiltroInvoice">
 
-</div>
+                            <button class="btn btn-primary"
+                                    type="button"
+                                    title="Buscar factura"
+                                    @onclick="Consultar">
+
+                                <i class="bi bi-search me-1"></i>
+                                Buscar
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- IMPRIMIR -->
+                        <button class="btn btn-outline-dark"
+                                title="Imprimir página"
+                                @onclick="async () => await PrintPageAsync()">
+
+                            <i class="bi bi-printer me-1"></i>
+                            Imprimir
+
+                        </button>
+
+                    </div>
 
 
                     <hr class="my-3">

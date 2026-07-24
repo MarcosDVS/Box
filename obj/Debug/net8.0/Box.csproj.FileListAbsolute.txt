@@ -124,3 +124,8 @@ C:\Project_X\Box\obj\Debug\net8.0\refint\Box.dll
 C:\Project_X\Box\obj\Debug\net8.0\Box.pdb
 C:\Project_X\Box\obj\Debug\net8.0\Box.genruntimeconfig.cache
 C:\Project_X\Box\obj\Debug\net8.0\ref\Box.dll
+C:\Project_X\Box\bin\Debug\net8.0\publish\web.config
+C:\Project_X\Box\bin\Debug\net8.0\publish\appsettings.Development.json
+C:\Project_X\Box\bin\Debug\net8.0\publish\appsettings.json
+C:\Project_X\Box\bin\Debug\net8.0\publish\Box.deps.json
+C:\Project_X\Box\bin\Debug\net8.0\publish\Box.runtimeconfig.json

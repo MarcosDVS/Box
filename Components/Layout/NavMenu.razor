@@ -1,103 +1,318 @@
-﻿@using Authentication;
-@inject AuthenticationStateProvider authStateProvider;
-@inject NavigationManager NavigationManager;
+﻿
+@using Authentication
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager
 
-<div class="d-flex flex-column" style="min-height: 100vh;">
-    <div class="top-row ps-3 navbar navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand text-white" href="">
-                <i class="bi bi-box-seam-fill"></i> BOX
-            </a>
-            <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <button title="Navigation menu"
+                    class="navbar-toggler border-secondary"
+                    @onclick="ToggleNavMenu">
+
                 <span class="navbar-toggler-icon"></span>
+
             </button>
+<!-- ================================================= -->
+<!-- CONTENEDOR PRINCIPAL DEL SIDEBAR -->
+<!-- ================================================= -->
+@if (collapseNavMenu)
+    {
+<div class="d-flex flex-column vh-100 bg-dark text-white">
+
+    <!-- ================================================= -->
+    <!-- ENCABEZADO -->
+    <!-- ================================================= -->
+
+    <div class="px-3 py-3 border-bottom border-secondary flex-shrink-0">
+
+        <div class="d-flex align-items-center justify-content-between">
+
+            <a class="navbar-brand text-white fw-bold mb-0"
+               href="inicio">
+
+                <i class="bi bi-box-seam-fill me-2"></i>
+                BOX
+
+            </a>
+
+
         </div>
+
     </div>
 
-    <!-- Contenedor principal del menú -->
-    <div class="d-flex flex-column flex-grow-1" style="overflow-y: auto;">
-        <nav class="nav flex-column">
-            <div class="nav-item px-3">
-                <NavLink class="nav-link text-white" href="inicio" Match="NavLinkMatch.All">
-                    <span aria-hidden="true"><i class="bi bi-house-door-fill"></i></span> Home
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link text-white" href="cliente">
-                    <span aria-hidden="true"><i class="bi bi-people-fill"></i></span> Clientes
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link text-white" href="producto">
-                    <span aria-hidden="true"><i class="bi bi-basket-fill"></i></span> Productos
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link text-white" href="proveedor">
-                    <span aria-hidden="true"><i class="bi bi-briefcase-fill"></i></span> Proveedores
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <div class="dropdown">
-                    <NavLink class="nav-link text-white" @onclick="ToggleDropdown" style="cursor: pointer;">
-                        <span aria-hidden="true"><i class="@DropdownIconClass"></i></span>
-                        <strong>Factura</strong>
+
+    
+
+        <!-- ================================================= -->
+        <!-- MENÚ PRINCIPAL -->
+        <!-- SOLO ESTA ZONA TIENE SCROLL -->
+        <!-- ================================================= -->
+
+        <div class="flex-grow-1 overflow-auto">
+
+            <nav class="nav flex-column p-2">
+
+
+                <!-- ================================================= -->
+                <!-- INICIO -->
+                <!-- ================================================= -->
+
+                <div class="px-2 mb-1">
+
+                    <NavLink class="nav-link rounded-3 px-3 py-2"
+                             ActiveClass="bg-white text-dark shadow-sm fw-bold"
+                             href="inicio"
+                             Match="NavLinkMatch.All">
+
+                        <i class="bi bi-house-door-fill me-3"></i>
+
+                        Inicio
+
                     </NavLink>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- GESTIÓN -->
+                <!-- ================================================= -->
+
+                <div class="text-secondary text-uppercase small
+                            fw-bold px-3 mt-3 mb-2">
+
+                    Gestión
+
+                </div>
+
+
+                <!-- CLIENTES -->
+
+                <div class="px-2 mb-1">
+
+                    <NavLink class="nav-link rounded-3 px-3 py-2"
+                             ActiveClass="bg-white text-dark shadow-sm fw-bold"
+                             href="cliente">
+
+                        <i class="bi bi-people-fill me-3"></i>
+
+                        Clientes
+
+                    </NavLink>
+
+                </div>
+
+
+                <!-- PRODUCTOS -->
+
+                <div class="px-2 mb-1">
+
+                    <NavLink class="nav-link rounded-3 px-3 py-2"
+                             ActiveClass="bg-white text-dark shadow-sm fw-bold"
+                             href="producto">
+
+                        <i class="bi bi-basket-fill me-3"></i>
+
+                        Productos
+
+                    </NavLink>
+
+                </div>
+
+
+                <!-- PROVEEDORES -->
+
+                <div class="px-2 mb-1">
+
+                    <NavLink class="nav-link rounded-3 px-3 py-2"
+                             ActiveClass="bg-white text-dark shadow-sm fw-bold"
+                             href="proveedor">
+
+                        <i class="bi bi-briefcase-fill me-3"></i>
+
+                        Proveedores
+
+                    </NavLink>
+
+                </div>
+
+
+                <!-- ================================================= -->
+                <!-- FACTURACIÓN -->
+                <!-- ================================================= -->
+
+                <div class="text-secondary text-uppercase small
+                            fw-bold px-3 mt-3 mb-2">
+
+                    Facturación
+
+                </div>
+
+
+                <!-- BOTÓN FACTURACIÓN -->
+
+                <div class="px-2">
+
+                    <button type="button"
+                            class="btn w-100 text-start text-white
+                                   rounded-3 px-3 py-2
+                                   d-flex align-items-center
+                                   justify-content-between
+                                   @(showDropdown ? "bg-secondary" : "")"
+                            @onclick="ToggleDropdown">
+
+                        <span>
+
+                            <i class="bi bi-receipt-cutoff me-3"></i>
+
+                            <span class="fw-semibold">
+                                Facturación
+                            </span>
+
+                        </span>
+
+                        <i class="@DropdownIconClass"></i>
+
+                    </button>
+
+
+                    <!-- ================================================= -->
+                    <!-- SUBMENÚ -->
+                    <!-- ================================================= -->
+
                     @if (showDropdown)
                     {
-                        <div class="dropdown-content">
-                            <div class="nav-item px-3">
-                                <NavLink class="nav-link text-white" href="factura/vender">
-                                    <span aria-hidden="true"><i class="bi bi-file-earmark-text-fill"></i></span> Vender
-                                </NavLink>
-                            </div>
-                            <div class="nav-item px-3">
-                                <NavLink class="nav-link text-white" href="factura/paga">
-                                    <span aria-hidden="true"><i class="bi bi-cash-coin"></i></span> Facturas/Contado
-                                </NavLink>
-                            </div>
-                            <div class="nav-item px-3">
-                                <NavLink class="nav-link text-white" href="factura/cobrar">
-                                    <span aria-hidden="true"><i class="bi bi-credit-card-fill"></i></span> Facturas/Crédito
-                                </NavLink>
-                            </div>
+
+                        <div class="ms-3 mt-1 ps-2 border-start border-secondary">
+
+
+                            <!-- VENDER -->
+
+                            <NavLink class="nav-link rounded-3
+                                           px-1 py-2 mb-0"
+                                     ActiveClass="bg-white text-dark shadow-sm fw-bold"
+                                     href="factura/vender">
+
+                                <i class="bi bi-file-earmark-plus-fill me-0"></i>
+
+                                Vender
+
+                            </NavLink>
+
+
+                            <!-- CONTADO -->
+
+                            <NavLink class="nav-link rounded-3
+                                           px-1 py-2 mb-0"
+                                     ActiveClass="bg-white text-dark shadow-sm fw-bold"
+                                     href="factura/paga">
+
+                                <i class="bi bi-cash-coin me-0"></i>
+
+                                Facturas / Contado
+
+                            </NavLink>
+
+
+                            <!-- CRÉDITO -->
+
+                            <NavLink class="nav-link rounded-3
+                                           px-1 py-2"
+                                     ActiveClass="bg-white text-dark shadow-sm fw-bold"
+                                     href="factura/cobrar">
+
+                                <i class="bi bi-credit-card-fill me-0"></i>
+
+                                Facturas / Crédito
+
+                            </NavLink>
+
                         </div>
+
                     }
+
                 </div>
-            </div>
-        </nav>
 
-        <!-- Botón de Log Out siempre en la parte inferior -->
-        <div class="mt-auto nav-item px-3">
-            <NavLink class="nav-link text-white fw-bold" @onclick="Logout" style="cursor: pointer;">
-                <span aria-hidden="true"><i class="bi bi-box-arrow-right"></i></span> Log Out
-            </NavLink>
+            </nav>
+
         </div>
-    </div>
-</div>
 
+
+        <!-- ================================================= -->
+        <!-- PARTE INFERIOR -->
+        <!-- SIEMPRE VISIBLE -->
+        <!-- ================================================= -->
+
+        <div class="flex-shrink-0 p-3 border-top border-secondary bg-dark">
+
+            
+
+                <!-- ABOUT -->
+
+                
+
+                    <NavLink class="nav-link rounded-3 px-2 py-2 text-center"
+                             ActiveClass="bg-white text-dark shadow-sm fw-bold"
+                             href="about">
+
+                        <i class="bi bi-info-circle-fill me-1"></i>
+
+                        About
+
+                    </NavLink>
+
+
+
+                <!-- LOG OUT -->
+
+                    <button type="button"
+                            class="btn btn-outline-danger w-100"
+                            @onclick="Logout">
+
+                        <i class="bi bi-box-arrow-right me-1"></i>
+
+                        Log Out
+
+                    </button>
+
+        </div>
+
+
+</div>
+    }
 
 
 @code {
+
     private bool collapseNavMenu = true;
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-    private string DropdownIconClass => showDropdown ? "bi bi-caret-up-fill" : "bi bi-caret-down-fill";
+
     private bool showDropdown = false;
+
+
+    private string DropdownIconClass =>
+        showDropdown
+            ? "bi bi-chevron-up"
+            : "bi bi-chevron-down";
+
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
 
+
     private void ToggleDropdown()
     {
         showDropdown = !showDropdown;
     }
 
+
     private async Task Logout()
     {
-        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
-        await customAuthStateProvider.UpdateAuthenticationState(null);
+        var customAuthStateProvider =
+            (CustomAuthenticationStateProvider)authStateProvider;
+
+        await customAuthStateProvider
+            .UpdateAuthenticationState(null);
+
         NavigationManager.NavigateTo("/", true);
     }
+
 }

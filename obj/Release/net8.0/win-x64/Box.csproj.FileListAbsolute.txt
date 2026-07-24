@@ -40,3 +40,8 @@ C:\Project_X\Box\obj\Release\net8.0\win-x64\refint\Box.dll
 C:\Project_X\Box\obj\Release\net8.0\win-x64\Box.pdb
 C:\Project_X\Box\obj\Release\net8.0\win-x64\Box.genruntimeconfig.cache
 C:\Project_X\Box\obj\Release\net8.0\win-x64\ref\Box.dll
+C:\Project_X\Box\bin\Release\net8.0\win-x64\publish\web.config
+C:\Project_X\Box\bin\Release\net8.0\win-x64\publish\appsettings.Development.json
+C:\Project_X\Box\bin\Release\net8.0\win-x64\publish\appsettings.json
+C:\Project_X\Box\bin\Release\net8.0\win-x64\publish\Box.deps.json
+C:\Project_X\Box\bin\Release\net8.0\win-x64\publish\Box.runtimeconfig.json

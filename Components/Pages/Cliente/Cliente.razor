@@ -140,71 +140,229 @@
                 </div>
             </div>
 
-            <div class="row d-flex justify-content-center d-print-none">
+           <div class="row g-3 d-print-none">
+
                 @if (Clientes.Count == 0)
                 {
-                    <div class="col-12 mt-3">
-                        <h5 class="text-muted">No hay clientes registrados</h5>
+                    <div class="col-12">
+
+                        <div class="card border-0 shadow-sm text-center py-5">
+
+                            <div class="card-body">
+
+                                <i class="bi bi-people display-4 text-muted"></i>
+
+                                <h5 class="mt-3 text-muted">
+                                    No hay clientes registrados
+                                </h5>
+
+                                <p class="text-muted mb-0">
+                                    Los clientes registrados aparecerán aquí.
+                                </p>
+
+                            </div>
+
+                        </div>
+
                     </div>
                 }
-                else{
+                else
+                {
                     @foreach (var row in Clientes)
                     {
-                        <div class="col-lg-4 col-md-6 col-sm-12 mt-3">
-                            <div class="card shadow-sm border-0 rounded-3 h-100 text-center" style="width: 18rem;">
-                                
+                        <div class="col-12 col-md-6 col-xl-4">
+
+                            <div class="card border-0 shadow-sm h-100">
+
+                                <!-- CABECERA DEL CLIENTE -->
+
                                 <div class="card-body">
-                                    <h5 class="card-title text-dark text-truncate mb-1" style="margin: auto;">
-                                        <b>@row.Nombre @row.Apellidos</b>
-                                    </h5>
 
-                                    <div class="text-start small">
-                                        <div class="mb-0">
-                                            <span class="text-muted fw-bold">Cédula:</span>
-                                            <span class="ms-1">@FormatCustomerId(row.Cedula)</span>
+                                    <div class="d-flex align-items-center mb-4">
+
+                                        <!-- AVATAR -->
+
+                                        <div class="rounded-circle bg-dark text-white
+                                                    d-flex align-items-center
+                                                    justify-content-center
+                                                    flex-shrink-0 me-3"
+                                            style="width: 55px; height: 55px;">
+
+                                            <span class="fw-bold fs-5">
+
+                                                @(string.IsNullOrWhiteSpace(row.Nombre)
+                                                    ? "?"
+                                                    : row.Nombre.Substring(0, 1).ToUpper())
+
+                                            </span>
+
                                         </div>
 
-                                        <div class="mb-0">
-                                            <span class="text-muted fw-bold">Teléfono:</span>
-                                            <span class="ms-1">@FormatPhoneNumber(row.Telefono)</span>
+
+                                        <!-- NOMBRE -->
+
+                                        <div class="min-width-0">
+
+                                            <h5 class="fw-bold mb-1 text-truncate">
+
+                                                @row.Nombre @row.Apellidos
+
+                                            </h5>
+
+                                            <small class="text-muted">
+
+                                                Cliente #@row.Id
+
+                                            </small>
+
                                         </div>
 
-                                        <div class="mb-0">
-                                            <span class="text-muted fw-bold">Dirección:</span>
-                                            <span class="ms-1">@row.Direccion</span>
-                                        </div>
-
-                                        <div class="mb-0">
-                                            <span class="text-muted fw-bold">Email:</span>
-                                            <span class="ms-1">@row.Correo</span>
-                                        </div>
                                     </div>
+
+
+                                    <!-- INFORMACIÓN -->
+
+                                    <div class="d-flex flex-column gap-3">
+
+                                        <!-- CÉDULA -->
+
+                                        <div class="d-flex align-items-start">
+
+                                            <i class="bi bi-person-vcard text-primary
+                                                    fs-5 me-3"></i>
+
+                                            <div>
+
+                                                <small class="text-muted d-block">
+                                                    Cédula
+                                                </small>
+
+                                                <span class="fw-semibold">
+                                                    @FormatCustomerId(row.Cedula)
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- TELÉFONO -->
+
+                                        <div class="d-flex align-items-start">
+
+                                            <i class="bi bi-telephone text-success
+                                                    fs-5 me-3"></i>
+
+                                            <div>
+
+                                                <small class="text-muted d-block">
+                                                    Teléfono
+                                                </small>
+
+                                                <span class="fw-semibold">
+                                                    @FormatPhoneNumber(row.Telefono)
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- EMAIL -->
+
+                                        <div class="d-flex align-items-start">
+
+                                            <i class="bi bi-envelope text-danger
+                                                    fs-5 me-3"></i>
+
+                                            <div class="min-width-0">
+
+                                                <small class="text-muted d-block">
+                                                    Correo electrónico
+                                                </small>
+
+                                                <span class="fw-semibold text-break">
+                                                    @row.Correo
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- DIRECCIÓN -->
+
+                                        <div class="d-flex align-items-start">
+
+                                            <i class="bi bi-geo-alt text-warning
+                                                    fs-5 me-3"></i>
+
+                                            <div>
+
+                                                <small class="text-muted d-block">
+                                                    Dirección
+                                                </small>
+
+                                                <span class="fw-semibold">
+                                                    @row.Direccion
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
                                 </div>
 
 
-                                <div class="card-footer bg-white border-0 d-flex justify-content-center gap-2">
-                                    <button class="btn btn-outline-warning" @onclick="()=>Seleccionar(row.Id)">
-                                        <i style="font-size: 15px;" class="fw-bold">✏️</i>
+                                <!-- ACCIONES -->
+
+                                <div class="card-footer bg-white border-top
+                                            d-flex gap-2 p-3">
+
+                                    <button class="btn btn-outline-primary flex-grow-1"
+                                            @onclick="() => Seleccionar(row.Id)">
+
+                                        <i class="bi bi-pencil-square me-1"></i>
+
+                                        Editar
+
                                     </button>
+
 
                                     @if (Role == "Admin")
                                     {
-                                        <button class="btn btn-outline-danger" @onclick="()=>ShowQuestion(row)" title="Eliminar">
-                                            <i style="font-size: 15px;" class="fw-bold">🗑️</i>
+                                        <button class="btn btn-outline-danger"
+                                                @onclick="() => ShowQuestion(row)"
+                                                title="Eliminar cliente">
+
+                                            <i class="bi bi-trash"></i>
+
                                         </button>
                                     }
                                     else
                                     {
-                                        <button class="btn btn-outline-danger d-print-none" disabled>
-                                            <i style="font-size: 15px;" class="fw-bold">🔒</i>
+                                        <button class="btn btn-outline-secondary"
+                                                disabled
+                                                title="No tienes permiso para eliminar">
+
+                                            <i class="bi bi-lock"></i>
+
                                         </button>
                                     }
+
                                 </div>
+
                             </div>
+
                         </div>
                     }
                 }
+
             </div>
+
+
 
             <div class="row-12 mt-2 d-none d-print-block">
                 <table class="table table-hover table-striped ">

@@ -1,11 +1,6 @@
 C:\Project_X\Box\publish\Box.exe
-C:\Project_X\Box\publish\publish\web.config
 C:\Project_X\Box\publish\appsettings.Development.json
 C:\Project_X\Box\publish\appsettings.json
-C:\Project_X\Box\publish\publish\appsettings.Development.json
-C:\Project_X\Box\publish\publish\appsettings.json
-C:\Project_X\Box\publish\publish\Box.deps.json
-C:\Project_X\Box\publish\publish\Box.runtimeconfig.json
 C:\Project_X\Box\publish\Box.dll
 C:\Project_X\Box\publish\Box.deps.json
 C:\Project_X\Box\publish\Box.runtimeconfig.json

@@ -61,13 +61,8 @@ C:\Users\Marcos De Vargas\Documents\PROJECTS\Blazor App\Box\obj\Debug\net8.0\Box
 C:\Users\Marcos De Vargas\Documents\PROJECTS\Blazor App\Box\obj\Debug\net8.0\Box.genruntimeconfig.cache
 C:\Users\Marcos De Vargas\Documents\PROJECTS\Blazor App\Box\obj\Debug\net8.0\ref\Box.dll
 C:\Users\Marcos De Vargas\Documents\PROJECTS\Blazor App\Box\obj\Debug\net8.0\Box.sourcelink.json
-C:\Project_X\Box\bin\Debug\net8.0\publish\web.config
 C:\Project_X\Box\bin\Debug\net8.0\appsettings.Development.json
 C:\Project_X\Box\bin\Debug\net8.0\appsettings.json
-C:\Project_X\Box\bin\Debug\net8.0\publish\appsettings.Development.json
-C:\Project_X\Box\bin\Debug\net8.0\publish\appsettings.json
-C:\Project_X\Box\bin\Debug\net8.0\publish\Box.deps.json
-C:\Project_X\Box\bin\Debug\net8.0\publish\Box.runtimeconfig.json
 C:\Project_X\Box\bin\Debug\net8.0\Box.staticwebassets.runtime.json
 C:\Project_X\Box\bin\Debug\net8.0\Box.exe
 C:\Project_X\Box\bin\Debug\net8.0\Box.deps.json
@@ -129,8 +124,3 @@ C:\Project_X\Box\obj\Debug\net8.0\refint\Box.dll
 C:\Project_X\Box\obj\Debug\net8.0\Box.pdb
 C:\Project_X\Box\obj\Debug\net8.0\Box.genruntimeconfig.cache
 C:\Project_X\Box\obj\Debug\net8.0\ref\Box.dll
-C:\Project_X\Box\bin\Debug\net8.0\publish\publish\web.config
-C:\Project_X\Box\bin\Debug\net8.0\publish\publish\appsettings.Development.json
-C:\Project_X\Box\bin\Debug\net8.0\publish\publish\appsettings.json
-C:\Project_X\Box\bin\Debug\net8.0\publish\publish\Box.deps.json
-C:\Project_X\Box\bin\Debug\net8.0\publish\publish\Box.runtimeconfig.json

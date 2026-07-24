@@ -409,97 +409,303 @@ else
                 <div class="card-body">
 
                     <!-- ================================================= -->
-                    <!-- BARRA SUPERIOR -->
+                    <!-- BARRA DE FILTROS -->
                     <!-- ================================================= -->
 
-                    <div class="d-flex flex-column flex-md-row
-                        justify-content-between
-                        align-items-stretch
-                        align-items-md-center
-                        gap-3
-                        d-print-none">
+                    <div class="card border-0 bg-light d-print-none">
 
-                        <!-- FILTROS -->
-                        <div class="btn-group"
-                            role="group"
-                            aria-label="Filtro de facturas">
+                        <div class="card-body">
 
-                            <input type="radio"
-                                class="btn-check"
-                                name="btnradio"
-                                id="btnPendientes"
-                                checked="@mostrarPendientes"
-                                @onclick="() => CambiarFiltro(true)">
+                            <div class="row g-3 align-items-end">
 
-                            <label class="btn btn-outline-warning"
-                                for="btnPendientes">
+                                <!-- ESTADO DE FACTURA -->
+                                <div class="col-12 col-lg-3">
 
-                                <i class="bi bi-hourglass-split me-1"></i>
-                                Pendientes
+                                    <label class="form-label small text-muted mb-1">
+                                        Estado
+                                    </label>
 
-                            </label>
+                                    <div class="btn-group w-100" role="group">
+
+                                        <input type="radio"
+                                            class="btn-check"
+                                            name="estadoFactura"
+                                            id="btnPendientes"
+                                            checked="@mostrarPendientes"
+                                            @onclick="() => CambiarFiltro(true)">
+
+                                        <label class="btn btn-outline-warning"
+                                            for="btnPendientes">
+
+                                            <i class="bi bi-hourglass-split me-1"></i>
+                                            Pendientes
+
+                                        </label>
 
 
-                            <input type="radio"
-                                class="btn-check"
-                                name="btnradio"
-                                id="btnPagadas"
-                                checked="@mostrarPagadas"
-                                @onclick="() => CambiarFiltro(false)">
+                                        <input type="radio"
+                                            class="btn-check"
+                                            name="estadoFactura"
+                                            id="btnPagadas"
+                                            checked="@mostrarPagadas"
+                                            @onclick="() => CambiarFiltro(false)">
 
-                            <label class="btn btn-outline-success"
-                                for="btnPagadas">
+                                        <label class="btn btn-outline-success"
+                                            for="btnPagadas">
 
-                                <i class="bi bi-check-circle me-1"></i>
-                                Pagadas
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            Pagadas
 
-                            </label>
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- BUSCADOR -->
+                                <div class="col-12 col-lg-4">
+
+                                    <label class="form-label small text-muted mb-1">
+                                        Buscar factura
+                                    </label>
+
+                                    <div class="input-group">
+
+                                        <input type="text"
+                                            class="form-control"
+                                            placeholder="Buscar factura o cliente..."
+                                            @bind="FiltroInvoice" />
+
+                                        <button class="btn btn-outline-secondary"
+                                                type="button"
+                                                title="Buscar"
+                                                @onclick="Consultar">
+
+                                            <i class="bi bi-search"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- AÑO -->
+                                <div class="col-12 col-sm-6 col-lg-2">
+
+                                    <label class="form-label small text-muted mb-1">
+                                        Año
+                                    </label>
+
+                                    <select class="form-select"
+                                            @bind="FiltroAno"
+                                            @bind:after="FiltrarFacturas">
+
+                                        <option value="">
+                                            Todos
+                                        </option>
+
+                                        @foreach (var ano in AnosDisponibles)
+                                        {
+                                            <option value="@ano">
+                                                @ano
+                                            </option>
+                                        }
+
+                                    </select>
+
+                                </div>
+
+
+                                <!-- MES -->
+                                <div class="col-12 col-sm-6 col-lg-2">
+
+                                    <label class="form-label small text-muted mb-1">
+                                        Mes
+                                    </label>
+
+                                    <select class="form-select"
+                                            @bind="FiltroMes"
+                                            @bind:after="FiltrarFacturas">
+
+                                        <option value="">
+                                            Todos los meses
+                                        </option>
+
+                                        <option value="1">Enero</option>
+                                        <option value="2">Febrero</option>
+                                        <option value="3">Marzo</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Mayo</option>
+                                        <option value="6">Junio</option>
+                                        <option value="7">Julio</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Septiembre</option>
+                                        <option value="10">Octubre</option>
+                                        <option value="11">Noviembre</option>
+                                        <option value="12">Diciembre</option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <!-- LIMPIAR -->
+                                <div class="col-12 col-lg-1">
+
+                                    <button class="btn btn-outline-secondary w-100"
+                                            type="button"
+                                            title="Limpiar filtros"
+                                            @onclick="LimpiarFiltros">
+
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
 
                         </div>
-
-
-                        <!-- BUSCADOR -->
-                        <div class="input-group flex-grow-1"
-                            style="max-width: 450px;">
-
-                            <span class="input-group-text bg-white">
-                                <i class="bi bi-search"></i>
-                            </span>
-
-                            <input type="text"
-                                class="form-control"
-                                placeholder="Buscar factura o cliente..."
-                                @bind="FiltroInvoice">
-
-                            <button class="btn btn-primary"
-                                    type="button"
-                                    title="Buscar factura"
-                                    @onclick="Consultar">
-
-                                <i class="bi bi-search me-1"></i>
-                                Buscar
-
-                            </button>
-
-                        </div>
-
-
-                        <!-- IMPRIMIR -->
-                        <button class="btn btn-outline-dark"
-                                title="Imprimir página"
-                                @onclick="async () => await PrintPageAsync()">
-
-                            <i class="bi bi-printer me-1"></i>
-                            Imprimir
-
-                        </button>
 
                     </div>
 
+                    <!-- ================================================= -->
+                    <!-- RESUMEN -->
+                    <!-- ================================================= -->
 
-                    <hr class="my-3">
+                    <div class="row g-3 mb-4 d-print-none">
+
+                        <!-- FACTURAS -->
+                        <div class="col-6 col-xl-3">
+
+                            <div class="card border-0 shadow-sm h-100">
+
+                                <div class="card-body">
+
+                                    <div class="d-flex justify-content-between align-items-center">
+
+                                        <div>
+                                            <small class="text-muted d-block">
+                                                Facturas
+                                            </small>
+
+                                            <h4 class="fw-bold mb-0">
+                                                @FacturasFiltradas.Count
+                                            </h4>
+                                        </div>
+
+                                        <div class="fs-3 text-primary">
+                                            <i class="bi bi-receipt"></i>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
 
 
+                        <!-- IMPORTE -->
+                        <div class="col-6 col-xl-3">
+
+                            <div class="card border-0 shadow-sm h-100">
+
+                                <div class="card-body">
+
+                                    <div class="d-flex justify-content-between align-items-center">
+
+                                        <div>
+                                            <small class="text-muted d-block">
+                                                Importe total
+                                            </small>
+
+                                            <h4 class="fw-bold text-primary mb-0">
+                                                $@ImporteTotalFiltrado.ToString("N2")
+                                            </h4>
+                                        </div>
+
+                                        <div class="fs-3 text-primary">
+                                            <i class="bi bi-cash-stack"></i>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ABONOS -->
+                        <div class="col-6 col-xl-3">
+
+                            <div class="card border-0 shadow-sm h-100">
+
+                                <div class="card-body">
+
+                                    <div class="d-flex justify-content-between align-items-center">
+
+                                        <div>
+                                            <small class="text-muted d-block">
+                                                Abonos realizados
+                                            </small>
+
+                                            <h4 class="fw-bold text-success mb-0">
+                                                $@AbonosTotalFiltrado.ToString("N2")
+                                            </h4>
+                                        </div>
+
+                                        <div class="fs-3 text-success">
+                                            <i class="bi bi-wallet2"></i>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PENDIENTE -->
+                        <div class="col-6 col-xl-3">
+
+                            <div class="card border-0 shadow-sm h-100">
+
+                                <div class="card-body">
+
+                                    <div class="d-flex justify-content-between align-items-center">
+
+                                        <div>
+                                            <small class="text-muted d-block">
+                                                Saldo pendiente
+                                            </small>
+
+                                            <h4 class="fw-bold text-danger mb-0">
+                                                $@SaldoPendienteFiltrado.ToString("N2")
+                                            </h4>
+                                        </div>
+
+                                        <div class="fs-3 text-danger">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
                     @if (FacturasFiltradas.Count == 0)
                     {
                         <!-- ================================================= -->
@@ -1603,16 +1809,115 @@ else
     private bool mostrarPendientes = true;
     private bool mostrarPagadas = false;
 
-    private List<FacturaResponse> FacturasFiltradas => Facturas
-        .Where(f => f.TypePayment == "2" && 
-            ((mostrarPendientes && f.SaldoPendiente > 0) || 
-             (mostrarPagadas && f.SaldoPendiente == 0)))
+    // Filtro de período
+    private string filtroPeriodo = "Todos";
+
+    // Año y mes seleccionados
+    private int anioSeleccionado = DateTime.Now.Year;
+    private int mesSeleccionado = DateTime.Now.Month;
+    private string FiltroAno { get; set; } = "";
+    private string FiltroMes { get; set; } = "";
+
+    private List<int> AnosDisponibles => Facturas
+        .Where(f => f.TypePayment == "2")
+        .Select(f => f.Fecha.Year)
+        .Distinct()
+        .OrderByDescending(a => a)
         .ToList();
+
+    // Lista de años disponibles
+    private List<int> AniosDisponibles => Facturas
+        .Where(f => f.TypePayment == "2")
+        .Select(f => f.Fecha.Year)
+        .Distinct()
+        .OrderByDescending(a => a)
+        .ToList();
+
+
+    // Facturas filtradas por ESTADO + PERÍODO
+    private List<FacturaResponse> FacturasFiltradas => Facturas
+    .Where(f =>
+        // SOLO FACTURAS A CRÉDITO
+        f.TypePayment == "2"
+
+        // FILTRO PENDIENTES / PAGADAS
+        && (
+            (mostrarPendientes && f.SaldoPendiente > 0) ||
+            (mostrarPagadas && f.SaldoPendiente == 0)
+        )
+
+        // FILTRO POR AÑO
+        && (
+            string.IsNullOrEmpty(FiltroAno) ||
+            f.Fecha.Year.ToString() == FiltroAno
+        )
+
+        // FILTRO POR MES
+        && (
+            string.IsNullOrEmpty(FiltroMes) ||
+            f.Fecha.Month.ToString() == FiltroMes
+        )
+    )
+    .OrderByDescending(f => f.Fecha)
+    .ToList();
+
+    private void FiltrarFacturas()
+    {
+        StateHasChanged();
+    }
+    private void LimpiarFiltros()
+    {
+        FiltroAno = "";
+        FiltroMes = "";
+
+        StateHasChanged();
+    }
+
+    // =====================================================
+    // TOTALES DE LAS FACTURAS FILTRADAS
+    // =====================================================
+
+    // Importe total de las facturas filtradas
+    private decimal ImporteTotalFiltrado => FacturasFiltradas
+        .Sum(f => f.SubTotal - f.TotalDesc);
+
+
+    // Total de abonos realizados en las facturas filtradas
+    private decimal AbonosTotalFiltrado => FacturasFiltradas
+        .Sum(f => 
+            Pagos
+                .Where(p => p.FacturaID == f.Id)
+                .Sum(p => (decimal)p.MontoPagado)
+        );
+
+
+    // Saldo pendiente de las facturas filtradas
+    private decimal SaldoPendienteFiltrado => FacturasFiltradas
+        .Sum(f => f.SaldoPendiente);
+
 
     private void CambiarFiltro(bool esPendientes)
     {
         mostrarPendientes = esPendientes;
         mostrarPagadas = !esPendientes;
-        StateHasChanged();
     }
+    private void CambiarFiltroPeriodo(string periodo)
+    {
+        filtroPeriodo = periodo;
+    }
+    private readonly string[] NombresMeses =
+    {
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
+    };
 }

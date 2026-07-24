@@ -18,7 +18,7 @@ builder.Services.AddRazorComponents()
 
 #region Configuracion de la base de datos SQLite
 builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseSqlite("Data Source=Data/MyDB.sqlite"));
+    options.UseSqlite("Data Source=MyDB.sqlite"));
 builder.Services.AddScoped<IMyDbContext, MyDbContext>();
 #endregion
 
